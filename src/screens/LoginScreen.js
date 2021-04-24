@@ -1,12 +1,46 @@
 import React from "react";
-import { Image, StyleSheet, TextInput, View } from "react-native";
+import { AsyncStorage, Image, StyleSheet, TextInput, View } from "react-native";
 import { colors } from "../theme/Colors";
 import { Button } from "native-base";
 import { Text } from "react-native-elements";
+import { Api } from "../contants/Api";
+import axios from "axios";
+
 
 const LoginScreen = (props) => {
-  const login = () => {
+  const [email, setEmail] = React.useState("");
+  const [emailErr, setEmailErr] = React.useState(false);
+  const [password, setPassword] = React.useState("");
+  const [passwordErr, setPasswordErr] = React.useState(false);
 
+  const login = () => {
+    if (email === "" || password == "") {
+      setEmailErr(true);
+      setPasswordErr(true);
+    }
+
+    const body = {
+      "email": email,
+      "password": password,
+    };
+    axios.post(Api.BASE_URL + Api.LOGIN, body)
+      .then(function(response) {
+        console.log(response);
+        setToken("token", response.data.access_token);
+
+        console.log("login successful");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+  };
+  const setToken = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   function gotoSignUpPage() {
@@ -22,11 +56,13 @@ const LoginScreen = (props) => {
       <View>
         <Text h3 style={{ marginBottom: 10, marginLeft: 5 }}>Login</Text>
         <Text style={{ margin: 5 }}>Email</Text>
-        <TextInput style={style.inputField} />
+        <TextInput style={style.inputField} onChangeText={email => setEmail(email)} />
+        {emailErr ? <Text style={style.errorMessage}>Invalid Email</Text> : null}
         <Text style={{ margin: 5 }}>Password</Text>
-        <TextInput style={style.inputField} />
-      </View>
+        <TextInput style={style.inputField} onChangeText={password => setPassword(password)} />
+        {passwordErr ? <Text style={style.errorMessage}>Password more then 6 Character</Text> : null}
 
+      </View>
       <View>
         <Button style={style.getStartBut} onPress={function() {
           login();
@@ -41,6 +77,7 @@ const LoginScreen = (props) => {
     </View>
   );
 };
+
 const style = StyleSheet.create({
   body: {
     flex: 3,
@@ -64,6 +101,11 @@ const style = StyleSheet.create({
     color: colors.black,
     borderRadius: 9,
     justifyContent: "center",
+  },
+  errorMessage: {
+    fontSize: 11,
+    color: colors.offRed,
+    margin: 2,
   },
 });
 export default LoginScreen;

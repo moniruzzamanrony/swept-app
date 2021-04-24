@@ -5,4 +5,5 @@ export const colors = {
   deepWhite: "#737373",
   black: "#000",
   offWhite: "#DCDCDC",
+  offRed: "#dc372d",
 };
