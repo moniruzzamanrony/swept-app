@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { AsyncStorage, Image, StyleSheet, TextInput, View } from "react-native";
 import { colors } from "../theme/Colors";
-import { Button } from "native-base";
+import { Button, Root, Toast } from "native-base";
 import { Text } from "react-native-elements";
 import { Api } from "../contants/Api";
+import Spinner from "react-native-loading-spinner-overlay";
 import axios from "axios";
 
 
@@ -12,8 +13,11 @@ const LoginScreen = (props) => {
   const [emailErr, setEmailErr] = React.useState(false);
   const [password, setPassword] = React.useState("");
   const [passwordErr, setPasswordErr] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   const login = () => {
+
     if (email === "" || password == "") {
       setEmailErr(true);
       setPasswordErr(true);
@@ -23,23 +27,43 @@ const LoginScreen = (props) => {
       "email": email,
       "password": password,
     };
+
+    // Show Loader
+    setLoading(true);
+
     axios.post(Api.BASE_URL + Api.LOGIN, body)
       .then(function(response) {
-        console.log(response);
+
+        //Set Token
         setToken("token", response.data.access_token);
 
-        console.log("login successful");
+        //Navigate to Home Screen
+        props.navigation.navigate("HomeScreen");
+
+        // Hide Loader
+        setLoading(false);
       })
       .catch(function(error) {
-        console.log(error);
+        Toast.show({
+          text: "Wrong password!",
+          buttonText: "Okay",
+          type: "danger",
+        });
+
+        // Hide Loader
+        setLoading(false);
       });
 
   };
   const setToken = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (e) {
-      console.log(e);
+    if (value === "") {
+    } else {
+      try {
+        await AsyncStorage.setItem(key, value);
+      } catch (e) {
+
+        console.log(e);
+      }
     }
   };
 
@@ -48,33 +72,44 @@ const LoginScreen = (props) => {
   }
 
   return (
-    <View style={style.body}>
-      <View>
-        <Image style={{ margin: 30 }} source={require("../../assets/logo/logo.png")} />
-      </View>
+    <Root>
+      {/* Loading Screen Start*/}
+      <Spinner
+        //visibility of Overlay Loading Spinner
+        visible={loading}
+        //Text with the Spinner
+        textContent={"Loading..."}
+        textStyle={{ color: colors.buttonBgColor }}
+      />
+      {/* Loading Screen End*/}
 
-      <View>
-        <Text h3 style={{ marginBottom: 10, marginLeft: 5 }}>Login</Text>
-        <Text style={{ margin: 5 }}>Email</Text>
-        <TextInput style={style.inputField} onChangeText={email => setEmail(email)} />
-        {emailErr ? <Text style={style.errorMessage}>Invalid Email</Text> : null}
-        <Text style={{ margin: 5 }}>Password</Text>
-        <TextInput style={style.inputField} onChangeText={password => setPassword(password)} />
-        {passwordErr ? <Text style={style.errorMessage}>Password more then 6 Character</Text> : null}
+      <View style={style.body}>
 
-      </View>
-      <View>
-        <Button style={style.getStartBut} onPress={function() {
-          login();
-        }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Log in</Text>
-        </Button>
-        <Text style={{ margin: 8 }} onPress={function() {
-          gotoSignUpPage();
-        }}>Don’t have any account? <Text style={{ fontWeight: "bold" }}> Sign up</Text></Text>
-      </View>
+        <View>
+          <Image style={{ margin: 30 }} source={require("../../assets/logo/logo.png")} />
+        </View>
 
-    </View>
+        <View>
+          <Text h3 style={{ marginBottom: 10, marginLeft: 5 }}>Login</Text>
+          <Text style={{ margin: 5 }}>Email</Text>
+          <TextInput style={style.inputField} onChangeText={email => setEmail(email)} />
+          {emailErr ? <Text style={style.errorMessage}>Invalid Email</Text> : null}
+          <Text style={{ margin: 5 }}>Password</Text>
+          <TextInput style={style.inputField} onChangeText={password => setPassword(password)} />
+          {passwordErr ? <Text style={style.errorMessage}>Password more then 6 Character</Text> : null}
+        </View>
+        <View>
+          <Button style={style.getStartBut} onPress={function() {
+            login();
+          }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Log in</Text>
+          </Button>
+          <Text style={{ margin: 8 }} onPress={function() {
+            gotoSignUpPage();
+          }}>Don’t have any account? <Text style={{ fontWeight: "bold" }}> Sign up</Text></Text>
+        </View>
+      </View>
+    </Root>
   );
 };
 
@@ -106,6 +141,6 @@ const style = StyleSheet.create({
     fontSize: 11,
     color: colors.offRed,
     margin: 2,
-  },
+  }
 });
 export default LoginScreen;
