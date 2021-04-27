@@ -71,6 +71,10 @@ const LoginScreen = (props) => {
     props.navigation.navigate("SignUpScreen");
   }
 
+  function forgetPassword() {
+    props.navigation.navigate("ResetPasswordScreen");
+  }
+
   return (
     <Root>
       {/* Loading Screen Start*/}
@@ -97,6 +101,9 @@ const LoginScreen = (props) => {
           <Text style={{ margin: 5 }}>Password</Text>
           <TextInput style={style.inputField} onChangeText={password => setPassword(password)} />
           {passwordErr ? <Text style={style.errorMessage}>Password more then 6 Character</Text> : null}
+          <Text style={{ margin: 5 }} onPress={function() {
+            forgetPassword();
+          }}>Forgot Password?</Text>
         </View>
         <View>
           <Button style={style.getStartBut} onPress={function() {

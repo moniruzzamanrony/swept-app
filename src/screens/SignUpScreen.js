@@ -8,7 +8,7 @@ import axios from "axios";
 import { Api } from "../contants/Api";
 import Spinner from "react-native-loading-spinner-overlay";
 
-const SignUpScreen = () => {
+const SignUpScreen = (props) => {
   const [name, setName] = React.useState("");
   const [nameErr, setNameErr] = React.useState(false);
   const [phoneOrEmail, setPhoneOrEmail] = React.useState("");
@@ -81,6 +81,8 @@ const SignUpScreen = () => {
           textStyle={{ color: colors.buttonBgColor }}
         />
         {/* Loading Screen End*/}
+
+        {/*------Header-----*/}
         <NavigationHeader title="Sign Up" url="LoginScreen" />
         {/*Input Field*/}
         <View style={style.formDiv}>

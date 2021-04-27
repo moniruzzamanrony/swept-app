@@ -6,4 +6,7 @@ export const colors = {
   black: "#000",
   offWhite: "#DCDCDC",
   offRed: "#dc372d",
+
+  cardSelectedBorderColor: "#1DB8AC",
+  cardNonSelectedBorderColor: "#E2E2E2",
 };

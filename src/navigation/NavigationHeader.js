@@ -32,7 +32,7 @@ const style = StyleSheet.create({
     fontSize: 20,
     color: colors.black,
     textAlign: "center",
-    paddingLeft: 90,
+    paddingLeft: 70,
     marginTop: 15,
     fontWeight: "bold",
   },
