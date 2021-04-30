@@ -4,5 +4,8 @@ export const Api = {
   LOGIN: "login",
   SIGN_UP: "register",
   REGISTRATION: "register",
+  FORGET_PASSWORD: "forget",
+  VERIFY_CODE: "verify",
+  RESET_PASSWORD: "reset",
 
 };

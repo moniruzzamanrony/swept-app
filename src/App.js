@@ -9,6 +9,7 @@ import HomeScreen from "./screens/HomeScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import CodeVerificationScreen from "./screens/CodeVerificationScreen";
 import NewPasswordSetupScreen from "./screens/NewPasswordSetupScreen";
+import CleaningScreen from "./screens/CleaningScreen";
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -23,6 +24,8 @@ const App = () => {
         <Stack.Screen name="CodeVerificationScreen" component={CodeVerificationScreen}
                       options={{ headerShown: false }} />
         <Stack.Screen name="NewPasswordSetupScreen" component={NewPasswordSetupScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="CleaningScreen" component={CleaningScreen}
                       options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
