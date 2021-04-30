@@ -107,7 +107,9 @@ const LoginScreen = (props) => {
         </View>
         <View>
           <Button style={style.getStartBut} onPress={function() {
-            login();
+            // login();
+            //Navigate to Home Screen
+            props.navigation.navigate("HomeScreen");
           }}>
             <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Log in</Text>
           </Button>

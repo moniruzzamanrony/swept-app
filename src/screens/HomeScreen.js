@@ -1,103 +1,54 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import Text from "react-native-paper/src/components/Typography/Text";
+import { StyleSheet } from "react-native";
 import { colors } from "../theme/Colors";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import CleaningScreen from "./CleaningScreen";
+import { Icon } from "native-base";
 
 const HomeScreen = (props) => {
-
+  const Tab = createMaterialBottomTabNavigator();
   const gotoCleaningScreen = () => {
     //Navigate to Home Screen
     props.navigation.navigate("CleaningScreen");
   };
 
   return (
-    <View style={style.body}>
-      {/*---- Header ------*/}
-      <View style={style.header}>
-        {/*Must be use react-native grid for proper responsive*/}
-        <View style={style.headerTitle}>
-          <Text style={{ fontSize: 16, fontWeight: "bold", margin: 5 }}>Good Morning !</Text>
-          <Text style={{ fontSize: 16, margin: 2 }}>How may we assist you? </Text>
-        </View>
-        <View style={style.headerAvatar}>
-          <Image
-            source={require("../../assets/avatar/profile.png")}
-            style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: "flex-end" }}
-          />
-        </View>
-      </View>
-      {/*---- Main Card Body ------*/}
-      <View style={{ margin: 20 }}>
-        {/*--- Row 1*/}
-        <View style={{ flexDirection: "row", marginBottom: 10 }}>
-          {/*--- Cleaning Card----*/}
-          <TouchableOpacity onPress={function() {
-            gotoCleaningScreen();
-          }}>
-            <View style={style.cardStyle}>
-              <Image
-                source={require("../../assets/icons/cleaning_icon.png")}
-                style={{ height: 60, width: 60 }}
-              />
-              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Cleaning</Text>
-            </View>
-          </TouchableOpacity>
-          {/*--- Handyman Card----*/}
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../assets/icons/technician_logo.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Handyman</Text>
-          </View>
-        </View>
-
-        {/*--- Row 2*/}
-        <View style={{ flexDirection: "row", marginBottom: 10 }}>
-          {/*--- Cleaning Card----*/}
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../assets/icons/pet_care_icon.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Pet Care</Text>
-          </View>
-
-          {/*--- Handyman Card----*/}
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../assets/icons/concierge_icon.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Concierge</Text>
-          </View>
-        </View>
-
-        {/*--- Row 3*/}
-        <View style={{ flexDirection: "row", marginBottom: 10 }}>
-          {/*--- Cleaning Card----*/}
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../assets/icons/vertual_p_a_icon.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 18 }}>Virtual
-              Personal
-              Assistant</Text>
-          </View>
-
-          {/*--- Handyman Card----*/}
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../assets/icons/makeup_icon.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 18 }}>Home Spa/
-              Beauty Service</Text>
-          </View>
-        </View>
-      </View>
-    </View>
+    <Tab.Navigator
+      initialRouteName="Feed"
+      activeColor="black"
+      barStyle={{ backgroundColor: colors.buttonBgColor }}
+    >
+      <Tab.Screen
+        name="Feed"
+        component={CleaningScreen}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => (
+            <Icon name="arrow-back" style={{ fontSize: 25, color: colors.black }} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Notifications"
+        component={CleaningScreen}
+        options={{
+          tabBarLabel: "Updates",
+          tabBarIcon: ({ color }) => (
+            <Icon name="arrow-back" style={{ fontSize: 25, color: colors.black }} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={CleaningScreen}
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color }) => (
+            <Icon name="arrow-back" style={{ fontSize: 25, color: colors.black }} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 };
 const style = StyleSheet.create({

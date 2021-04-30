@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import NavigationBar from "../navigation/NavigationBar";
 import { colors } from "../theme/Colors";
 
 
@@ -8,64 +9,64 @@ const CleaningScreen = () => {
 
   return (
     <View>
-      {/*/!* ---- Header ------*!/*/}
-      {/*<NavigationBar title="Cleaning" url="LoginScreen"/>*/}
-      {/*/!* ---- Selection Part ----- *!/*/}
-      {/*<Text style={{ fontSize: 18, margin: 25}}>Tell Us About Your House </Text>*/}
-      {/*<View style={{ alignItems: "center"}}>*/}
-      {/*  <View style={{ flexDirection: "row", marginBottom: 10 }}>*/}
-      {/*    /!*--- Cleaning Card----*!/*/}
-      {/*    <TouchableOpacity onPress={function() {*/}
-      {/*      gotoCleaningScreen();*/}
-      {/*    }}>*/}
-      {/*      <View style={style.cardStyle}>*/}
-      {/*        <Image*/}
-      {/*          source={require("../../assets/icons/building_icon.png")}*/}
-      {/*          style={{ height: 60, width: 60 }}*/}
-      {/*        />*/}
-      {/*        <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Apartment/*/}
-      {/*          Townhome</Text>*/}
-      {/*      </View>*/}
-      {/*    </TouchableOpacity>*/}
-      {/*    /!*--- Handyman Card----*!/*/}
-      {/*    <View style={style.cardStyle}>*/}
-      {/*      <Image*/}
-      {/*        source={require("../../assets/icons/home_icon.png")}*/}
-      {/*        style={{ height: 60, width: 60 }}*/}
-      {/*      />*/}
-      {/*      <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Condo/*/}
-      {/*        House</Text>*/}
-      {/*    </View>*/}
-      {/*  </View>*/}
-      {/*</View>*/}
-      {/*/!* ---- Dynamic Body Part ----- *!/*/}
-      {/*<Text style={{ fontSize: 18, margin: 25}}> Apartment/Townhome Type </Text>*/}
-      {/*<View style={{ alignItems: "center"}}>*/}
-      {/*  <View style={{ flexDirection: "row", marginBottom: 10 }}>*/}
-      {/*    /!*--- Cleaning Card----*!/*/}
-      {/*    <TouchableOpacity onPress={function() {*/}
-      {/*      gotoCleaningScreen();*/}
-      {/*    }}>*/}
-      {/*      <View style={style.cardStyle}>*/}
-      {/*        <Image*/}
-      {/*          source={require("../../assets/icons/building_icon.png")}*/}
-      {/*          style={{ height: 60, width: 60 }}*/}
-      {/*        />*/}
-      {/*        <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Apartment/*/}
-      {/*          Townhome</Text>*/}
-      {/*      </View>*/}
-      {/*    </TouchableOpacity>*/}
-      {/*    /!*--- Handyman Card----*!/*/}
-      {/*    <View style={style.cardStyle}>*/}
-      {/*      <Image*/}
-      {/*        source={require("../../assets/icons/home_icon.png")}*/}
-      {/*        style={{ height: 60, width: 60 }}*/}
-      {/*      />*/}
-      {/*      <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Condo/*/}
-      {/*        House</Text>*/}
-      {/*    </View>*/}
-      {/*  </View>*/}
-      {/*</View>*/}
+      {/* ---- Header ------*/}
+      <NavigationBar title="Cleaning" url="LoginScreen" />
+      {/* ---- Selection Part ----- */}
+      <Text style={{ fontSize: 18, margin: 25 }}>Tell Us About Your House </Text>
+      <View style={{ alignItems: "center" }}>
+        <View style={{ flexDirection: "row", marginBottom: 10 }}>
+          {/*--- Cleaning Card----*/}
+          <TouchableOpacity onPress={function() {
+            gotoCleaningScreen();
+          }}>
+            <View style={style.cardStyle}>
+              <Image
+                source={require("../../assets/icons/building_icon.png")}
+                style={{ height: 60, width: 60 }}
+              />
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Apartment/
+                Townhome</Text>
+            </View>
+          </TouchableOpacity>
+          {/*--- Handyman Card----*/}
+          <View style={style.cardStyle}>
+            <Image
+              source={require("../../assets/icons/home_icon.png")}
+              style={{ height: 60, width: 60 }}
+            />
+            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Condo/
+              House</Text>
+          </View>
+        </View>
+      </View>
+      {/* ---- Dynamic Body Part ----- */}
+      <Text style={{ fontSize: 18, margin: 25 }}> Apartment/Townhome Type </Text>
+      <View style={{ alignItems: "center" }}>
+        <View style={{ flexDirection: "row", marginBottom: 10 }}>
+          {/*--- Cleaning Card----*/}
+          <TouchableOpacity onPress={function() {
+            gotoCleaningScreen();
+          }}>
+            <View style={style.cardStyle}>
+              <Image
+                source={require("../../assets/icons/building_icon.png")}
+                style={{ height: 60, width: 60 }}
+              />
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Apartment/
+                Townhome</Text>
+            </View>
+          </TouchableOpacity>
+          {/*--- Handyman Card----*/}
+          <View style={style.cardStyle}>
+            <Image
+              source={require("../../assets/icons/home_icon.png")}
+              style={{ height: 60, width: 60 }}
+            />
+            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Condo/
+              House</Text>
+          </View>
+        </View>
+      </View>
     </View>
   );
 };
