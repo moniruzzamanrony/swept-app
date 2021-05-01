@@ -5,11 +5,15 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SplashScreen from "./screens/SplashScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
-import HomeScreen from "./screens/HomeScreen";
+import DashboardScreen from "./screens/DashboardScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import CodeVerificationScreen from "./screens/CodeVerificationScreen";
 import NewPasswordSetupScreen from "./screens/NewPasswordSetupScreen";
 import CleaningScreen from "./screens/CleaningScreen";
+import HomeScreen from "./screens/Dashboard/HomeScreen";
+import OrderScreen from "./screens/Dashboard/OrderScreen";
+import NotificationScreen from "./screens/Dashboard/NotificationScreen";
+import MyProfileScreen from "./screens/Dashboard/MyProfileScreen";
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -19,13 +23,21 @@ const App = () => {
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="DashboardScreen" component={DashboardScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} options={{ headerShown: false }} />
         <Stack.Screen name="CodeVerificationScreen" component={CodeVerificationScreen}
                       options={{ headerShown: false }} />
         <Stack.Screen name="NewPasswordSetupScreen" component={NewPasswordSetupScreen}
                       options={{ headerShown: false }} />
         <Stack.Screen name="CleaningScreen" component={CleaningScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="OrderScreen" component={OrderScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="NotificationScreen" component={NotificationScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="MyProfileScreen" component={MyProfileScreen}
                       options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>

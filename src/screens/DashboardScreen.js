@@ -4,8 +4,12 @@ import { colors } from "../theme/Colors";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import CleaningScreen from "./CleaningScreen";
 import { Icon } from "native-base";
+import HomeScreen from "./Dashboard/HomeScreen";
+import OrderScreen from "./Dashboard/OrderScreen";
+import NotificationScreen from "./Dashboard/NotificationScreen";
+import MyProfileScreen from "./Dashboard/MyProfileScreen";
 
-const HomeScreen = (props) => {
+const DashboardScreen = (props) => {
   const Tab = createMaterialBottomTabNavigator();
   const gotoCleaningScreen = () => {
     //Navigate to Home Screen
@@ -19,32 +23,42 @@ const HomeScreen = (props) => {
       barStyle={{ backgroundColor: colors.buttonBgColor }}
     >
       <Tab.Screen
-        name="Feed"
-        component={CleaningScreen}
+        name="HomeScreen"
+        component={HomeScreen}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
-            <Icon name="arrow-back" style={{ fontSize: 25, color: colors.black }} />
+            <Icon name="home" style={{ fontSize: 25, color: colors.black }} />
           ),
         }}
       />
       <Tab.Screen
-        name="Notifications"
-        component={CleaningScreen}
+        name="OrderScreen"
+        component={OrderScreen}
         options={{
-          tabBarLabel: "Updates",
+          tabBarLabel: "Orders",
           tabBarIcon: ({ color }) => (
-            <Icon name="arrow-back" style={{ fontSize: 25, color: colors.black }} />
+            <Icon name="document-text" style={{ fontSize: 25, color: colors.black }} />
           ),
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={CleaningScreen}
+        name="NotificationScreen"
+        component={NotificationScreen}
+        options={{
+          tabBarLabel: "Notification",
+          tabBarIcon: ({ color }) => (
+            <Icon name="notifications" style={{ fontSize: 25, color: colors.black }} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="MyProfileScreen"
+        component={MyProfileScreen}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (
-            <Icon name="arrow-back" style={{ fontSize: 25, color: colors.black }} />
+            <Icon name="person" style={{ fontSize: 25, color: colors.black }} />
           ),
         }}
       />
@@ -117,4 +131,4 @@ const style = StyleSheet.create({
     margin: 2,
   },
 });
-export default HomeScreen;
+export default DashboardScreen;

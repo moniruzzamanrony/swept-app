@@ -38,7 +38,7 @@ const LoginScreen = (props) => {
         setToken("token", response.data.access_token);
 
         //Navigate to Home Screen
-        props.navigation.navigate("HomeScreen");
+        props.navigation.navigate("DashboardScreen");
 
         // Hide Loader
         setLoading(false);
@@ -109,7 +109,7 @@ const LoginScreen = (props) => {
           <Button style={style.getStartBut} onPress={function() {
             // login();
             //Navigate to Home Screen
-            props.navigation.navigate("HomeScreen");
+            props.navigation.navigate("DashboardScreen");
           }}>
             <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Log in</Text>
           </Button>
