@@ -11,8 +11,10 @@ import Spinner from "react-native-loading-spinner-overlay";
 const SignUpScreen = (props) => {
   const [name, setName] = React.useState("");
   const [nameErr, setNameErr] = React.useState(false);
-  const [phoneOrEmail, setPhoneOrEmail] = React.useState("");
-  const [phoneOrEmailErr, setPhoneOrEmailErr] = React.useState(false);
+  const [email, setEmail] = React.useState("");
+  const [emailErr, setEmailErr] = React.useState(false);
+  const [phone, setPhone] = React.useState("");
+  const [phoneErr, setPhoneErr] = React.useState(false);
   const [address, setAddress] = React.useState("");
   const [addressErr, setAddressErr] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -24,8 +26,11 @@ const SignUpScreen = (props) => {
     if (name === "") {
       setNameErr(true);
     }
-    if (phoneOrEmail === "") {
-      setPhoneOrEmailErr(true);
+    if (email === "") {
+      setEmailErr(true);
+    }
+    if (phone === "") {
+      setPasswordErr(true);
     }
     if (address === "") {
       setAddressErr(true);
@@ -38,9 +43,9 @@ const SignUpScreen = (props) => {
     } else {
       const body = {
         "name": name,
-        "email": phoneOrEmail,
+        "email": email,
         "password": password,
-        "password_confirmation": password,
+        "phone": phone,
         "address": address,
       };
       // Show Loader
@@ -92,9 +97,15 @@ const SignUpScreen = (props) => {
         </View>
 
         <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Email or phone</Text>
-          <TextInput style={style.inputField} onChangeText={phoneOrEmail => setPhoneOrEmail(phoneOrEmail)} />
-          {phoneOrEmailErr ? <Text style={style.errorMessage}>Phone Or Email required !</Text> : null}
+          <Text style={{ margin: 2 }}>Email</Text>
+          <TextInput style={style.inputField} onChangeText={phoneOrEmail => setEmail(phoneOrEmail)} />
+          {emailErr ? <Text style={style.errorMessage}>Email required !</Text> : null}
+        </View>
+
+        <View style={style.formDiv}>
+          <Text style={{ margin: 2 }}>Phone No.</Text>
+          <TextInput style={style.inputField} onChangeText={phone => setPhone(phone)} />
+          {phoneErr ? <Text style={style.errorMessage}>Phone No. required !</Text> : null}
         </View>
 
         <View style={style.formDiv}>
@@ -142,6 +153,7 @@ const style = StyleSheet.create({
     height: 54,
     borderRadius: 8,
     borderWidth: 2,
+    padding: 10,
     borderColor: colors.offWhite,
   },
   getStartBut: {

@@ -9,4 +9,6 @@ export const colors = {
 
   cardSelectedBorderColor: "#1DB8AC",
   cardNonSelectedBorderColor: "#E2E2E2",
+
+  assColor: "#515151",
 };

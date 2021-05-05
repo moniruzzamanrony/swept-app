@@ -7,7 +7,7 @@ import axios from "axios";
 import { Api } from "../contants/Api";
 import Spinner from "react-native-loading-spinner-overlay";
 
-const ResetPasswordScreen = (props) => {
+const ForgetPasswordScreen = (props) => {
 
   const [email, setEmail] = React.useState("");
   const [emailErr, setEmailErr] = React.useState(false);
@@ -85,11 +85,13 @@ const style = StyleSheet.create({
   body: {
     flex: 3,
     backgroundColor: colors.baseBackgroundColor,
-  }, inputField: {
+  },
+  inputField: {
     backgroundColor: colors.white,
     width: 350,
     height: 54,
     borderRadius: 8,
+    padding: 10,
     borderWidth: 2,
     borderColor: colors.offWhite,
   },
@@ -118,4 +120,4 @@ const style = StyleSheet.create({
   },
 
 });
-export default ResetPasswordScreen;
+export default ForgetPasswordScreen;

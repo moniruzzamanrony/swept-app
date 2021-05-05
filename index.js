@@ -3,26 +3,24 @@ import App from "./src/App";
 import { name as appName } from "./app.json";
 import axios from "axios";
 import { Api } from "./src/contants/Api";
+import React from "react";
 
 AppRegistry.registerComponent(appName, () => App);
 
-// Interceptor
-axios.interceptors.request.use(request => {
-  const token = getToken("token");
-  if (token === "") {
-    console.log("Token not found");
-  } else {
-    request.headers.Authorization = Api.TOKEN_TYPE + " " + token;
-  }
-  return request;
-});
 
-const getToken = async (key) => {
+const interceptor = async (key) => {
   try {
-    const token = await AsyncStorage.getItem(key);
-    return token;
+    const name = await AsyncStorage.getItem("token");
+    // Interceptor
+    axios.interceptors.request.use(request => {
+
+      request.headers.Authorization = Api.TOKEN_TYPE + " " + name;
+      return request;
+    });
   } catch (e) {
     console.log(e);
   }
-};
+}
+
+interceptor();
 

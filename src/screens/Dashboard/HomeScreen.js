@@ -1,9 +1,13 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Text from "react-native-paper/src/components/Typography/Text";
 import { colors } from "../../theme/Colors";
 
-const HomeScreen = () => {
+const HomeScreen = (props) => {
+  const gotoCleaningScreen = () => {
+    //Navigate to Home Screen
+    props.navigation.navigate("CleaningScreen");
+  };
   return (
     <View style={style.body}>
       {/*---- Header ------*/}
@@ -23,26 +27,29 @@ const HomeScreen = () => {
       {/*---- Main Card Body ------*/}
       <View style={{ margin: 20 }}>
         {/*--- Row 1*/}
-        <View style={{ flexDirection: "row", marginBottom: 10 }}>
-          {/*--- Cleaning Card----*/}
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../../assets/icons/cleaning_icon.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Cleaning</Text>
-          </View>
+        <TouchableOpacity onPress={function() {
+          gotoCleaningScreen();
+        }}>
+          <View style={{ flexDirection: "row", marginBottom: 10 }}>
+            {/*--- Cleaning Card----*/}
+            <View style={style.cardStyle}>
+              <Image
+                source={require("../../../assets/icons/cleaning_icon.png")}
+                style={{ height: 60, width: 60 }}
+              />
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Cleaning</Text>
+            </View>
 
-          {/*--- Handyman Card----*/}
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../../assets/icons/technician_logo.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Handyman</Text>
+            {/*--- Handyman Card----*/}
+            <View style={style.cardStyle}>
+              <Image
+                source={require("../../../assets/icons/technician_logo.png")}
+                style={{ height: 60, width: 60 }}
+              />
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Handyman</Text>
+            </View>
           </View>
-        </View>
-
+        </TouchableOpacity>
         {/*--- Row 2*/}
         <View style={{ flexDirection: "row", marginBottom: 10 }}>
           {/*--- Cleaning Card----*/}

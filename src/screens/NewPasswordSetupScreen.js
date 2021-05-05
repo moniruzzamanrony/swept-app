@@ -34,9 +34,11 @@ const style = StyleSheet.create({
   body: {
     flex: 3,
     backgroundColor: colors.baseBackgroundColor,
-  }, inputField: {
+  },
+  inputField: {
     backgroundColor: colors.white,
     width: 350,
+    padding: 10,
     height: 54,
     borderRadius: 8,
     borderWidth: 2,

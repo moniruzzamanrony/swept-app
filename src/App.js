@@ -6,7 +6,7 @@ import SplashScreen from "./screens/SplashScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import DashboardScreen from "./screens/DashboardScreen";
-import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import ForgetPasswordScreen from "./screens/ForgetPasswordScreen";
 import CodeVerificationScreen from "./screens/CodeVerificationScreen";
 import NewPasswordSetupScreen from "./screens/NewPasswordSetupScreen";
 import CleaningScreen from "./screens/CleaningScreen";
@@ -24,7 +24,7 @@ const App = () => {
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="DashboardScreen" component={DashboardScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ResetPasswordScreen" component={ForgetPasswordScreen} options={{ headerShown: false }} />
         <Stack.Screen name="CodeVerificationScreen" component={CodeVerificationScreen}
                       options={{ headerShown: false }} />
         <Stack.Screen name="NewPasswordSetupScreen" component={NewPasswordSetupScreen}

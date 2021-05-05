@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { colors } from "../theme/Colors";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import CleaningScreen from "./CleaningScreen";
 import { Icon } from "native-base";
 import HomeScreen from "./Dashboard/HomeScreen";
 import OrderScreen from "./Dashboard/OrderScreen";
@@ -11,10 +10,7 @@ import MyProfileScreen from "./Dashboard/MyProfileScreen";
 
 const DashboardScreen = (props) => {
   const Tab = createMaterialBottomTabNavigator();
-  const gotoCleaningScreen = () => {
-    //Navigate to Home Screen
-    props.navigation.navigate("CleaningScreen");
-  };
+
 
   return (
     <Tab.Navigator

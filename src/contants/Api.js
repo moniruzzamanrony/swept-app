@@ -7,5 +7,6 @@ export const Api = {
   FORGET_PASSWORD: "forget",
   VERIFY_CODE: "verify",
   RESET_PASSWORD: "reset",
+  GET_PROFILE: "profile",
 
 };

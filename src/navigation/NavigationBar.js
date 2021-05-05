@@ -25,8 +25,8 @@ const NavigationBar = (props) => {
 const style = StyleSheet.create({
   body: {
     backgroundColor: colors.white,
-    padding: 20,
-    marginTop: 51,
+    padding: 15,
+    marginTop: 20,
     borderRadius: 5,
     flexDirection: "row",
   },

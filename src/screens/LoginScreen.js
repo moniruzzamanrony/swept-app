@@ -35,7 +35,7 @@ const LoginScreen = (props) => {
       .then(function(response) {
 
         //Set Token
-        setToken("token", response.data.access_token);
+        AsyncStorage.setItem("token", response.data.access_token);
 
         //Navigate to Home Screen
         props.navigation.navigate("DashboardScreen");
@@ -55,17 +55,7 @@ const LoginScreen = (props) => {
       });
 
   };
-  const setToken = async (key, value) => {
-    if (value === "") {
-    } else {
-      try {
-        await AsyncStorage.setItem(key, value);
-      } catch (e) {
 
-        console.log(e);
-      }
-    }
-  };
 
   function gotoSignUpPage() {
     props.navigation.navigate("SignUpScreen");
@@ -107,9 +97,8 @@ const LoginScreen = (props) => {
         </View>
         <View>
           <Button style={style.getStartBut} onPress={function() {
-            // login();
+            login();
             //Navigate to Home Screen
-            props.navigation.navigate("DashboardScreen");
           }}>
             <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Log in</Text>
           </Button>
@@ -134,6 +123,7 @@ const style = StyleSheet.create({
     width: 350,
     height: 54,
     borderRadius: 8,
+    padding: 10,
     borderWidth: 2,
     borderColor: colors.offWhite,
   },
