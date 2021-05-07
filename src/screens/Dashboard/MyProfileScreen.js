@@ -7,6 +7,7 @@ import axios from "axios";
 import { Api } from "../../contants/Api";
 import { Button, Icon, Root } from "native-base";
 import Spinner from "react-native-loading-spinner-overlay";
+import { launchImageLibrary } from "react-native-image-picker";
 
 const MyProfileScreen = (props) => {
   const [name, setName] = React.useState("");
@@ -19,6 +20,9 @@ const MyProfileScreen = (props) => {
   const [addressDisable, setAddressDisable] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [isEditButVisible, setEditButVisible] = useState(true);
+
+  const [profilePicturePath, setProfilePicturePath] = useState("");
+  const [isProfilePicFound, setIsProfilePicFound] = useState(false);
 
 
   useEffect(() => {
@@ -74,11 +78,19 @@ const MyProfileScreen = (props) => {
     setAddressDisable(false);
     setEditButVisible(true);
   };
-
+  /* Image Picker */
+  const options = {
+    title: "Pick Your Profile Picture",
+    storageOptions: {
+      skipBackup: true,
+      path: "images",
+    },
+  };
   const uploadProfileImage = () => {
-    // ImagePicker.openPicker().then(image => {
-    //   console.log(image);
-    // });
+    launchImageLibrary(options, response => {
+      setProfilePicturePath(response.uri);
+      setIsProfilePicFound(true);
+    });
   };
 
   return (
@@ -101,14 +113,23 @@ const MyProfileScreen = (props) => {
             justifyContent: "center",
             alignItems: "center", margin: 10,
           }}>
+            {isProfilePicFound ?
+              <Image
+                source={{ uri: profilePicturePath }}
+                style={{
+                  width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
+                  borderColor: "#ff8b7e",
+                }}
+              /> :
+              <Image
+                source={require("../../../assets/avatar/profile.png")}
+                style={{
+                  width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
+                  borderColor: "#ff8b7e",
+                }}
+              />
+            }
 
-            <Image
-              source={require("../../../assets/avatar/profile.png")}
-              style={{
-                width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
-                borderColor: "#ff8b7e",
-              }}
-            />
           </View>
         </TouchableOpacity>
         {/*Input Field*/}
