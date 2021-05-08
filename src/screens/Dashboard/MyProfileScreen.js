@@ -10,6 +10,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { launchImageLibrary } from "react-native-image-picker";
 
 const MyProfileScreen = (props) => {
+  const [userId, setUserId] = React.useState("");
   const [name, setName] = React.useState("");
   const [nameDisable, setNameDisable] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -29,7 +30,7 @@ const MyProfileScreen = (props) => {
 
     getProfileDetails();
     console.log("this will run the first time the component renders!");
-  }, {});
+  }, []);
 
   const getProfileDetails = () => {
     setLoading(true);
@@ -39,8 +40,8 @@ const MyProfileScreen = (props) => {
         setEmail(response.data.user.email);
         setPhone(response.data.user.phone);
         setAddress(response.data.user.address);
+        setUserId(response.data.user.id);
 
-        console.log(name);
         // Hide Loader
         setLoading(false);
       })
@@ -77,7 +78,36 @@ const MyProfileScreen = (props) => {
     setPhoneDisable(false);
     setAddressDisable(false);
     setEditButVisible(true);
+
+    /* Multipart Data Send*/
+    const bodyFormData = new FormData();
+    bodyFormData.append("name", name);
+    bodyFormData.append("avatar", { uri: profilePicturePath, name: "image.jpg", type: "image/jpeg" });
+    // Show Loader
+    setLoading(true);
+    const config = {
+      method: "post",
+      url: Api.BASE_URL + Api.UPDATE_PROFILE + "/" + userId,
+      data: bodyFormData,
+      headers: {
+        "Content-Type": `multipart/form-data;`,
+      },
+    };
+
+    axios(config)
+      .then(function(response) {
+        // getProfileDetails();
+        console.log(response);
+        // Hide Loader
+        setLoading(false);
+      })
+      .catch(function(error) {
+        console.log(error);
+        // Hide Loader
+        setLoading(false);
+      });
   };
+
   /* Image Picker */
   const options = {
     title: "Pick Your Profile Picture",
