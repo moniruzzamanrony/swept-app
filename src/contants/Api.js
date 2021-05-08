@@ -8,5 +8,7 @@ export const Api = {
   VERIFY_CODE: "verify",
   RESET_PASSWORD: "reset",
   GET_PROFILE: "profile",
+  UPDATE_PROFILE: "update/user",
+  VERIFY_PROFILE: "verify",
 
 };

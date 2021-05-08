@@ -25,12 +25,14 @@ const ForgetPasswordScreen = (props) => {
       };
 
       /*--- Http Request -----*/
-
+      setLoading(true);
       axios.post(Api.BASE_URL + Api.FORGET_PASSWORD, body)
         .then(function(response) {
           console.log(response);
           //Navigate to Next Screen
-          props.navigation.navigate("CodeVerificationScreen");
+          props.navigation.navigate("CodeVerificationScreen", {
+            "email": email,
+          });
 
           // Hide Loader
           setLoading(false);

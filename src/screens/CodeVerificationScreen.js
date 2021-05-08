@@ -1,35 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import NavigationHeader from "../navigation/NavigationHeader";
 import { colors } from "../theme/Colors";
-import { Button } from "native-base";
+import { Button, Root, Toast } from "native-base";
+import axios from "axios";
+import { Api } from "../contants/Api";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const CodeVerificationScreen = (props) => {
+  const [code, setCode] = React.useState("");
+  const [codeErr, setCodeErr] = React.useState("");
+  const [loading, setLoading] = useState(false);
 
   const newPasswordSetup = () => {
-    props.navigation.navigate("NewPasswordSetupScreen");
+
+    console.log();
+    /*--- JSON Body*/
+    const requestBody = {
+      "email": props.route.params.email,
+      "token": code,
+    };
+
+    /*--- Http Request -----*/
+    setLoading(true);
+    axios.post(Api.BASE_URL + Api.VERIFY_CODE, requestBody)
+      .then(function(response) {
+        console.log(response);
+        //Navigate to Next Screen
+        props.navigation.navigate("NewPasswordSetupScreen", {
+          "email": props.route.params.email,
+        });
+
+        // Hide Loader
+        setLoading(false);
+      })
+      .catch(function(error) {
+        console.log(error);
+        Toast.show({
+          text: "Invalid Code!",
+          buttonText: "Okay",
+          type: "danger",
+        });
+        // Hide Loader
+        setLoading(false);
+      });
+
+
+
   };
 
 
   return (
-    <View style={style.body}>
-      {/*------Header-----*/}
-      <NavigationHeader title="Reset Password" url="LoginScreen" />
-      <View style={style.formDiv}>
-        <Text style={{ margin: 2 }}>Code</Text>
-        <TextInput style={style.inputField} />
-        {/*{reTypePasswordErr ? <Text style={style.errorMessage}>Password more then 6-20 characters</Text> : null}*/}
-      </View>
+    <Root>
+      {/* Loading Screen Start*/}
+      <Spinner
+        //visibility of Overlay Loading Spinner
+        visible={loading}
+        //Text with the Spinner
+        textContent={"Loading..."}
+        textStyle={{ color: colors.buttonBgColor }}
+      />
+      <View style={style.body}>
+        {/*------Header-----*/}
+        <NavigationHeader title="Reset Password" url="LoginScreen" />
+        <View style={style.formDiv}>
+          <Text style={{ margin: 2 }}>Code</Text>
+          <TextInput style={style.inputField} onChangeText={code => setCode(code)} />
+          {codeErr ? <Text style={style.errorMessage}>Invalid Code</Text> : null}
+        </View>
 
-      <View style={style.buttomBut}>
-        <Button style={style.getStartBut} onPress={function() {
-          newPasswordSetup();
-        }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Submit</Text>
-        </Button>
+        <View style={style.buttomBut}>
+          <Button style={style.getStartBut} onPress={function() {
+            newPasswordSetup();
+          }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Submit</Text>
+          </Button>
+        </View>
       </View>
-    </View>
-
+    </Root>
   );
 };
 const style = StyleSheet.create({
