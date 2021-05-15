@@ -2,13 +2,76 @@ import React from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import NavigationBar from "../navigation/NavigationBar";
 import { colors } from "../theme/Colors";
+import { Button } from "native-base";
 
 
 const CleaningScreen = () => {
-  //const [titleOfType, setTitleOfType] = React.useState("");
+  const [result, setResult] = React.useState([]);
+
+  const gettingResultBySelectedOption = (servicetype, servicearea) => {
+
+    setResult([
+      {
+        "id": 1,
+        "quantity": "Test quality",
+        "price": "120",
+        "off": "Discount",
+        "handimen_id": 1,
+        "created_at": "2021-04-24T20:09:59.000000Z",
+        "updated_at": "2021-04-24T20:09:59.000000Z",
+        "handimen": {
+          "id": 1,
+          "house_type": "apartmenttownhome",
+          "service_name": "Test !!@@ Service",
+          "image": "1619294939.jpg",
+          "created_at": "2021-04-24T20:08:59.000000Z",
+          "updated_at": "2021-04-24T20:08:59.000000Z",
+        },
+      }, {
+        "id": 2,
+        "quantity": "Test quality",
+        "price": "120",
+        "off": "Discount",
+        "handimen_id": 1,
+        "created_at": "2021-04-24T20:09:59.000000Z",
+        "updated_at": "2021-04-24T20:09:59.000000Z",
+        "handimen": {
+          "id": 1,
+          "house_type": "apartmenttownhome",
+          "service_name": "Test !!@@ Service",
+          "image": "1619294939.jpg",
+          "created_at": "2021-04-24T20:08:59.000000Z",
+          "updated_at": "2021-04-24T20:08:59.000000Z",
+        },
+      },
+    ]);
+
+    // axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT+'/'+servicetype+'/'+servicearea)
+    //   .then(function(response) {
+    //
+    //     console.log(response)
+    //     //Navigate to Home Screen
+    //     props.navigation.navigate("DashboardScreen");
+    //
+    //     // Hide Loader
+    //     //setLoading(false);
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error)
+    //     Toast.show({
+    //       text: "Something Wrong ",
+    //       buttonText: "Okay",
+    //       type: "danger",
+    //     });
+    //
+    //     // Hide Loader
+    //    // setLoading(false);
+    //   });
+  };
+
 
   return (
-    <View>
+    <ScrollView>
       {/* ---- Header ------*/}
       <NavigationBar title="Cleaning" url="LoginScreen" />
       {/* ---- Selection Part ----- */}
@@ -18,6 +81,7 @@ const CleaningScreen = () => {
 
           {/*--- Cleaning Card----*/}
           <TouchableOpacity onPress={function() {
+            gettingResultBySelectedOption("cleaning", "apartmenttownhome");
           }}>
             <View style={style.cardStyle}>
               <Image
@@ -48,27 +112,25 @@ const CleaningScreen = () => {
 
           <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
 
-            {/*--- Type 1 Card----*/}
-            <TouchableOpacity onPress={function() {
-              gotoCleaningScreen();
-            }}>
-              <View style={style.cardStyleForTypeSelection}>
-                <Text style={style.cardTextStyle}> 1-2 BR </Text>
-                <Text style={style.cardTextStyle}> $69 </Text>
-              </View>
-            </TouchableOpacity>
+            {
+              result.map((data) => {
+                return (
+                  <TouchableOpacity onPress={function() {
+                    gotoCleaningScreen();
+                  }}>
+                    <View style={style.cardStyleForTypeSelection}>
+                      <Text style={style.cardTextStyle}> {data.id} </Text>
+                      <Text style={style.cardTextStyle}> ${data.price} </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
 
-            {/*---  Type 2 Card----*/}
-            <View style={style.cardStyleForTypeSelection}>
-              <Text style={style.cardTextStyle}> 1-2 BR </Text>
-              <Text style={style.cardTextStyle}> $69 </Text>
-            </View>
+              })
+            }
 
-            {/*---  Type 2 Card----*/}
-            <View style={style.cardStyleForTypeSelection}>
-              <Text style={style.cardTextStyle}> 1-2 BR </Text>
-              <Text style={style.cardTextStyle}> $69 </Text>
-            </View>
+
+
+
           </ScrollView>
 
         </View>
@@ -116,7 +178,15 @@ const CleaningScreen = () => {
       <View style={{ marginLeft: 25 }}>
         <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price : $151.20 </Text>
       </View>
-    </View>
+      <View style={{ paddingStart: 65, margin: 10 }}>
+        <Button style={style.getStartBut} onPress={function() {
+
+          //Navigate to Home Screen
+        }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
+        </Button>
+      </View>
+    </ScrollView>
   );
 };
 const style = StyleSheet.create({

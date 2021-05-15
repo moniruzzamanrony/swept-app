@@ -10,5 +10,6 @@ export const Api = {
   GET_PROFILE: "profile",
   UPDATE_PROFILE: "update/user",
   VERIFY_PROFILE: "verify",
+  SERVICE_ENDPOINT: "service",
 
 };
