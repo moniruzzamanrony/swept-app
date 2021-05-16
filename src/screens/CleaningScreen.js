@@ -2,73 +2,161 @@ import React from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import NavigationBar from "../navigation/NavigationBar";
 import { colors } from "../theme/Colors";
-import { Button } from "native-base";
-
+import { Button, Toast } from "native-base";
+import axios from "axios";
+import { Api } from "../contants/Api";
 
 const CleaningScreen = () => {
-  const [result, setResult] = React.useState([]);
+  const response = [
+    {
+      "id": 1,
+      "room_no": "4",
+      "room_price": "298",
+      "cleaning_id": 1,
+      "created_at": "2021-04-23T15:07:33.000000Z",
+      "updated_at": "2021-04-23T15:07:33.000000Z",
+      "cleaning": {
+        "id": 1,
+        "house_type": "apartmenttownhome",
+        "clean_type": "test 1",
+        "frequency": "234",
+        "created_at": "2021-04-20T17:24:47.000000Z",
+        "updated_at": "2021-04-20T17:24:47.000000Z",
+      },
+    },
+    {
+      "id": 2,
+      "room_no": "4",
+      "room_price": "330",
+      "cleaning_id": 1,
+      "created_at": "2021-04-23T15:07:33.000000Z",
+      "updated_at": "2021-04-23T15:07:33.000000Z",
+      "cleaning": {
+        "id": 1,
+        "house_type": "apartmenttownhome",
+        "clean_type": "test 1",
+        "frequency": "234",
+        "created_at": "2021-04-20T17:24:47.000000Z",
+        "updated_at": "2021-04-20T17:24:47.000000Z",
+      },
+    },
+    {
+      "id": 3,
+      "room_no": "2",
+      "room_price": "349",
+      "cleaning_id": 1,
+      "created_at": "2021-04-23T15:07:34.000000Z",
+      "updated_at": "2021-04-23T15:07:34.000000Z",
+      "cleaning": {
+        "id": 1,
+        "house_type": "apartmenttownhome",
+        "clean_type": "test 1",
+        "frequency": "234",
+        "created_at": "2021-04-20T17:24:47.000000Z",
+        "updated_at": "2021-04-20T17:24:47.000000Z",
+      },
+    },
+    {
+      "id": 5,
+      "room_no": "3",
+      "room_price": "197",
+      "cleaning_id": 1,
+      "created_at": "2021-04-23T15:07:34.000000Z",
+      "updated_at": "2021-04-23T15:07:34.000000Z",
+      "cleaning": {
+        "id": 1,
+        "house_type": "apartmenttownhome",
+        "clean_type": "test 1",
+        "frequency": "234",
+        "created_at": "2021-04-20T17:24:47.000000Z",
+        "updated_at": "2021-04-20T17:24:47.000000Z",
+      },
+    },
+    {
+      "id": 7,
+      "room_no": "1",
+      "room_price": "404",
+      "cleaning_id": 1,
+      "created_at": "2021-04-23T15:07:34.000000Z",
+      "updated_at": "2021-04-23T15:07:34.000000Z",
+      "cleaning": {
+        "id": 1,
+        "house_type": "apartmenttownhome",
+        "clean_type": "test 1",
+        "frequency": "234",
+        "created_at": "2021-04-20T17:24:47.000000Z",
+        "updated_at": "2021-04-20T17:24:47.000000Z",
+      },
+    },
+    {
+      "id": 8,
+      "room_no": "1",
+      "room_price": "395",
+      "cleaning_id": 1,
+      "created_at": "2021-04-23T15:07:34.000000Z",
+      "updated_at": "2021-04-23T15:07:34.000000Z",
+      "cleaning": {
+        "id": 1,
+        "house_type": "apartmenttownhome",
+        "clean_type": "test 1",
+        "frequency": "234",
+        "created_at": "2021-04-20T17:24:47.000000Z",
+        "updated_at": "2021-04-20T17:24:47.000000Z",
+      },
+    },
+  ];
+  const [result, setResult] = React.useState(response);
+  const [title, setTitle] = React.useState("Apartment/Townhome Type");
+  const [isPresentCondoHouse, setIsPresentCondoHouse] = React.useState(false);
+  const [apartmentCardStyle, setApartmentCardStyle] = React.useState(style.cardStyle);
+  const [condHouseCardStyle, setCondHouseCardStyle] = React.useState(style.cardStyle);
+  const [frequencyCardStyle, setFrequencyCardStyle] = React.useState(style.cardStyleForTypeSelection);
+  const [roomTypeCardStyle, setRoomTypeCardStyle] = React.useState(style.cardStyleForTypeSelection);
+  const [cleanTypeCardStyle, setCleanTypeCardStyle] = React.useState(style.cardStyleForTypeSelection);
+  const [selectedItemsIdFromList, setSelectedItemsIdFromList] = React.useState("");
 
   const gettingResultBySelectedOption = (servicetype, servicearea) => {
 
-    setResult([
-      {
-        "id": 1,
-        "quantity": "Test quality",
-        "price": "120",
-        "off": "Discount",
-        "handimen_id": 1,
-        "created_at": "2021-04-24T20:09:59.000000Z",
-        "updated_at": "2021-04-24T20:09:59.000000Z",
-        "handimen": {
-          "id": 1,
-          "house_type": "apartmenttownhome",
-          "service_name": "Test !!@@ Service",
-          "image": "1619294939.jpg",
-          "created_at": "2021-04-24T20:08:59.000000Z",
-          "updated_at": "2021-04-24T20:08:59.000000Z",
-        },
-      }, {
-        "id": 2,
-        "quantity": "Test quality",
-        "price": "120",
-        "off": "Discount",
-        "handimen_id": 1,
-        "created_at": "2021-04-24T20:09:59.000000Z",
-        "updated_at": "2021-04-24T20:09:59.000000Z",
-        "handimen": {
-          "id": 1,
-          "house_type": "apartmenttownhome",
-          "service_name": "Test !!@@ Service",
-          "image": "1619294939.jpg",
-          "created_at": "2021-04-24T20:08:59.000000Z",
-          "updated_at": "2021-04-24T20:08:59.000000Z",
-        },
-      },
-    ]);
+    if (servicearea === "apartmenttownhome") {
+      setIsPresentCondoHouse(false);
+      setApartmentCardStyle(style.selectedCardStyle);
+      setCondHouseCardStyle(style.cardStyle);
+      setTitle("Apartment/Townhome Type");
+    } else {
+      setIsPresentCondoHouse(true);
+      setCondHouseCardStyle(style.selectedCardStyle);
+      setApartmentCardStyle(style.cardStyle);
+      setTitle("Clean Type");
+    }
+    setResult(response);
 
-    // axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT+'/'+servicetype+'/'+servicearea)
-    //   .then(function(response) {
-    //
-    //     console.log(response)
-    //     //Navigate to Home Screen
-    //     props.navigation.navigate("DashboardScreen");
-    //
-    //     // Hide Loader
-    //     //setLoading(false);
-    //   })
-    //   .catch(function(error) {
-    //     console.log(error)
-    //     Toast.show({
-    //       text: "Something Wrong ",
-    //       buttonText: "Okay",
-    //       type: "danger",
-    //     });
-    //
-    //     // Hide Loader
-    //    // setLoading(false);
-    //   });
+    axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + servicetype + "/" + servicearea)
+      .then(function(response) {
+
+        console.log(response);
+        //Navigate to Home Screen
+        props.navigation.navigate("DashboardScreen");
+
+        // Hide Loader
+        //setLoading(false);
+      })
+      .catch(function(error) {
+        console.log(error);
+        Toast.show({
+          text: "Something Wrong ",
+          buttonText: "Okay",
+          type: "danger",
+        });
+
+        // Hide Loader
+        // setLoading(false);
+      });
   };
 
+
+  const onClick = (data) => {
+    setSelectedItemsIdFromList(data.id);
+  };
 
   return (
     <ScrollView>
@@ -83,7 +171,7 @@ const CleaningScreen = () => {
           <TouchableOpacity onPress={function() {
             gettingResultBySelectedOption("cleaning", "apartmenttownhome");
           }}>
-            <View style={style.cardStyle}>
+            <View style={apartmentCardStyle}>
               <Image
                 source={require("../../assets/icons/building_icon.png")}
                 style={{ height: 60, width: 60 }}
@@ -93,7 +181,10 @@ const CleaningScreen = () => {
             </View>
           </TouchableOpacity>
           {/*--- Handyman Card----*/}
-          <View style={style.cardStyle}>
+          <TouchableOpacity onPress={function() {
+            gettingResultBySelectedOption("cleaning", "condohouse");
+          }}>
+            <View style={condHouseCardStyle}>
             <Image
               source={require("../../assets/icons/home_icon.png")}
               style={{ height: 60, width: 60 }}
@@ -101,79 +192,91 @@ const CleaningScreen = () => {
             <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Condo/
               House</Text>
           </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View>
+
+        {/* ---- Cleaning Type ----- */}
+        <Text style={style.cardHeaderTextStyle}> {title} </Text>
+        <View style={{ alignItems: "center" }}>
+
+          <View style={{ flexDirection: "row", marginBottom: 10 }}>
+
+            <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
+              {
+                result.map((data) => {
+                  return (
+                    <TouchableOpacity onPress={function() {
+                      onClick(data);
+                    }}>
+                      <View
+                        style={selectedItemsIdFromList === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
+                        <Text style={style.cardTextStyle}> {data.cleaning.house_type} </Text>
+                        <Text style={style.cardTextStyle}> ${data.room_price} </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+
+                })
+              }
+            </ScrollView>
+
+          </View>
+          <Text style={{ color: colors.assColor, marginBottom: 5 }}> Add $20 per additional bedroom </Text>
         </View>
       </View>
 
       {/* ---- Cleaning Type ----- */}
-      <Text style={style.cardHeaderTextStyle}> Apartment/Townhome Type </Text>
-      <View style={{ alignItems: "center" }}>
+      {
+        isPresentCondoHouse ?
+          <View>
+            <Text style={style.cardHeaderTextStyle}> Clean Type </Text>
+            <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
+              {
+                result.map((data) => {
+                  return (
+                    <TouchableOpacity onPress={function() {
+                      onClick(data);
+                    }}>
+                      <View
+                        style={selectedItemsIdFromList === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
+                        <Text style={style.cardTextStyle}> {data.cleaning.clean_type} </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
 
-        <View style={{ flexDirection: "row", marginBottom: 10 }}>
+                })
+              }
+            </ScrollView>
+          </View>
+          : null
+      }
 
-          <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
-
-            {
-              result.map((data) => {
-                return (
-                  <TouchableOpacity onPress={function() {
-                    gotoCleaningScreen();
-                  }}>
-                    <View style={style.cardStyleForTypeSelection}>
-                      <Text style={style.cardTextStyle}> {data.id} </Text>
-                      <Text style={style.cardTextStyle}> ${data.price} </Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-
-              })
-            }
-
-
-
-
-          </ScrollView>
-
-        </View>
-        <Text style={{ color: colors.assColor, marginBottom: 5 }}> Add $20 per additional bedroom </Text>
-      </View>
 
       {/* ---- Frequency Type ----- */}
       <Text style={style.cardHeaderTextStyle}> Frequency </Text>
-      <View style={{ alignItems: "center" }}>
+
         {/* ------ Row One -----*/}
-        <View style={{ flexDirection: "row" }}>
+
           {/*--- Type 1 Card----*/}
-          <TouchableOpacity onPress={function() {
-            gotoCleaningScreen();
-          }}>
-            <View style={style.cardStyleForFrequency}>
-              <Text style={style.cardTextStyle}> One Time </Text>
-            </View>
-          </TouchableOpacity>
+      <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
+        {
+          result.map((data) => {
+            return (
+              <TouchableOpacity onPress={function() {
+                onClick(data);
+              }}>
+                <View
+                  style={selectedItemsIdFromList === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
+                  <Text style={style.cardTextStyle}> {data.cleaning.frequency} </Text>
+                </View>
+              </TouchableOpacity>
+            );
 
-          {/*---  Type 2 Card----*/}
-          <View style={style.cardStyleForFrequency}>
-            <Text style={style.cardTextStyle}> Weekly (-10%) </Text>
-          </View>
-        </View>
-        {/* ------ Row One -----*/}
-        <View style={{ flexDirection: "row", marginBottom: 10 }}>
-          {/*--- Type 1 Card----*/}
-          <TouchableOpacity onPress={function() {
-            gotoCleaningScreen();
-          }}>
-            <View style={style.cardStyleForFrequency}>
-              <Text style={style.cardTextStyle}> Bi-Weekly </Text>
-            </View>
-          </TouchableOpacity>
-
-          {/*---  Type 2 Card----*/}
-          <View style={style.cardStyleForFrequency}>
-            <Text style={style.cardTextStyle}> Monthly </Text>
-          </View>
-        </View>
-      </View>
-
+          })
+        }
+      </ScrollView>
       {/*--- Price View -----*/}
       <View style={{ marginLeft: 25 }}>
         <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price : $151.20 </Text>
@@ -228,7 +331,6 @@ const style = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.white,
     borderRadius: 15,
-    borderWidth: 1,
     shadowColor: "#ccc",
     shadowOffset: {
       width: 0,
@@ -238,7 +340,25 @@ const style = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 8,
     margin: 10,
-    borderColor: colors.cardNonSelectedBorderColor,
+  },
+  selectedCardStyle: {
+    width: 168,
+    height: 170,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    elevation: 8,
+    margin: 10,
+    borderWidth: 2,
+    borderColor: "green",
   },
   cardStyleForTypeSelection: {
     width: 168,
@@ -258,6 +378,25 @@ const style = StyleSheet.create({
     elevation: 8,
     margin: 10,
     borderColor: colors.cardNonSelectedBorderColor,
+  },
+  selectedCardStyleForTypeSelection: {
+    width: 168,
+    height: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    elevation: 8,
+    margin: 10,
+    borderWidth: 2,
+    borderColor: "green",
   },
   cardStyleForFrequency: {
     width: 168,

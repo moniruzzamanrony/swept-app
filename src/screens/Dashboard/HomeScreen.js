@@ -27,19 +27,20 @@ const HomeScreen = (props) => {
       {/*---- Main Card Body ------*/}
       <View style={{ margin: 20 }}>
         {/*--- Row 1*/}
-        <TouchableOpacity onPress={function() {
-          gotoCleaningScreen();
-        }}>
-          <View style={{ flexDirection: "row", marginBottom: 10 }}>
-            {/*--- Cleaning Card----*/}
-            <View style={style.cardStyle}>
-              <Image
-                source={require("../../../assets/icons/cleaning_icon.png")}
-                style={{ height: 60, width: 60 }}
-              />
-              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Cleaning</Text>
-            </View>
 
+          <View style={{ flexDirection: "row", marginBottom: 10 }}>
+            <TouchableOpacity onPress={function() {
+              gotoCleaningScreen();
+            }}>
+              {/*--- Cleaning Card----*/}
+              <View style={style.cardStyle}>
+                <Image
+                  source={require("../../../assets/icons/cleaning_icon.png")}
+                  style={{ height: 60, width: 60 }}
+                />
+                <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Cleaning</Text>
+              </View>
+            </TouchableOpacity>
             {/*--- Handyman Card----*/}
             <View style={style.cardStyle}>
               <Image
@@ -49,7 +50,7 @@ const HomeScreen = (props) => {
               <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Handyman</Text>
             </View>
           </View>
-        </TouchableOpacity>
+
         {/*--- Row 2*/}
         <View style={{ flexDirection: "row", marginBottom: 10 }}>
           {/*--- Cleaning Card----*/}
