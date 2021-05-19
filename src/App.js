@@ -14,6 +14,9 @@ import HomeScreen from "./screens/Dashboard/HomeScreen";
 import OrderScreen from "./screens/Dashboard/OrderScreen";
 import NotificationScreen from "./screens/Dashboard/NotificationScreen";
 import MyProfileScreen from "./screens/Dashboard/MyProfileScreen";
+import TimeAndDateScreen from "./screens/TimeAndDateScreen";
+import AddressScreen from "./screens/AddressScreen";
+import PaymentScreen from "./screens/PaymentScreen";
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -38,6 +41,12 @@ const App = () => {
         <Stack.Screen name="NotificationScreen" component={NotificationScreen}
                       options={{ headerShown: false }} />
         <Stack.Screen name="MyProfileScreen" component={MyProfileScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="TimeAndDateScreen" component={TimeAndDateScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="AddressScreen" component={AddressScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="PaymentScreen" component={PaymentScreen}
                       options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -6,7 +6,7 @@ import { Button, Toast } from "native-base";
 import axios from "axios";
 import { Api } from "../contants/Api";
 
-const CleaningScreen = () => {
+const CleaningScreen = (props) => {
   const response = [
     {
       "id": 1,
@@ -115,6 +115,15 @@ const CleaningScreen = () => {
   const [cleanTypeCardStyle, setCleanTypeCardStyle] = React.useState(style.cardStyleForTypeSelection);
   const [selectedItemsIdFromList, setSelectedItemsIdFromList] = React.useState("");
 
+  //Selected Data
+  const [cleaningId, setCleaningId] = React.useState("");
+  const [roomId, setRoomId] = React.useState("");
+  const [frequency, setFrequency] = React.useState("");
+  const [cleanType, setCleanType] = React.useState("");
+  const [totalAmount, setTotalAmount] = React.useState(0.0);
+  const [amount, setAmount] = React.useState("");
+
+
   const gettingResultBySelectedOption = (servicetype, servicearea) => {
 
     if (servicearea === "apartmenttownhome") {
@@ -135,7 +144,6 @@ const CleaningScreen = () => {
 
         console.log(response);
         //Navigate to Home Screen
-        props.navigation.navigate("DashboardScreen");
 
         // Hide Loader
         //setLoading(false);
@@ -154,9 +162,22 @@ const CleaningScreen = () => {
   };
 
 
-  const onClick = (data) => {
+  const onSelectedBorderColorChange = (data) => {
     setSelectedItemsIdFromList(data.id);
   };
+
+  function gotoNextScreen() {
+    const data = {
+      cleaningId: cleaningId,
+      roomId: roomId,
+      frequency: frequency,
+      cleanType: cleanType,
+      totalAmount: totalAmount,
+      amount: amount,
+    };
+
+    props.navigation.navigate("TimeAndDateScreen", data);
+  }
 
   return (
     <ScrollView>
@@ -185,13 +206,13 @@ const CleaningScreen = () => {
             gettingResultBySelectedOption("cleaning", "condohouse");
           }}>
             <View style={condHouseCardStyle}>
-            <Image
-              source={require("../../assets/icons/home_icon.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Condo/
-              House</Text>
-          </View>
+              <Image
+                source={require("../../assets/icons/home_icon.png")}
+                style={{ height: 60, width: 60 }}
+              />
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Condo/
+                House</Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -208,7 +229,10 @@ const CleaningScreen = () => {
                 result.map((data) => {
                   return (
                     <TouchableOpacity onPress={function() {
-                      onClick(data);
+                      onSelectedBorderColorChange(data);
+                      setCleaningId(data.cleaning.id);
+                      setRoomId(data.room_no);
+                      setAmount(data.room_price);
                     }}>
                       <View
                         style={selectedItemsIdFromList === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
@@ -237,7 +261,8 @@ const CleaningScreen = () => {
                 result.map((data) => {
                   return (
                     <TouchableOpacity onPress={function() {
-                      onClick(data);
+                      onSelectedBorderColorChange(data);
+                      setCleanType(data.cleaning.clean_type);
                     }}>
                       <View
                         style={selectedItemsIdFromList === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
@@ -257,15 +282,14 @@ const CleaningScreen = () => {
       {/* ---- Frequency Type ----- */}
       <Text style={style.cardHeaderTextStyle}> Frequency </Text>
 
-        {/* ------ Row One -----*/}
-
-          {/*--- Type 1 Card----*/}
+      {/*--- Frequency----*/}
       <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
         {
           result.map((data) => {
             return (
               <TouchableOpacity onPress={function() {
-                onClick(data);
+                onSelectedBorderColorChange(data);
+                setFrequency(data.cleaning.frequency);
               }}>
                 <View
                   style={selectedItemsIdFromList === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
@@ -279,12 +303,11 @@ const CleaningScreen = () => {
       </ScrollView>
       {/*--- Price View -----*/}
       <View style={{ marginLeft: 25 }}>
-        <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price : $151.20 </Text>
+        <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price : {amount} </Text>
       </View>
       <View style={{ paddingStart: 65, margin: 10 }}>
         <Button style={style.getStartBut} onPress={function() {
-
-          //Navigate to Home Screen
+          gotoNextScreen();
         }}>
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
         </Button>
