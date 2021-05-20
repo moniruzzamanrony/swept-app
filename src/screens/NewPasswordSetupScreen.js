@@ -34,11 +34,11 @@ const NewPasswordSetupScreen = (props) => {
           console.log(response);
           //Navigate to Home Screen
           props.navigation.navigate("LoginScreen");
-
           // Hide Loader
           setLoading(false);
         })
         .catch(function(error) {
+          console.log(error);
           Toast.show({
             text: "Something Wrong!",
             buttonText: "Okay",
@@ -66,7 +66,7 @@ const NewPasswordSetupScreen = (props) => {
         <NavigationHeader title="Reset Password" url="LoginScreen" />
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Password</Text>
-          <TextInput style={style.inputField} placeholder="6-20 characters"
+          <TextInput style={style.inputField} placeholder="8-20 characters"
                      onChangeText={password => setPassword(password)} />
           {reTypePasswordErr ? <Text style={style.errorMessage}>Password more then 6-20 characters</Text> : null}
         </View>

@@ -9,7 +9,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { colors } from "../theme/Colors";
 import NavigationBar from "../navigation/NavigationBar";
 
-const HandymanScreen = () => {
+const HandymanScreen = (props) => {
   const [result, setResult] = React.useState([]);
   const [title, setTitle] = React.useState("Tell Us About Your Service");
 

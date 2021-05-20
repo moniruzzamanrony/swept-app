@@ -24,7 +24,6 @@ const TimeAndDateScreen = (props) => {
 
   const handleConfirm = (date) => {
     setSelectedDate(date);
-    console.warn(props.route.params);
     hideDatePicker();
   };
 
