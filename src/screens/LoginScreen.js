@@ -140,6 +140,6 @@ const style = StyleSheet.create({
     fontSize: 11,
     color: colors.offRed,
     margin: 2,
-  }
+  },
 });
 export default LoginScreen;

@@ -29,12 +29,18 @@ const TimeAndDateScreen = (props) => {
   };
 
   function gotoNextScreen() {
-
-    props.navigation.navigate("AddressScreen", {
-      cleaning: props.route.params,
-      date: selectedDate,
-    });
+    if (selectedDate != "") {
+      props.route.params.date = selectedDate;
+      console.log(props.route.params);
+      props.navigation.navigate("AddressScreen", props.route.params);
+    } else {
+      alert("Please Select Properly! ");
+    }
   }
+
+  const onSelectorListener = (selectedItem) => {
+
+  };
 
   return (
 
@@ -43,7 +49,7 @@ const TimeAndDateScreen = (props) => {
       <NavigationBar title="Date & Time" url="LoginScreen" />
 
 
-      {/* ---- Cleaning Type ----- */}
+      {/* ---- Date Time Picker Title ----- */}
       <View style={{ flexDirection: "row", margin: 20 }}>
         <Icon name="time" style={{ fontSize: 25, color: colors.buttonBgColor }} />
         <Text style={style.cardHeaderTextStyle}> Pick Your Date & Time</Text>
@@ -53,7 +59,7 @@ const TimeAndDateScreen = (props) => {
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
         <TouchableOpacity onPress={function() {
           // onSelectedBorderColorChange(data);
-
+          setSelectedDate("Today");
         }}>
           <View style={style.cardStyle}>
             <Text style={{ fontSize: 20, fontWeight: "bold" }}> Today</Text>
@@ -62,7 +68,7 @@ const TimeAndDateScreen = (props) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={function() {
           // onSelectedBorderColorChange(data);
-
+          setSelectedDate("Tomorrow");
         }}>
           <View style={style.cardStyle}>
             <Text style={{ fontSize: 20, fontWeight: "bold" }}> Tomorrow</Text>
@@ -74,6 +80,8 @@ const TimeAndDateScreen = (props) => {
       <View style={{ flexDirection: "row", marginBottom: 10 }}>
         <TouchableOpacity onPress={function() {
           // onSelectedBorderColorChange(data);
+          setSelectedDate("Within the Next Weak");
+
 
         }}>
           <View style={style.cardStyle}>

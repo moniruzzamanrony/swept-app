@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { Text } from "react-native-elements";
 import { colors } from "../theme/Colors";
 import NavigationHeader from "../navigation/NavigationHeader";
 import { Button, Root } from "native-base";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Api } from "../contants/Api";
+import axios from "axios";
 
 const PaymentScreen = (props) => {
   const [name, setName] = React.useState("");
@@ -13,62 +15,53 @@ const PaymentScreen = (props) => {
   const [emailErr, setEmailErr] = React.useState(false);
   const [phone, setPhone] = React.useState("");
   const [phoneErr, setPhoneErr] = React.useState(false);
-  const [address, setAddress] = React.useState("");
-  const [addressErr, setAddressErr] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [passwordErr, setPasswordErr] = React.useState(false);
-  const [reTypePassword, setReTypePassword] = React.useState("");
-  const [reTypePasswordErr, setReTypePasswordErr] = React.useState(false);
+  const [cc, setCc] = React.useState("");
+  const [ccErr, setCcErr] = React.useState("");
+  const [exp, setExp] = React.useState("");
+  const [expErr, setExpErr] = React.useState(false);
+  const [code, setCode] = React.useState("");
+  const [codeErr, setCodeErr] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const gotoSignUpPage = () => {
-    console.warn(props);
-    // if (name === "") {
-    //   setNameErr(true);
-    // }
-    // if (email === "") {
-    //   setEmailErr(true);
-    // }
-    // if (phone === "") {
-    //   setPasswordErr(true);
-    // }
-    // if (address === "") {
-    //   setAddressErr(true);
-    // }
-    // if (password === "") {
-    //   setPasswordErr(true);
-    // }
-    // if (reTypePassword === "") {
-    //   setReTypePasswordErr(true);
-    // } else {
-    //   const body = {
-    //     "name": name,
-    //     "email": email,
-    //     "password": password,
-    //     "phone": phone,
-    //     "address": address,
-    //   };
-    //   // Show Loader
-    //   setLoading(true);
-    //   axios.post(Api.BASE_URL + Api.SIGN_UP, body)
-    //     .then(function(response) {
-    //       console.log(response);
-    //       //Navigate to Home Screen
-    //       props.navigation.navigate("LoginScreen");
-    //
-    //       // Hide Loader
-    //       setLoading(false);
-    //     })
-    //     .catch(function(error) {
-    //       Toast.show({
-    //         text: "Something Wrong!",
-    //         buttonText: "Okay",
-    //         type: "danger",
-    //       });
-    //
-    //       // Hide Loader
-    //       setLoading(false);
-    //     });
-    // }
+    console.log(props.route.params);
+    if (name === "") {
+      setNameErr(true);
+    }
+    if (email === "") {
+      setEmailErr(true);
+    }
+    if (phone === "") {
+      setExpErr(true);
+    }
+    if (cc === "") {
+      setCcErr(true);
+    }
+    if (exp === "") {
+      setExpErr(true);
+    }
+    if (code === "") {
+      setCodeErr(true);
+    } else {
+      const body = props.route.params;
+
+      // Show Loader
+      setLoading(true);
+      axios.post(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + Api.ORDER_CLEANING, body)
+        .then(function(response) {
+          console.log(response);
+          //Navigate to Home Screen
+          // props.navigation.navigate("LoginScreen");
+
+          // Hide Loader
+          setLoading(false);
+        })
+        .catch(function(error) {
+          console.log(error);
+
+          // Hide Loader
+          setLoading(false);
+        });
+    }
 
   };
 
@@ -87,7 +80,13 @@ const PaymentScreen = (props) => {
         {/* Loading Screen End*/}
 
         {/*------Header-----*/}
-        <NavigationHeader title="Sign Up" url="LoginScreen" />
+        <NavigationHeader title="Payment" url="LoginScreen" />
+
+        <View style={{ flexDirection: "row", margin: 20 }}>
+          <Text style={{ fontSize: 24 }}>Enter your contact and
+            Payment information</Text>
+        </View>
+        <ScrollView>
         {/*Input Field*/}
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Name</Text>
@@ -108,35 +107,33 @@ const PaymentScreen = (props) => {
         </View>
 
         <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Address</Text>
-          <TextInput style={style.inputField} onChangeText={address => setAddress(address)} />
-          {addressErr ? <Text style={style.errorMessage}>Address required !</Text> : null}
+          <Text style={{ margin: 2 }}>CC#</Text>
+          <TextInput style={style.inputField} onChangeText={address => setCc(address)} />
+          {ccErr ? <Text style={style.errorMessage}>CC# required !</Text> : null}
         </View>
 
         <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Password</Text>
-          <TextInput style={style.inputField} onChangeText={password => setPassword(password)}
-                     placeholder="6-20 characters" />
-          {passwordErr ? <Text style={style.errorMessage}>Password more then 6-20 characters</Text> : null}
+          <Text style={{ margin: 2 }}>Exp</Text>
+          <TextInput style={style.inputField} onChangeText={password => setExp(password)}
+          />
+          {expErr ? <Text style={style.errorMessage}>Exp required !</Text> : null}
         </View>
 
         <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Re-enter Password</Text>
-          <TextInput style={style.inputField} onChangeText={reTypePassword => setReTypePassword(reTypePassword)}
-                     placeholder="6-20 characters" />
-          {reTypePasswordErr ? <Text style={style.errorMessage}>Password more then 6-20 characters</Text> : null}
+          <Text style={{ margin: 2 }}>Code</Text>
+          <TextInput style={style.inputField} onChangeText={reTypePassword => setCode(reTypePassword)}
+                     placeholder="3 digits" />
+          {codeErr ? <Text style={style.errorMessage}>Code required !</Text> : null}
         </View>
 
         <View style={style.buttomBut}>
           <Button style={style.getStartBut} onPress={function() {
             gotoSignUpPage();
           }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Sign Up</Text>
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Book Now</Text>
           </Button>
-          <Text style={{ margin: 8 }} onPress={function() {
-
-          }}>Already have an account? <Text style={{ fontWeight: "bold" }}> Login</Text></Text>
         </View>
+        </ScrollView>
       </View>
     </Root>
   );
@@ -158,7 +155,8 @@ const style = StyleSheet.create({
   getStartBut: {
     width: 292,
     height: 60,
-    marginTop: 30,
+    marginTop: 10,
+    marginBottom: 10,
     backgroundColor: colors.buttonBgColor,
     color: colors.black,
     borderRadius: 9,

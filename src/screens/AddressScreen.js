@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import NavigationBar from "../navigation/NavigationBar";
 import { colors } from "../theme/Colors";
 import { Button } from "native-base";
-
+import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 
 const AddressScreen = (props) => {
-  const [address, setAddress] = React.useState("Asulia");
+  const [address, setAddress] = React.useState("");
+
+  useEffect(() => {
+    setLoggedUserAddress();
+  }, []);
+
+  const setLoggedUserAddress = async () => {
+    setAddress(await LoggedUserInfo.getLoggedAddress());
+  };
 
   function gotoNextScreen() {
-    props.navigation.navigate("PaymentScreen", {
-      cleaning: props.route.params,
-      address: address,
-    });
+    if (address != "") {
+      props.route.params.address = address;
+      console.log(props.route.params);
+      props.navigation.navigate("PaymentScreen", props.route.params);
+    } else {
+      alert("Please write your address ");
+    }
+
   }
 
   return (

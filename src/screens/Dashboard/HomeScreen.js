@@ -1,13 +1,47 @@
-import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import React, { useEffect } from "react";
+import { AsyncStorage, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Text from "react-native-paper/src/components/Typography/Text";
 import { colors } from "../../theme/Colors";
+import axios from "axios";
+import { Api } from "../../contants/Api";
+import { Toast } from "native-base";
 
 const HomeScreen = (props) => {
+
+  useEffect(() => {
+    getProfileDetails();
+  }, []);
+
+  const getProfileDetails = () => {
+    axios.get(Api.BASE_URL + Api.GET_PROFILE)
+      .then(function(response) {
+        console.log(response.data.user);
+        //Set Data
+        AsyncStorage.setItem("id", response.data.user.id.toString());
+        AsyncStorage.setItem("email", response.data.user.email);
+        AsyncStorage.setItem("phone", response.data.user.phone);
+        AsyncStorage.setItem("address", response.data.user.address);
+        AsyncStorage.setItem("avatar", response.data.user.avatar);
+
+      })
+      .catch(function(error) {
+        Toast.show({
+          text: "Undefine Logged User",
+          buttonText: "Okay",
+          type: "danger",
+        });
+
+      });
+  };
+
   const gotoCleaningScreen = () => {
+
+
     //Navigate to Home Screen
     props.navigation.navigate("CleaningScreen");
   };
+
+
   return (
     <View style={style.body}>
       {/*---- Header ------*/}
@@ -28,28 +62,28 @@ const HomeScreen = (props) => {
       <View style={{ margin: 20 }}>
         {/*--- Row 1*/}
 
-          <View style={{ flexDirection: "row", marginBottom: 10 }}>
-            <TouchableOpacity onPress={function() {
-              gotoCleaningScreen();
-            }}>
-              {/*--- Cleaning Card----*/}
-              <View style={style.cardStyle}>
-                <Image
-                  source={require("../../../assets/icons/cleaning_icon.png")}
-                  style={{ height: 60, width: 60 }}
-                />
-                <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Cleaning</Text>
-              </View>
-            </TouchableOpacity>
-            {/*--- Handyman Card----*/}
+        <View style={{ flexDirection: "row", marginBottom: 10 }}>
+          <TouchableOpacity onPress={function() {
+            gotoCleaningScreen();
+          }}>
+            {/*--- Cleaning Card----*/}
             <View style={style.cardStyle}>
               <Image
-                source={require("../../../assets/icons/technician_logo.png")}
+                source={require("../../../assets/icons/cleaning_icon.png")}
                 style={{ height: 60, width: 60 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Handyman</Text>
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Cleaning</Text>
             </View>
+          </TouchableOpacity>
+          {/*--- Handyman Card----*/}
+          <View style={style.cardStyle}>
+            <Image
+              source={require("../../../assets/icons/technician_logo.png")}
+              style={{ height: 60, width: 60 }}
+            />
+            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Handyman</Text>
           </View>
+        </View>
 
         {/*--- Row 2*/}
         <View style={{ flexDirection: "row", marginBottom: 10 }}>

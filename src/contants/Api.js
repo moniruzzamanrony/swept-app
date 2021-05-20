@@ -11,5 +11,6 @@ export const Api = {
   UPDATE_PROFILE: "update/user",
   VERIFY_PROFILE: "verify",
   SERVICE_ENDPOINT: "service",
+  ORDER_CLEANING: "order/cleaning",
 
 };
