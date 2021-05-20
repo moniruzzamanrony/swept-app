@@ -34,11 +34,9 @@ const HomeScreen = (props) => {
       });
   };
 
-  const gotoCleaningScreen = () => {
-
-
+  const gotoSelectedScreen = (screen) => {
     //Navigate to Home Screen
-    props.navigation.navigate("CleaningScreen");
+    props.navigation.navigate(screen);
   };
 
 
@@ -64,7 +62,7 @@ const HomeScreen = (props) => {
 
         <View style={{ flexDirection: "row", marginBottom: 10 }}>
           <TouchableOpacity onPress={function() {
-            gotoCleaningScreen();
+            gotoSelectedScreen("CleaningScreen");
           }}>
             {/*--- Cleaning Card----*/}
             <View style={style.cardStyle}>
@@ -75,14 +73,19 @@ const HomeScreen = (props) => {
               <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Cleaning</Text>
             </View>
           </TouchableOpacity>
-          {/*--- Handyman Card----*/}
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../../assets/icons/technician_logo.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Handyman</Text>
-          </View>
+
+          <TouchableOpacity onPress={function() {
+            gotoSelectedScreen("HandymanScreen");
+          }}>
+            {/*--- Handyman Card----*/}
+            <View style={style.cardStyle}>
+              <Image
+                source={require("../../../assets/icons/technician_logo.png")}
+                style={{ height: 60, width: 60 }}
+              />
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Handyman</Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         {/*--- Row 2*/}

@@ -57,12 +57,12 @@ const PaymentScreen = (props) => {
         })
         .catch(function(error) {
           console.log(error);
+          // TODO: Remove navigation from here
           props.navigation.navigate("SuccessScreen");
           // Hide Loader
           setLoading(false);
         });
     }
-
   };
 
 

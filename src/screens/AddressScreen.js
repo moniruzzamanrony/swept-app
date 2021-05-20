@@ -33,7 +33,7 @@ const AddressScreen = (props) => {
       <NavigationBar title="Address" url="LoginScreen" />
 
 
-      {/* ---- Cleaning Type ----- */}
+      {/* ---- Address ----- */}
       <TextInput style={style.inputField}
                  multiline={true}
                  numberOfLines={6}

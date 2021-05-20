@@ -18,6 +18,7 @@ import TimeAndDateScreen from "./screens/TimeAndDateScreen";
 import AddressScreen from "./screens/AddressScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import SuccessScreen from "./screens/SuccessScreen";
+import HandymanScreen from "./screens/HandymanScreen";
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -50,6 +51,8 @@ const App = () => {
         <Stack.Screen name="PaymentScreen" component={PaymentScreen}
                       options={{ headerShown: false }} />
         <Stack.Screen name="SuccessScreen" component={SuccessScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="HandymanScreen" component={HandymanScreen}
                       options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
