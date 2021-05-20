@@ -50,14 +50,14 @@ const PaymentScreen = (props) => {
         .then(function(response) {
           console.log(response);
           //Navigate to Home Screen
-          // props.navigation.navigate("LoginScreen");
+          props.navigation.navigate("SuccessScreen");
 
           // Hide Loader
           setLoading(false);
         })
         .catch(function(error) {
           console.log(error);
-
+          props.navigation.navigate("SuccessScreen");
           // Hide Loader
           setLoading(false);
         });
