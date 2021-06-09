@@ -1,11 +1,15 @@
-import React from "react";
-import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import NavigationBar from "../navigation/NavigationBar";
 import { CheckBox, Text } from "react-native-elements";
 import { colors } from "../theme/Colors";
 import { Button } from "native-base";
+import axios from "axios";
+import { Api } from "../contants/Api";
+import * as LoggedUserInfo from "../utils/LoggedUserInfo";
+import * as Validators from "../validator/Validators";
 
-const PatCareScreen = () => {
+const PatCareScreen = (props) => {
   const [petName, setPetName] = React.useState("");
   const [petNameErr, setPetNameErr] = React.useState(false);
 
@@ -30,12 +34,62 @@ const PatCareScreen = () => {
   const [price, setPrice] = React.useState("");
   const [priceErr, setPriceErr] = React.useState("");
 
+  const [serviceType, setServiceType] = React.useState("");
+  const [serviceTypeErr, setServiceTypeErr] = React.useState("");
+
   const [fileUri, setFileUri] = React.useState("");
   const [fileUriErr, setFileUriErr] = React.useState("");
 
   const [details, setDetails] = React.useState("");
   const [detailsErr, setDetailsErr] = React.useState("");
 
+  const [optionList, setOptionList] = React.useState([]);
+
+  // Warning Message
+  const [isEmptyField, setIsEmptyField] = useState(false);
+
+  useEffect(() => {
+    callGetApi();
+  }, []);
+
+  const callGetApi = () => {
+
+    axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + Api.GET_PER_CARE)
+      .then(function(response) {
+        setOptionList(response.data.Result);
+        console.log(response.data);
+
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    console.log(optionList);
+  };
+
+  async function gotoNextStep(): void {
+    const data = {
+      "total_price": price,
+      "user_id": await LoggedUserInfo.getLoggedUserId(),
+      "descriptions": details,
+      "image": "cleanType",
+      "service_type": serviceType,
+      "age": age,
+      "weight": weight,
+      "breed": breed,
+      "last_name": lastName,
+      "pet_name": petName,
+      "petcare_id": "1",
+    };
+
+    console.log(data);
+
+    if (Validators.checkPropertiesForEmpty(data)) {
+      props.navigation.navigate("TimeAndDateScreen", data);
+    } else {
+      setIsEmptyField(true);
+    }
+  }
 
   return (
     <ScrollView>
@@ -63,17 +117,18 @@ const PatCareScreen = () => {
           <TextInput style={style.inputField} onChangeText={phone => setBreed(phone)} />
           {breedErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
         </View>
+
         <View style={style.formDivForTwoColumn}>
           <View>
             <Text style={{ margin: 2 }}>Weight</Text>
-            <TextInput style={style.inputFieldHalf} onChangeText={phoneOrEmail => setLastName(phoneOrEmail)} />
-            {lastNameErr ? <Text style={style.errorMessage}>Last Name required !</Text> : null}
+            <TextInput style={style.inputFieldHalf} onChangeText={weight => setWeight(weight)} />
+            {weightErr ? <Text style={style.errorMessage}>Weight required !</Text> : null}
           </View>
 
           <View>
             <Text style={{ margin: 2 }}>Age</Text>
-            <TextInput style={style.inputFieldHalf} onChangeText={phoneOrEmail => setLastName(phoneOrEmail)} />
-            {lastNameErr ? <Text style={style.errorMessage}>Last Name required !</Text> : null}
+            <TextInput style={style.inputFieldHalf} onChangeText={age => setAge(age)} />
+            {ageErr ? <Text style={style.errorMessage}>Age required !</Text> : null}
           </View>
         </View>
 
@@ -83,8 +138,8 @@ const PatCareScreen = () => {
                        multiline={true}
                        placeholder="Vaccination Date(Boarding & Grooming)"
                        numberOfLines={4}
-                       onChangeText={phone => setBreed(phone)} />
-            {breedErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
+                       onChangeText={vaccinationDate => setVaccinationDate(vaccinationDate)} />
+            {vaccinationDateErr ? <Text style={style.errorMessage}>Vaccination required !</Text> : null}
           </View>
 
           <View>
@@ -92,22 +147,33 @@ const PatCareScreen = () => {
                        multiline={true}
                        placeholder="Special Instructions"
                        numberOfLines={4}
-                       onChangeText={phone => setBreed(phone)} />
-            {breedErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
+                       onChangeText={specialInstructions => setSpecialInstructions(specialInstructions)} />
+            {specialInstructionsErr ? <Text style={style.errorMessage}>Instructions required !</Text> : null}
           </View>
         </View>
 
         {/* -----Card-----------*/}
-        <View>
-          <View style={style.formDivForTwoColumn}>
-            <View style={style.cardStyle}>
-              <Text style={{ margin: 10, textAlign: "center", fontSize: 14 }}>Dog Walk/Pet Visit
-                (30 Min) - $25</Text>
-            </View>
-            <View style={style.cardStyle}>
-              <Text style={{ margin: 10, textAlign: "center", fontSize: 14 }}>Basic Bath
-                $45</Text>
-            </View>
+        <View style={style.formDiv}>
+          <Text style={{ margin: 2, fontWeight: "bold" }}>Choose One</Text>
+          <View style={{ flexDirection: "row", marginBottom: 10 }}>
+            <ScrollView horizontal={true}>
+              {
+                optionList.map((data) => {
+                  return (
+                    <TouchableOpacity onPress={function() {
+                      setPrice(data.price);
+                      setServiceType(data.name);
+                    }}>
+                      <View style={style.cardStyle}>
+                        <Text style={{ margin: 10, textAlign: "center", fontSize: 14 }}>{data.name} -
+                          ${data.price} </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+
+                })
+              }
+            </ScrollView>
           </View>
         </View>
 
@@ -123,24 +189,32 @@ const PatCareScreen = () => {
           <TextInput style={style.textArea}
                      multiline={true}
                      numberOfLines={6}
-                     onChangeText={phoneOrEmail => setLastName(phoneOrEmail)} />
-          {lastNameErr ? <Text style={style.errorMessage}>Last Name required !</Text> : null}
+                     onChangeText={details => setDetails(details)} />
+          {detailsErr ? <Text style={style.errorMessage}>Details required !</Text> : null}
         </View>
 
         <View style={style.formDivForTwoColumn}>
           <CheckBox
             value={false}
-            style={style.checkbox}
           />
           <Text style={{ marginTop: 15, color: colors.assColor }}>I’m a SWEPT Pet Member</Text>
         </View>
+        {/*--- Warning Field -----*/}
+        {
+          isEmptyField ?
+            <View>
+              <Text style={{ textAlign: "center", color: "red" }}> Please Select Properly </Text>
+            </View> : null
+        }
         <View style={{ paddingStart: 50, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
-
+            gotoNextStep();
           }}>
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
           </Button>
         </View>
+
+
       </View>
     </ScrollView>
   );
