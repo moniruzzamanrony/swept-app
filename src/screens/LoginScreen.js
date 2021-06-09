@@ -44,6 +44,9 @@ const LoginScreen = (props) => {
         setLoading(false);
       })
       .catch(function(error) {
+        // Log show
+        console.log(error);
+
         Toast.show({
           text: "Wrong password!",
           buttonText: "Okay",

@@ -60,8 +60,11 @@ const SignUpScreen = (props) => {
           setLoading(false);
         })
         .catch(function(error) {
+          // Log show
+          console.log(error);
+
           Toast.show({
-            text: "Something Wrong!",
+            text: error.response.data.Error.email[0],
             buttonText: "Okay",
             type: "danger",
           });
