@@ -8,6 +8,7 @@ import * as Validators from "../validator/Validators";
 import Spinner from "react-native-loading-spinner-overlay";
 import { colors } from "../theme/Colors";
 import NavigationBar from "../navigation/NavigationBar";
+import { MediaType } from "../contants/MediaType";
 
 const HandymanScreen = (props) => {
   const [result, setResult] = React.useState([]);
@@ -101,14 +102,18 @@ const HandymanScreen = (props) => {
   const gotoNextScreen = async () => {
     console.log(await LoggedUserInfo.getLoggedUserId());
     const data = {
-      "user_id": await LoggedUserInfo.getLoggedUserId(),
-      "house_type": houseType,
-      "service_name": serviceName,
-      "service_price_id": servicePriceId,
-      "descriptions": descriptions,
-      "date": "null",
-      "address": "null",
-      "total_price": totalAmount,
+      "requestType": MediaType.JSON,
+      "api": Api.ORDER_HANDIMEN,
+      "body": {
+        "user_id": await LoggedUserInfo.getLoggedUserId(),
+        "house_type": houseType,
+        "service_name": serviceName,
+        "service_price_id": servicePriceId,
+        "descriptions": descriptions,
+        "date": "null",
+        "address": "null",
+        "total_price": totalAmount,
+      },
     };
 
     if (Validators.checkPropertiesForEmpty(data)) {

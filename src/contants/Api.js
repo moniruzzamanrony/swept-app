@@ -12,6 +12,8 @@ export const Api = {
   VERIFY_PROFILE: "verify",
   SERVICE_ENDPOINT: "service",
   ORDER_CLEANING: "order/cleaning",
+  ORDER_HANDIMEN: "order/handimen",
+  ORDER_PETCARE: "order/petcare",
   GET_PER_CARE: "petcare",
 
 };

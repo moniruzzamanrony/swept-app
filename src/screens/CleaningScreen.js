@@ -8,6 +8,7 @@ import { Api } from "../contants/Api";
 import Spinner from "react-native-loading-spinner-overlay";
 import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 import * as Validators from "../validator/Validators";
+import { MediaType } from "../contants/MediaType";
 
 const CleaningScreen = (props) => {
   // const response = [
@@ -135,6 +136,7 @@ const CleaningScreen = (props) => {
   // Warning Message
   const [isEmptyField, setIsEmptyField] = useState(false);
 
+
   useEffect(() => {
     callApi(servicetype, servicearea);
   }, []);
@@ -199,14 +201,19 @@ const CleaningScreen = (props) => {
   const gotoNextScreen = async () => {
     console.log(await LoggedUserInfo.getLoggedUserId());
     const data = {
-      "cleaning_id": cleaningId,
-      "user_id": await LoggedUserInfo.getLoggedUserId(),
-      "room_id": roomId,
-      "clean_type": cleanType,
-      "frequency": frequency,
-      "date": "date",
-      "address": "ads",
-      "total_price": amount,
+      "requestType": MediaType.JSON,
+      "api": Api.ORDER_CLEANING,
+      "body": {
+        "cleaning_id": cleaningId,
+        "user_id": await LoggedUserInfo.getLoggedUserId(),
+        "room_id": roomId,
+        "clean_type": cleanType,
+        "frequency": frequency,
+        "date": "date",
+        "address": "ads",
+        "total_price": amount,
+      },
+
     };
 
     if (Validators.checkPropertiesForEmpty(data)) {

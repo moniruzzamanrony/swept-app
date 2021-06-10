@@ -8,6 +8,8 @@ import axios from "axios";
 import { Api } from "../contants/Api";
 import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 import * as Validators from "../validator/Validators";
+import { launchImageLibrary } from "react-native-image-picker";
+import { MediaType } from "../contants/MediaType";
 
 const PatCareScreen = (props) => {
   const [petName, setPetName] = React.useState("");
@@ -37,16 +39,15 @@ const PatCareScreen = (props) => {
   const [serviceType, setServiceType] = React.useState("");
   const [serviceTypeErr, setServiceTypeErr] = React.useState("");
 
-  const [fileUri, setFileUri] = React.useState("");
-  const [fileUriErr, setFileUriErr] = React.useState("");
+  const [fileUri, setFileUri] = React.useState("Click Here to Upload Records (jpg or\n" +
+    "              pdf)");
+  const [fileUriErr, setFileUriErr] = React.useState(true);
 
   const [details, setDetails] = React.useState("");
   const [detailsErr, setDetailsErr] = React.useState("");
-
   const [optionList, setOptionList] = React.useState([]);
-
-  // Warning Message
   const [isEmptyField, setIsEmptyField] = useState(false);
+
 
   useEffect(() => {
     callGetApi();
@@ -67,19 +68,35 @@ const PatCareScreen = (props) => {
     console.log(optionList);
   };
 
+  const uploadImage = () => {
+    launchImageLibrary(options, response => {
+      setFileUri(response.uri);
+      setFileUriErr(true);
+    });
+  };
+
   async function gotoNextStep(): void {
+    const bodyFormData = new FormData();
+    bodyFormData.append("total_price", price);
+    bodyFormData.append("user_id", await LoggedUserInfo.getLoggedUserId());
+    bodyFormData.append("descriptions", details);
+    bodyFormData.append("image", { uri: fileUri, name: "image.jpg", type: "image/jpeg" });
+    bodyFormData.append("service_type", serviceType);
+    bodyFormData.append("age", age);
+    bodyFormData.append("weight", weight);
+    bodyFormData.append("breed", breed);
+    bodyFormData.append("last_name", lastName);
+    bodyFormData.append("pet_name", petName);
+    bodyFormData.append("petcare_id", "1");
+
     const data = {
-      "total_price": price,
-      "user_id": await LoggedUserInfo.getLoggedUserId(),
-      "descriptions": details,
-      "image": "cleanType",
-      "service_type": serviceType,
-      "age": age,
-      "weight": weight,
-      "breed": breed,
-      "last_name": lastName,
-      "pet_name": petName,
-      "petcare_id": "1",
+      "requestType": MediaType.FORM_DATA,
+      "api": Api.ORDER_PETCARE,
+      "body": {
+        "form_data": bodyFormData,
+        "date": "date",
+        "address": "ads",
+      },
     };
 
     console.log(data);
@@ -91,6 +108,14 @@ const PatCareScreen = (props) => {
     }
   }
 
+  /* Image Picker */
+  const options = {
+    title: "Pick Your Profile Picture",
+    storageOptions: {
+      skipBackup: true,
+      path: "images",
+    },
+  };
   return (
     <ScrollView>
       <View>
@@ -178,9 +203,12 @@ const PatCareScreen = (props) => {
         </View>
 
         <View style={style.formDiv}>
-          <Button style={style.uploadRecordBut}>
-            <Text style={{ fontSize: 14, color: colors.white, marginLeft: 20 }}>Click Here to Upload Records (jpg or
-              pdf)</Text>
+          <Button style={style.uploadRecordBut} onPress={function() {
+            uploadImage();
+          }}>
+            <Text style={{ fontSize: 14, color: colors.white, marginLeft: 20 }}>
+              {fileUri.slice(fileUri.length - 25)}
+            </Text>
           </Button>
         </View>
 

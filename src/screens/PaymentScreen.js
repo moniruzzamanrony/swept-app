@@ -3,12 +3,14 @@ import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { Text } from "react-native-elements";
 import { colors } from "../theme/Colors";
 import NavigationHeader from "../navigation/NavigationHeader";
-import { Button, Root } from "native-base";
+import { Button, Root, Toast } from "native-base";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Api } from "../contants/Api";
 import axios from "axios";
+import { MediaType } from "../contants/MediaType";
 
 const PaymentScreen = (props) => {
+
   const [name, setName] = React.useState("");
   const [nameErr, setNameErr] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -22,8 +24,15 @@ const PaymentScreen = (props) => {
   const [code, setCode] = React.useState("");
   const [codeErr, setCodeErr] = React.useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [api, setApi] = useState(props.route.params.api);
+  const [requestType, setRequestType] = useState(props.route.params.requestType);
+
   const gotoSignUpPage = () => {
-    console.log(props.route.params);
+    const body = props.route.params.body;
+    console.log(body);
+    console.log(api);
+    console.log(requestType);
     if (name === "") {
       setNameErr(true);
     }
@@ -42,26 +51,64 @@ const PaymentScreen = (props) => {
     if (code === "") {
       setCodeErr(true);
     } else {
-      const body = props.route.params;
-
+      const body = props.route.params.body;
       // Show Loader
       setLoading(true);
-      axios.post(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + Api.ORDER_CLEANING, body)
-        .then(function(response) {
-          console.log(response);
-          //Navigate to Home Screen
-          props.navigation.navigate("SuccessScreen");
+      if (requestType == MediaType.JSON) {
+        axios.post(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + api, body)
+          .then(function(response) {
+            console.log(response);
+            //Navigate to Home Screen
+            props.navigation.navigate("SuccessScreen");
 
-          // Hide Loader
-          setLoading(false);
-        })
-        .catch(function(error) {
-          console.log(error);
-          // TODO: Remove navigation from here
-          props.navigation.navigate("SuccessScreen");
-          // Hide Loader
-          setLoading(false);
-        });
+            // Hide Loader
+            setLoading(false);
+          })
+          .catch(function(error) {
+            console.log(error);
+            // TODO: Remove navigation from here
+            Toast.show({
+              text: "Please Try Again! ",
+              buttonText: "Okay",
+              type: "danger",
+            });
+            // Hide Loader
+            setLoading(false);
+          });
+      }
+      if (requestType == MediaType.FORM_DATA) {
+        const bodyFormData = body.form_data;
+        bodyFormData.append("address", body.address);
+        bodyFormData.append("date", body.date);
+        console.log(bodyFormData);
+        setLoading(true);
+        const config = {
+          method: "post",
+          url: Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + api,
+          data: bodyFormData,
+          headers: {
+            "Content-Type": `multipart/form-data;`,
+          },
+        };
+
+        axios(config)
+          .then(function(response) {
+            console.log(response);
+            //Navigate to Home Screen
+            props.navigation.navigate("SuccessScreen");
+            // Hide Loader
+            setLoading(false);
+          })
+          .catch(function(error) {
+            console.log(error);
+            Toast.show({
+              text: "Please Try Again! ",
+              buttonText: "Okay",
+              type: "danger",
+            });
+            setLoading(false);
+          });
+      }
     }
   };
 

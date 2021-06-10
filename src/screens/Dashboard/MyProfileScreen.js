@@ -116,6 +116,7 @@ const MyProfileScreen = (props) => {
       path: "images",
     },
   };
+
   const uploadProfileImage = () => {
     launchImageLibrary(options, response => {
       setProfilePicturePath(response.uri);
