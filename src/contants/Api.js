@@ -15,5 +15,6 @@ export const Api = {
   ORDER_HANDIMEN: "order/handimen",
   ORDER_PETCARE: "order/petcare",
   GET_PER_CARE: "petcare",
+  GET_CONCIERGE: "concierge",
 
 };

@@ -102,14 +102,18 @@ const HomeScreen = (props) => {
               <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Pet Care</Text>
             </View>
           </TouchableOpacity>
-
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../../assets/icons/concierge_icon.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Concierge</Text>
-          </View>
+          {/*----- concierge -----*/}
+          <TouchableOpacity onPress={function() {
+            gotoSelectedScreen("ConciergeScreen");
+          }}>
+            <View style={style.cardStyle}>
+              <Image
+                source={require("../../../assets/icons/concierge_icon.png")}
+                style={{ height: 60, width: 60 }}
+              />
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Concierge</Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         {/*--- Row 3*/}

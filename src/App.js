@@ -20,6 +20,7 @@ import PaymentScreen from "./screens/PaymentScreen";
 import SuccessScreen from "./screens/SuccessScreen";
 import HandymanScreen from "./screens/HandymanScreen";
 import PatCareScreen from "./screens/PatCareScreen";
+import ConciergeScreen from "./screens/ConciergeScreen";
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -57,6 +58,8 @@ const App = () => {
                       options={{ headerShown: false }} />
 
         <Stack.Screen name="PatCareScreen" component={PatCareScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="ConciergeScreen" component={ConciergeScreen}
                       options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
