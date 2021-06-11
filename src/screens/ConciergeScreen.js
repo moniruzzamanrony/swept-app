@@ -6,7 +6,7 @@ import NavigationBar from "../navigation/NavigationBar";
 import axios from "axios";
 import { Api } from "../contants/Api";
 
-const ConciergeScreen = () => {
+const ConciergeScreen = (props) => {
 
   const [getResponse, setGetResponse] = React.useState([]);
 
@@ -27,7 +27,10 @@ const ConciergeScreen = () => {
 
   };
 
-
+  const gotoSelectedScreen = (screen) => {
+    //Navigate to Home Screen
+    props.navigation.navigate(screen);
+  };
   return (
     <ScrollView>
       <View>
@@ -39,7 +42,7 @@ const ConciergeScreen = () => {
             /* Show two card in one column repeatedly*/
             <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
               <TouchableOpacity onPress={function() {
-
+                gotoSelectedScreen("ConciergeInformation");
               }}>
                 <View style={style.cardStyle}>
                   <Image
