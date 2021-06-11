@@ -206,8 +206,8 @@ const PatCareScreen = (props) => {
           <Button style={style.uploadRecordBut} onPress={function() {
             uploadImage();
           }}>
-            <Text style={{ fontSize: 14, color: colors.white, marginLeft: 20 }}>
-              {fileUri.slice(fileUri.length - 25)}
+            <Text style={{ textAlign: "center", fontSize: 14, color: colors.white, marginLeft: 20 }}>
+              {fileUri.slice(fileUri.length - 120)}
             </Text>
           </Button>
         </View>

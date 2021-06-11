@@ -6,10 +6,17 @@ import NavigationBar from "../navigation/NavigationBar";
 import axios from "axios";
 import { Api } from "../contants/Api";
 import { Button } from "native-base";
+import * as LoggedUserInfo from "../utils/LoggedUserInfo";
+import { MediaType } from "../contants/MediaType";
+import * as Validators from "../validator/Validators";
 
 const HomeSpaScreen = (props) => {
 
   const [getResponse, setGetResponse] = React.useState([]);
+  const [spaId, setSpaId] = React.useState();
+  const [totalPrice, setTotalPrice] = React.useState(0);
+  // For Change Bg
+  const [cardBg, setCardBg] = React.useState();
 
   useEffect(() => {
     callGetApi();
@@ -27,11 +34,37 @@ const HomeSpaScreen = (props) => {
       });
 
   };
+  const gotoNextScreen = async () => {
+    console.log(await LoggedUserInfo.getLoggedUserId());
+    const data = {
+      "requestType": MediaType.JSON,
+      "api": Api.POST_HOMESPA,
+      "body": {
+        "user_id": await LoggedUserInfo.getLoggedUserId(),
+        "spa_id": spaId,
+        "date": "date",
+        "address": "ads",
+        "total_price": totalPrice,
+      },
 
+    };
+
+    if (Validators.checkPropertiesForEmpty(data)) {
+      props.navigation.navigate("TimeAndDateScreen", data);
+    } else {
+      setIsEmptyField(true);
+    }
+  };
   const gotoSelectedScreen = (screen) => {
     //Navigate to Home Screen
     props.navigation.navigate(screen);
   };
+
+  // For Change Bg
+  const changeBackground = (id) => {
+    setCardBg(id);
+  };
+
   return (
     <ScrollView>
       <View>
@@ -45,11 +78,13 @@ const HomeSpaScreen = (props) => {
               /* Show two card in one column repeatedly*/
 
               <TouchableOpacity onPress={function() {
-                gotoSelectedScreen("ConciergeInformation");
+                setSpaId(res.id);
+                changeBackground(res.id);
+                setTotalPrice(res.price);
               }}>
-                <View style={style.cardStyle}>
+                <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
                   <Image
-                    source={{ uri: res.image }}
+                    source={{ uri: Api.IMAGE_VIEW_BASE_URL + Api.BEAUTY_SPA_IMAGE + res.image }}
                     style={{ height: 60, width: 60 }}
                   />
                   <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>{res.name}</Text>
@@ -62,12 +97,12 @@ const HomeSpaScreen = (props) => {
         </View>
         <View style={style.formDiv}>
           <Text style={{ fontWeight: "bold", padding: 10, color: colors.assColor }}>
-            Total Price: $30
+            Total Price: ${totalPrice}
           </Text>
         </View>
         <View style={{ paddingStart: 50, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
-
+            gotoNextScreen();
           }}>
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
           </Button>
@@ -108,25 +143,6 @@ const style = StyleSheet.create({
     marginBottom: 18,
 
   },
-  cardStyle: {
-    width: 168,
-    height: 170,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    borderWidth: 1,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderColor: colors.cardNonSelectedBorderColor,
-  },
   inputField: {
     backgroundColor: colors.white,
     width: 350,
@@ -144,10 +160,49 @@ const style = StyleSheet.create({
     borderRadius: 9,
     justifyContent: "center",
   },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-    margin: 2,
-  },
-});
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+      margin: 2,
+    },  // For Change Bg
+    cardStyle: {
+      width: 168,
+      height: 170,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      borderWidth: 1,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderColor: colors.cardNonSelectedBorderColor,
+    },
+    selectedCardStyleForTypeSelection: {
+      width: 168,
+      height: 170,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderWidth: 2,
+      borderColor: "green",
+    },
+  }
+);
 export default HomeSpaScreen;

@@ -18,5 +18,10 @@ export const Api = {
   GET_CONCIERGE: "concierge",
   GET_HOMESPA: "homespa",
   POST_VERTUAL_ASS: "order/virtualasistant",
+  POST_HOMESPA: "order/homespa",
+
+  IMAGE_VIEW_BASE_URL: "https://ecotrippers.net/swept-app/storage/app/public/uploads/",
+  BEAUTY_SPA_IMAGE: "BeautySpaImage/",
+  HANDI_MEN_IMAGE: "HandymanServiceImage/",
 
 };

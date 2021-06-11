@@ -190,8 +190,10 @@ const HandymanScreen = (props) => {
                       }}>
                         <View
                           style={roomTypeCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
-                          <Image style={{ margin: 20 }} source={require("../../assets/icons/living_room.png")} />
-                          {/*<Text style={style.cardTextStyle}> {data.handimen.image} </Text>*/}
+                          <Image
+                            source={{ uri: Api.IMAGE_VIEW_BASE_URL + "HandymanServiceImage/" + data.handimen.image }}
+                            style={{ height: 60, width: 60 }}
+                          />
                           <Text style={style.cardTextStyle}> {data.handimen.service_name} </Text>
                         </View>
                       </TouchableOpacity>
