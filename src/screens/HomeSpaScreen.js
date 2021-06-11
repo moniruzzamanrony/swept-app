@@ -7,7 +7,7 @@ import axios from "axios";
 import { Api } from "../contants/Api";
 import { Button } from "native-base";
 
-const ConciergeScreen = (props) => {
+const HomeSpaScreen = (props) => {
 
   const [getResponse, setGetResponse] = React.useState([]);
 
@@ -16,7 +16,7 @@ const ConciergeScreen = (props) => {
   }, []);
 
   const callGetApi = () => {
-    axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + Api.GET_CONCIERGE)
+    axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + Api.GET_HOMESPA)
       .then(function(response) {
         setGetResponse(response.data.Result);
         //console.log(response.data.Result);
@@ -35,9 +35,9 @@ const ConciergeScreen = (props) => {
   return (
     <ScrollView>
       <View>
-        <NavigationBar title="Concierge" url="LoginScreen" />
+        <NavigationBar title="Beauty & Spa" url="LoginScreen" />
         <View style={style.formDiv}>
-          <Text style={{ marginTop: 10, fontWeight: "bold" }}>Tell Us About Your Place/Service</Text>
+          <Text style={{ marginTop: 10, fontWeight: "bold" }}>Select Your Service</Text>
         </View>
         <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
           {getResponse.map((res, index) => {
@@ -52,17 +52,19 @@ const ConciergeScreen = (props) => {
                     source={{ uri: res.image }}
                     style={{ height: 60, width: 60 }}
                   />
-                  <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>{res.concierge_name}</Text>
+                  <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>{res.name}</Text>
+                  <Text style={{ fontWeight: "bold", fontSize: 18 }}>$ {res.price}</Text>
                 </View>
               </TouchableOpacity>
 
             );
           })}
         </View>
-        <Text style={{ textAlign: "center", fontWeight: "bold", padding: 10, color: colors.assColor }}>
-          Your Virtual Personal Assistant will contact you
-          with your quote within 15 minutes
-        </Text>
+        <View style={style.formDiv}>
+          <Text style={{ fontWeight: "bold", padding: 10, color: colors.assColor }}>
+            Total Price: $30
+          </Text>
+        </View>
         <View style={{ paddingStart: 50, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
 
@@ -81,18 +83,18 @@ const style = StyleSheet.create({
     flex: 3,
     backgroundColor: colors.baseBackgroundColor,
   },
-  formDiv: {
-    marginLeft: 28,
-    marginRight: 28,
-    marginBottom: 10,
-
-  },
   header: {
     backgroundColor: colors.white,
     height: 139,
     borderBottomLeftRadius: 18,
     borderBottomRightRadius: 18,
     flexDirection: "row",
+  },
+  formDiv: {
+    marginLeft: 28,
+    marginRight: 28,
+    marginBottom: 10,
+
   },
   headerTitle: {
     marginTop: 69,
@@ -148,4 +150,4 @@ const style = StyleSheet.create({
     margin: 2,
   },
 });
-export default ConciergeScreen;
+export default HomeSpaScreen;

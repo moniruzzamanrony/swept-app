@@ -118,26 +118,34 @@ const HomeScreen = (props) => {
 
         {/*--- Row 3*/}
         <View style={{ flexDirection: "row", marginBottom: 10 }}>
-          {/*--- Cleaning Card----*/}
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../../assets/icons/vertual_p_a_icon.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 18 }}>Virtual
-              Personal
-              Assistant</Text>
-          </View>
+          {/*--- Vertual Ass Card----*/}
+          <TouchableOpacity onPress={function() {
+            gotoSelectedScreen("VirtualPerAssScreen");
+          }}>
+            <View style={style.cardStyle}>
+              <Image
+                source={require("../../../assets/icons/vertual_p_a_icon.png")}
+                style={{ height: 60, width: 60 }}
+              />
+              <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 18 }}>Virtual
+                Personal
+                Assistant</Text>
+            </View>
+          </TouchableOpacity>
 
-          {/*--- Handyman Card----*/}
-          <View style={style.cardStyle}>
-            <Image
-              source={require("../../../assets/icons/makeup_icon.png")}
-              style={{ height: 60, width: 60 }}
-            />
-            <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 18 }}>Home Spa/
-              Beauty Service</Text>
-          </View>
+          {/*--- HomeSpaScreen Card----*/}
+          <TouchableOpacity onPress={function() {
+            gotoSelectedScreen("HomeSpaScreen");
+          }}>
+            <View style={style.cardStyle}>
+              <Image
+                source={require("../../../assets/icons/makeup_icon.png")}
+                style={{ height: 60, width: 60 }}
+              />
+              <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 18 }}>Home Spa/
+                Beauty Service</Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
       </View>

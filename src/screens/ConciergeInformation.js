@@ -15,11 +15,15 @@ const ConciergeInformation = (props) => {
   const [pickUpLocation, setPickUpLocation] = React.useState("");
   const [pickUpLocationErr, setPickUpLocationErr] = React.useState(false);
 
+
   const [pickUpAddress, setPickUpAddress] = React.useState("");
   const [pickUpAddressErr, setPickUpAddressErr] = React.useState("");
 
-  const [DropOffAddress, setDropOffAddress] = React.useState("");
-  const [DropOffAddressErr, setDropOffAddressErr] = React.useState("");
+  const [pickUpOffDateDate, setPickUpOffDateDate] = React.useState("");
+  const [pickUpOffDateDateErr, setPickUpOffDateDateErr] = React.useState("");
+
+  const [dropOffAddress, setDropOffAddress] = React.useState("");
+  const [dropOffAddressErr, setDropOffAddressErr] = React.useState("");
 
   const [dropOffDate, setDropOffDateDate] = React.useState("");
   const [dropOffDateErr, setDropOffDateErr] = React.useState("");
@@ -38,51 +42,53 @@ const ConciergeInformation = (props) => {
         <View style={style.formDivForTwoColumn}>
           <View>
             <Text style={{ margin: 2 }}>First name</Text>
-            <TextInput style={style.inputFieldHalf} onChangeText={weight => setWeight(weight)} />
-            {weightErr ? <Text style={style.errorMessage}>Weight required !</Text> : null}
+            <TextInput style={style.inputFieldHalf} onChangeText={fName => setFName(fName)} />
+            {FNameErr ? <Text style={style.errorMessage}>First name required !</Text> : null}
           </View>
 
           <View>
             <Text style={{ margin: 2 }}>Last name</Text>
-            <TextInput style={style.inputFieldHalf} onChangeText={age => setAge(age)} />
-            {ageErr ? <Text style={style.errorMessage}>Age required !</Text> : null}
+            <TextInput style={style.inputFieldHalf} onChangeText={lastName => setLastName(lastName)} />
+            {lastNameErr ? <Text style={style.errorMessage}>Last name required !</Text> : null}
           </View>
         </View>
 
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Name of Pick-Up Location</Text>
-          <TextInput style={style.inputField} onChangeText={name => setPetName(name)} />
-          {petNameErr ? <Text style={style.errorMessage}>Pet Name required !</Text> : null}
+          <TextInput style={style.inputField} onChangeText={pickUpLocation => setPickUpLocation(pickUpLocation)} />
+          {pickUpLocationErr ? <Text style={style.errorMessage}>Name of Pick-Up Location required !</Text> : null}
         </View>
 
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Pick Up Address</Text>
-          <TextInput style={style.inputField} onChangeText={phoneOrEmail => setLastName(phoneOrEmail)} />
-          {lastNameErr ? <Text style={style.errorMessage}>Last Name required !</Text> : null}
+          <TextInput style={style.inputField} onChangeText={pickUpAddress => setPickUpAddress(pickUpAddress)} />
+          {pickUpAddressErr ? <Text style={style.errorMessage}>Pick Up Address required !</Text> : null}
         </View>
 
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Pick Up Date/Time</Text>
-          <TextInput style={style.inputField} onChangeText={phone => setBreed(phone)} />
-          {breedErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
+          <TextInput style={style.inputField}
+                     onChangeText={pickUpOffDateDate => setPickUpOffDateDate(pickUpOffDateDate)} />
+          {pickUpOffDateDateErr ? <Text style={style.errorMessage}>Pick Up Date/Time required !</Text> : null}
         </View>
 
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Drop Off Address</Text>
-          <TextInput style={style.inputField} onChangeText={phone => setBreed(phone)} />
-          {breedErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
+          <TextInput style={style.inputField} onChangeText={dropOffAddress => setDropOffAddress(dropOffAddress)} />
+          {dropOffAddressErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
         </View>
 
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Drop Off Date/Time</Text>
-          <TextInput style={style.inputField} onChangeText={phone => setBreed(phone)} />
-          {breedErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
+          <TextInput style={style.inputField} onChangeText={dropOffDate => setDropOffDateDate(dropOffDate)} />
+          {dropOffDateErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
         </View>
 
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Special Instructions</Text>
-          <TextInput style={style.inputField} onChangeText={phone => setBreed(phone)} />
-          {breedErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
+          <TextInput style={style.inputField}
+                     onChangeText={specialInstructions => setSpecialInstructions(specialInstructions)} />
+          {specialInstructionsErr ? <Text style={style.errorMessage}>Special Instructions required !</Text> : null}
 
         </View>
 
@@ -101,16 +107,11 @@ const ConciergeInformation = (props) => {
         </View>
 
         {/*--- Warning Field -----*/}
-        {
-          isEmptyField ?
-            <View>
-              <Text style={{ textAlign: "center", color: "red" }}> Please Select Properly </Text>
-            </View> : null
-        }
+
 
         <View style={{ paddingStart: 50, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
-            gotoNextStep();
+
           }}>
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
           </Button>

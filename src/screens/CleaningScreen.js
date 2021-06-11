@@ -254,6 +254,7 @@ const CleaningScreen = (props) => {
                 <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Apartment/ Townhome</Text>
               </View>
             </TouchableOpacity>
+
             {/*--- Handyman Card----*/}
             <TouchableOpacity onPress={function() {
               gettingResultBySelectedOption("cleaning", "condohouse");
@@ -274,7 +275,6 @@ const CleaningScreen = (props) => {
           {/* ---- Cleaning Type ----- */}
           <Text style={style.cardHeaderTextStyle}> {title} </Text>
           <View style={{ alignItems: "center" }}>
-
             <View style={{ flexDirection: "row", marginBottom: 10 }}>
 
               <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
