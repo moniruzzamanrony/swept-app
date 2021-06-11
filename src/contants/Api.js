@@ -17,5 +17,6 @@ export const Api = {
   GET_PER_CARE: "petcare",
   GET_CONCIERGE: "concierge",
   GET_HOMESPA: "homespa",
+  POST_VERTUAL_ASS: "order/virtualasistant",
 
 };
