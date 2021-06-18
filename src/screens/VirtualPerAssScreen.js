@@ -28,63 +28,63 @@ const VirtualPerAssScreen = (props) => {
       {
         id: 1,
         title: "Help Filing Taxes",
-        price: "100",
+        price: "90",
       },
       {
         id: 2,
         title: "Essay",
-        price: "100",
+        price: "90",
       }, {
         id: 3,
         title: "Vacation Planning/\n" +
           "Research",
-        price: "100",
+        price: "90",
       }, {
         id: 4,
         title: "Create a PowerPoint\n" +
           "Presentation\n",
-        price: "100",
+        price: "90",
       }, {
         id: 5,
         title: "Internet research",
-        price: "100",
+        price: "90",
       }, {
         id: 6,
         title: "Interior Design\n" +
           "Selections\n",
-        price: "100",
+        price: "90",
       }, {
         id: 7,
         title: "Online shopping",
-        price: "100",
+        price: "90",
       }, {
         id: 8,
         title: "Virtual Stylist",
-        price: "100",
+        price: "90",
       },
       {
         id: 9,
         title: "Build a website",
-        price: "100",
+        price: "90",
       }, {
         id: 10,
         title: "Sourcing Vendors",
-        price: "100",
+        price: "90",
       },
       {
         id: 11,
         title: "Make a Logo",
-        price: "100",
+        price: "90",
       },
       {
         id: 12,
         title: "Resume Editor",
-        price: "100",
+        price: "90",
       }, {
         id: 13,
         title: "Schedule Mobile\n" +
           "Beauty/Spa Service",
-        price: "100",
+        price: "90",
       },
     ]);
     console.log(getResponse);

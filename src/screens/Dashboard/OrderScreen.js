@@ -27,7 +27,7 @@ const OrderScreen = () => {
 
   useEffect(() => {
     callGetApi();
-  }, {});
+  }, []);
 
   const callGetApi = () => {
     setLoading(true);

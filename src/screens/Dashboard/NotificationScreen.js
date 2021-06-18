@@ -27,7 +27,7 @@ const NotificationScreen = () => {
 
   useEffect(() => {
     callGetApi();
-  }, {});
+  }, []);
 
   const callGetApi = () => {
     setLoading(true);

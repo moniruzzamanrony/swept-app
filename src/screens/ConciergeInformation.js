@@ -1,11 +1,17 @@
-import React from "react";
-import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import React, { useState } from "react";
+import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { colors } from "../theme/Colors";
 import NavigationBar from "../navigation/NavigationBar";
 import { CheckBox, Text } from "react-native-elements";
-import { Button } from "native-base";
+import { Button, Root, Toast } from "native-base";
+import axios from "axios";
+import { Api } from "../contants/Api";
+import Spinner from "react-native-loading-spinner-overlay";
+import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 
 const ConciergeInformation = (props) => {
+  const [conciergeId, setConciergeId] = React.useState(props.route.params.conciergeId);
+
   const [fName, setFName] = React.useState("");
   const [FNameErr, setFNameErr] = React.useState(false);
 
@@ -31,95 +37,159 @@ const ConciergeInformation = (props) => {
   const [specialInstructions, setSpecialInstructions] = React.useState("");
   const [specialInstructionsErr, setSpecialInstructionsErr] = React.useState("");
 
+  const [paymentOption, setPaymentOption] = React.useState("");
+
   const [price, setPrice] = React.useState("");
   const [priceErr, setPriceErr] = React.useState("");
 
+  const [loading, setLoading] = useState(false);
+  const onSubmit = async () => {
+    const body = {
+      "user_id": await LoggedUserInfo.getLoggedUserId(),
+      "concierge_id": conciergeId,
+      "first_name": fName,
+      "last_name": lastName,
+      "drop_address": dropOffAddress,
+      "drop_datetime": dropOffDate,
+      "pickup_date": pickUpOffDateDate,
+      "pickup_location": pickUpLocation,
+      "pickup_address": pickUpAddress,
+      "notes": specialInstructions,
+      "payment_method": paymentOption,
+      "total_price": "00",
+    };
+    setLoading(true);
+    axios.post(Api.BASE_URL + Api.POST_CONCIERGE, body)
+      .then(function(response) {
+        console.log(response);
+        //Navigate to Home Screen
+        props.navigation.navigate("SuccessScreen");
+
+        // Hide Loader
+        setLoading(false);
+      })
+      .catch(function(error) {
+        // Log show
+        console.log(error);
+
+        Toast.show({
+          text: error.response.data.Error.email[0],
+          buttonText: "Okay",
+          type: "danger",
+        });
+
+        // Hide Loader
+        setLoading(false);
+      });
+  };
+
   return (
-    <ScrollView>
+    <Root>
       <View>
-        {/* ---- Header ------*/}
-        <NavigationBar title="Information" url="LoginScreen" />
-        <View style={style.formDivForTwoColumn}>
+        {/* Loading Screen Start*/}
+        <Spinner
+          //visibility of Overlay Loading Spinner
+          visible={loading}
+          //Text with the Spinner
+          textContent={"Loading..."}
+          textStyle={{ color: colors.buttonBgColor }}
+        />
+        <ScrollView>
           <View>
-            <Text style={{ margin: 2 }}>First name</Text>
-            <TextInput style={style.inputFieldHalf} onChangeText={fName => setFName(fName)} />
-            {FNameErr ? <Text style={style.errorMessage}>First name required !</Text> : null}
+            {/* ---- Header ------*/}
+            <NavigationBar title="Information" url="LoginScreen" />
+            <View style={style.formDivForTwoColumn}>
+              <View>
+                <Text style={{ margin: 2 }}>First name</Text>
+                <TextInput style={style.inputFieldHalf} onChangeText={fName => setFName(fName)} />
+                {FNameErr ? <Text style={style.errorMessage}>First name required !</Text> : null}
+              </View>
+
+              <View>
+                <Text style={{ margin: 2 }}>Last name</Text>
+                <TextInput style={style.inputFieldHalf} onChangeText={lastName => setLastName(lastName)} />
+                {lastNameErr ? <Text style={style.errorMessage}>Last name required !</Text> : null}
+              </View>
+            </View>
+
+            <View style={style.formDiv}>
+              <Text style={{ margin: 2 }}>Name of Pick-Up Location</Text>
+              <TextInput style={style.inputField} onChangeText={pickUpLocation => setPickUpLocation(pickUpLocation)} />
+              {pickUpLocationErr ? <Text style={style.errorMessage}>Name of Pick-Up Location required !</Text> : null}
+            </View>
+
+            <View style={style.formDiv}>
+              <Text style={{ margin: 2 }}>Pick Up Address</Text>
+              <TextInput style={style.inputField} onChangeText={pickUpAddress => setPickUpAddress(pickUpAddress)} />
+              {pickUpAddressErr ? <Text style={style.errorMessage}>Pick Up Address required !</Text> : null}
+            </View>
+
+            <View style={style.formDiv}>
+              <Text style={{ margin: 2 }}>Pick Up Date/Time</Text>
+              <TextInput style={style.inputField}
+                         onChangeText={pickUpOffDateDate => setPickUpOffDateDate(pickUpOffDateDate)} />
+              {pickUpOffDateDateErr ? <Text style={style.errorMessage}>Pick Up Date/Time required !</Text> : null}
+            </View>
+
+            <View style={style.formDiv}>
+              <Text style={{ margin: 2 }}>Drop Off Address</Text>
+              <TextInput style={style.inputField} onChangeText={dropOffAddress => setDropOffAddress(dropOffAddress)} />
+              {dropOffAddressErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
+            </View>
+
+            <View style={style.formDiv}>
+              <Text style={{ margin: 2 }}>Drop Off Date/Time</Text>
+              <TextInput style={style.inputField} onChangeText={dropOffDate => setDropOffDateDate(dropOffDate)} />
+              {dropOffDateErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
+            </View>
+
+            <View style={style.formDiv}>
+              <Text style={{ margin: 2 }}>Special Instructions</Text>
+              <TextInput style={style.inputField}
+                         onChangeText={specialInstructions => setSpecialInstructions(specialInstructions)} />
+              {specialInstructionsErr ? <Text style={style.errorMessage}>Special Instructions required !</Text> : null}
+
+            </View>
+
+            <Text style={{ marginLeft: 35, fontWeight: "bold" }}>Payment Method</Text>
+            <TouchableOpacity onPress={function() {
+              setPaymentOption("Paypal");
+            }
+            }>
+              <View style={style.formDivForTwoColumn}>
+                <CheckBox
+                  value={false}
+                />
+                <Text style={{ marginTop: 15, color: colors.assColor }}>Charge My Card</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={function() {
+              setPaymentOption("I already paid the vendor");
+            }
+            }>
+              <View style={style.formDivForTwoColumn}>
+                <CheckBox
+                  value={false}
+                />
+                <Text style={{ marginTop: 15, color: colors.assColor }}>I already paid the vendor</Text>
+              </View>
+            </TouchableOpacity>
+            {/*--- Warning Field -----*/}
+
+
+            <View style={{ paddingStart: 50, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
+              <Button style={style.getStartBut} onPress={function() {
+                onSubmit();
+              }}>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
+              </Button>
+            </View>
+
+
           </View>
-
-          <View>
-            <Text style={{ margin: 2 }}>Last name</Text>
-            <TextInput style={style.inputFieldHalf} onChangeText={lastName => setLastName(lastName)} />
-            {lastNameErr ? <Text style={style.errorMessage}>Last name required !</Text> : null}
-          </View>
-        </View>
-
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Name of Pick-Up Location</Text>
-          <TextInput style={style.inputField} onChangeText={pickUpLocation => setPickUpLocation(pickUpLocation)} />
-          {pickUpLocationErr ? <Text style={style.errorMessage}>Name of Pick-Up Location required !</Text> : null}
-        </View>
-
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Pick Up Address</Text>
-          <TextInput style={style.inputField} onChangeText={pickUpAddress => setPickUpAddress(pickUpAddress)} />
-          {pickUpAddressErr ? <Text style={style.errorMessage}>Pick Up Address required !</Text> : null}
-        </View>
-
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Pick Up Date/Time</Text>
-          <TextInput style={style.inputField}
-                     onChangeText={pickUpOffDateDate => setPickUpOffDateDate(pickUpOffDateDate)} />
-          {pickUpOffDateDateErr ? <Text style={style.errorMessage}>Pick Up Date/Time required !</Text> : null}
-        </View>
-
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Drop Off Address</Text>
-          <TextInput style={style.inputField} onChangeText={dropOffAddress => setDropOffAddress(dropOffAddress)} />
-          {dropOffAddressErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
-        </View>
-
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Drop Off Date/Time</Text>
-          <TextInput style={style.inputField} onChangeText={dropOffDate => setDropOffDateDate(dropOffDate)} />
-          {dropOffDateErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
-        </View>
-
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Special Instructions</Text>
-          <TextInput style={style.inputField}
-                     onChangeText={specialInstructions => setSpecialInstructions(specialInstructions)} />
-          {specialInstructionsErr ? <Text style={style.errorMessage}>Special Instructions required !</Text> : null}
-
-        </View>
-
-        <Text style={{ marginLeft: 35, fontWeight: "bold" }}>Payment Method</Text>
-        <View style={style.formDivForTwoColumn}>
-          <CheckBox
-            value={false}
-          />
-          <Text style={{ marginTop: 15, color: colors.assColor }}>Charge My Card</Text>
-        </View>
-        <View style={style.formDivForTwoColumn}>
-          <CheckBox
-            value={false}
-          />
-          <Text style={{ marginTop: 15, color: colors.assColor }}>I already paid the vendor</Text>
-        </View>
-
-        {/*--- Warning Field -----*/}
-
-
-        <View style={{ paddingStart: 50, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
-          <Button style={style.getStartBut} onPress={function() {
-
-          }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
-          </Button>
-        </View>
-
-
+        </ScrollView>
       </View>
-    </ScrollView>
+    </Root>
   );
 };
 const style = StyleSheet.create({
