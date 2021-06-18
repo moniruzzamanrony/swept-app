@@ -29,7 +29,7 @@ const TimeAndDateScreen = (props) => {
 
   function gotoNextScreen() {
     if (selectedDate != "") {
-      props.route.params.date = selectedDate;
+      props.route.params.body.date = selectedDate;
       console.log(props.route.params);
       props.navigation.navigate("AddressScreen", props.route.params);
     } else {

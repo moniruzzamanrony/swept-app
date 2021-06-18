@@ -18,7 +18,7 @@ const AddressScreen = (props) => {
 
   function gotoNextScreen() {
     if (address != "") {
-      props.route.params.address = address;
+      props.route.params.body.address = address;
       console.log(props.route.params);
       props.navigation.navigate("PaymentScreen", props.route.params);
     } else {
