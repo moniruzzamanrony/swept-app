@@ -10,11 +10,11 @@ AppRegistry.registerComponent(appName, () => App);
 
 const interceptor = async (key) => {
   try {
-    const name = await AsyncStorage.getItem("token");
-    // Interceptor
-    axios.interceptors.request.use(request => {
 
-      request.headers.Authorization = Api.TOKEN_TYPE + " " + name;
+    // Interceptor
+    axios.interceptors.request.use(async request => {
+
+      request.headers.Authorization = Api.TOKEN_TYPE + " " + await AsyncStorage.getItem("token");
       return request;
     });
   } catch (e) {

@@ -16,7 +16,7 @@ const LoginScreen = (props) => {
   const [loading, setLoading] = useState(false);
 
 
-  const login = () => {
+  const login = async () => {
 
     if (email === "" || password == "") {
       setEmailErr(true);
@@ -56,7 +56,8 @@ const LoginScreen = (props) => {
         // Hide Loader
         setLoading(false);
       });
-
+    const name = await AsyncStorage.getItem("token");
+    console.log("Login---->" + name);
   };
 
 
