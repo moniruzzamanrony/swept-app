@@ -39,6 +39,24 @@ const HomeScreen = (props) => {
     props.navigation.navigate(screen);
   };
 
+  const getDayMomentStatus = () => {
+    const today = new Date();
+    const curHr = today.getHours();
+
+    if (curHr < 12) {
+      console.log("good morning");
+      return "Good morning";
+
+    } else if (curHr < 18) {
+      console.log("good afternoon");
+      return "Good afternoon";
+
+    } else {
+      console.log("good evening");
+      return "Good evening";
+
+    }
+  };
 
   return (
     <View style={style.body}>
@@ -46,7 +64,7 @@ const HomeScreen = (props) => {
       <View style={style.header}>
         {/*Must be use react-native grid for proper responsive*/}
         <View style={style.headerTitle}>
-          <Text style={{ fontSize: 16, fontWeight: "bold", margin: 5 }}>Good Morning !</Text>
+          <Text style={{ fontSize: 16, fontWeight: "bold", margin: 5 }}>{getDayMomentStatus()} !</Text>
           <Text style={{ fontSize: 16, margin: 2 }}>How may we assist you? </Text>
         </View>
         <View style={style.headerAvatar}>
