@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { Linking, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { Text } from "react-native-elements";
 import { colors } from "../theme/Colors";
 import NavigationHeader from "../navigation/NavigationHeader";
@@ -57,9 +57,10 @@ const PaymentScreen = (props) => {
       if (requestType == MediaType.JSON) {
         axios.post(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + api, body)
           .then(function(response) {
-            console.log(response);
+            console.log(response.data.Message);
+            loadInBrowser(response.data.Message);
             //Navigate to Home Screen
-            props.navigation.navigate("SuccessScreen");
+            //props.navigation.navigate("SuccessScreen");
 
             // Hide Loader
             setLoading(false);
@@ -94,8 +95,9 @@ const PaymentScreen = (props) => {
         axios(config)
           .then(function(response) {
             console.log(response);
+            loadInBrowser(response.data.Message);
             //Navigate to Home Screen
-            props.navigation.navigate("SuccessScreen");
+            //props.navigation.navigate("SuccessScreen");
             // Hide Loader
             setLoading(false);
           })
@@ -111,7 +113,13 @@ const PaymentScreen = (props) => {
       }
     }
   };
-
+  const loadInBrowser = (url) => {
+    Linking.openURL(url).catch(err => Toast.show({
+      text: err,
+      buttonText: "Okay",
+      type: "danger",
+    }));
+  };
 
   return (
     <Root>
@@ -127,7 +135,7 @@ const PaymentScreen = (props) => {
         {/* Loading Screen End*/}
 
         {/*------Header-----*/}
-        <NavigationHeader title="Payment" url="LoginScreen" />
+        <NavigationHeader title="Payment" url="AddressScreen" navigation={props} />
 
         <View style={{ flexDirection: "row", margin: 20 }}>
           <Text style={{ fontSize: 24 }}>Enter your contact and

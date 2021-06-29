@@ -97,7 +97,7 @@ const ConciergeInformation = (props) => {
         <ScrollView>
           <View>
             {/* ---- Header ------*/}
-            <NavigationBar title="Information" url="LoginScreen" />
+            <NavigationBar title="Information" url="ConciergeScreen" navigation={props} />
             <View style={style.formDivForTwoColumn}>
               <View>
                 <Text style={{ margin: 2 }}>First name</Text>

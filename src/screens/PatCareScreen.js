@@ -120,7 +120,7 @@ const PatCareScreen = (props) => {
     <ScrollView>
       <View>
         {/* ---- Header ------*/}
-        <NavigationBar title="Pet Care" url="LoginScreen" />
+        <NavigationBar title="Pet Care" url="DashboardScreen" navigation={props} />
         <View style={style.formDiv}>
           <Text style={{ marginTop: 10, fontWeight: "bold" }}>Tell Us About Your Pet</Text>
         </View>

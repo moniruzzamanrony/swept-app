@@ -41,7 +41,7 @@ const MyProfileScreen = (props) => {
         setPhone(response.data.user.phone);
         setAddress(response.data.user.address);
         setUserId(response.data.user.id);
-
+        setProfilePicturePath(response.data.user.avatar);
         // Hide Loader
         setLoading(false);
       })
@@ -136,7 +136,7 @@ const MyProfileScreen = (props) => {
       />
       <View>
         {/* ---- Header ------*/}
-        <NavigationBar title="Profile" url="LoginScreen" />
+        <NavigationBar title="Profile" url="DashboardScreen" navigation={props} />
         <TouchableOpacity onPress={function() {
           uploadProfileImage();
         }}>
@@ -153,12 +153,11 @@ const MyProfileScreen = (props) => {
                 }}
               /> :
               <Image
-                source={require("../../../assets/avatar/profile.png")}
+                source={{ uri: Api.IMAGE_VIEW_BASE_URL + "avatar/" + profilePicturePath }}
                 style={{
                   width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
                   borderColor: "#ff8b7e",
-                }}
-              />
+                }} />
             }
 
           </View>

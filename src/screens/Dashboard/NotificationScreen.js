@@ -410,7 +410,8 @@ const style = StyleSheet.create({
   },
   headerbg: {
     padding: 15,
-    fontSize: 15,
+    fontSize: 12,
+    margin: 5,
     fontWeight: "bold",
     backgroundColor: colors.buttonBgColor,
     color: colors.black,

@@ -136,7 +136,7 @@ const HandymanScreen = (props) => {
       />
       <ScrollView>
         {/* ---- Header ------*/}
-        <NavigationBar title="Handyman" url="LoginScreen" />
+        <NavigationBar title="Handyman" url="DashboardScreen" navigation={props} />
         {/* ---- Selection Part ----- */}
         <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 25, marginTop: 25 }}>Tell Us About Your
           House </Text>

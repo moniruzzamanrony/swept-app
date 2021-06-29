@@ -6,17 +6,21 @@ import { colors } from "../theme/Colors";
 const NavigationBar = (props) => {
 
   const back = () => {
-    props.navigation.navigate([props.url]);
+    console.log(props.navigation);
+    props.navigation.navigation.navigate(props.url);
   };
   return (
     <View style={style.body}>
-      <TouchableOpacity
-        onPress={function() {
-          back();
-        }}
-        style={style.roundButton}>
-        <Icon name="arrow-back" style={{ fontSize: 25, color: colors.black }} />
-      </TouchableOpacity>
+      {
+        props.url === "date" ? <View></View> :
+          <TouchableOpacity
+            onPress={function() {
+              back();
+            }}
+            style={style.roundButton}>
+            <Icon name="arrow-back" style={{ fontSize: 25, color: colors.black }} />
+          </TouchableOpacity>
+      }
 
       <Text style={style.title}>{props.title}</Text>
     </View>

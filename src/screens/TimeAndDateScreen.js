@@ -45,7 +45,7 @@ const TimeAndDateScreen = (props) => {
 
     <View>
       {/* ---- Header ------*/}
-      <NavigationBar title="Date & Time" url="LoginScreen" />
+      <NavigationBar title="Date & Time" url="date" />
 
 
       {/* ---- Date Time Picker Title ----- */}

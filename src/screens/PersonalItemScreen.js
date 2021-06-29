@@ -71,7 +71,7 @@ const PersonalItemScreen = (props) => {
     <ScrollView>
       <View>
         {/* ---- Header ------*/}
-        <NavigationBar title="Personal Items" url="Personal Items" />
+        <NavigationBar title="Personal Items" url="ConciergeScreen" navigation={props} />
         <View style={style.formDiv}>
           <Text style={{ marginTop: 10, fontWeight: "bold" }}>
             Pick from the list of convenience

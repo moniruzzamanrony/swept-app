@@ -30,7 +30,7 @@ const AddressScreen = (props) => {
   return (
     <View>
       {/* ---- Header ------*/}
-      <NavigationBar title="Address" url="LoginScreen" />
+      <NavigationBar title="Address" url="TimeAndDateScreen" navigation={props} />
 
 
       {/* ---- Address ----- */}
@@ -49,7 +49,6 @@ const AddressScreen = (props) => {
         }}>
           <Text style={{ fontSize: 18, fontWeight: "bold", color: colors.black }}>Next</Text>
         </Button>
-
 
       </View>
     </View>

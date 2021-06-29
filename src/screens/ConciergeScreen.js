@@ -50,7 +50,7 @@ const ConciergeScreen = (props) => {
 
     <ScrollView>
       <View>
-        <NavigationBar title="Concierge" url="LoginScreen" />
+        <NavigationBar title="Concierge" url="DashboardScreen" navigation={props} />
         <View style={style.formDiv}>
           <Text style={{ marginTop: 10, fontWeight: "bold" }}>Tell Us About Your Place/Service</Text>
         </View>

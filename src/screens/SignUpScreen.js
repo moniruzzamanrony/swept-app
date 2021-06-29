@@ -91,7 +91,7 @@ const SignUpScreen = (props) => {
         {/* Loading Screen End*/}
 
         {/*------Header-----*/}
-        <NavigationHeader title="Sign Up" url="LoginScreen" />
+        <NavigationHeader title="Sign Up" url="LoginScreen" navigation={props} />
         {/*Input Field*/}
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Name</Text>

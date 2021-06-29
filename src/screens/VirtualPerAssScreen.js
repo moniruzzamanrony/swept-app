@@ -121,7 +121,7 @@ const VirtualPerAssScreen = (props) => {
   return (
     <ScrollView>
       <View>
-        <NavigationBar title="Virtual Assistant" url="LoginScreen" />
+        <NavigationBar title="Virtual Assistant" url="DashboardScreen" navigation={props} />
         <View style={style.formDiv}>
           <Text style={{ marginTop: 10, fontWeight: "bold" }}>Select Your Service</Text>
         </View>

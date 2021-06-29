@@ -68,7 +68,7 @@ const HomeSpaScreen = (props) => {
   return (
     <ScrollView>
       <View>
-        <NavigationBar title="Beauty & Spa" url="LoginScreen" />
+        <NavigationBar title="Beauty & Spa" url="DashboardScreen" navigation={props} />
         <View style={style.formDiv}>
           <Text style={{ marginTop: 10, fontWeight: "bold" }}>Select Your Service</Text>
         </View>

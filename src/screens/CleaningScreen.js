@@ -138,7 +138,7 @@ const CleaningScreen = (props) => {
       />
       <ScrollView>
         {/* ---- Header ------*/}
-        <NavigationBar title="Cleaning" url="LoginScreen" />
+        <NavigationBar title="Cleaning" url="DashboardScreen" navigation={props} />
         {/* ---- Selection Part ----- */}
         <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 25, marginTop: 25 }}>Tell Us About Your
           House </Text>

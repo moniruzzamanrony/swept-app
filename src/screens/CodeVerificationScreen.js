@@ -62,7 +62,7 @@ const CodeVerificationScreen = (props) => {
       />
       <View style={style.body}>
         {/*------Header-----*/}
-        <NavigationHeader title="Reset Password" url="LoginScreen" />
+        <NavigationHeader title="Verify Now" url="ResetPasswordScreen" navigation={props} />
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Code</Text>
           <TextInput style={style.inputField} onChangeText={code => setCode(code)} />

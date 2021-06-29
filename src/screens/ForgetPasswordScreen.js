@@ -65,7 +65,7 @@ const ForgetPasswordScreen = (props) => {
 
       <View style={style.body}>
         {/*------Header-----*/}
-        <NavigationHeader title="Reset Password" url="LoginScreen" />
+        <NavigationHeader title="Reset Password" url="LoginScreen" navigation={props} />
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Email</Text>
           <TextInput style={style.inputField} onChangeText={email => setEmail(email)} />

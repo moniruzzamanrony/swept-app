@@ -6,7 +6,7 @@ import { colors } from "../theme/Colors";
 const NavigationHeader = (props) => {
 
   const back = () => {
-    props.navigation.navigate([props.url]);
+    props.navigation.navigation.navigate(props.url);
   };
   return (
     <View style={style.body}>

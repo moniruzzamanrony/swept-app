@@ -7,7 +7,6 @@ const NavigationHeaderWithOutBack = (props) => {
 
   return (
     <View style={style.body}>
-
       <Text style={style.title}>{props.title}</Text>
     </View>
   );
