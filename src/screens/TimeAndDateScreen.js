@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import NavigationBar from "../navigation/NavigationBar";
 import { colors } from "../theme/Colors";
@@ -6,9 +6,35 @@ import { Button, Icon } from "native-base";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const TimeAndDateScreen = (props) => {
+  const [getResponse, setGetResponse] = React.useState([]);
   const [selectedItemsIdFromList, setSelectedItemsIdFromList] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
+  // For Change Bg
+  const [cardBg, setCardBg] = React.useState();
+
+  useEffect(() => {
+    callGetApi();
+  }, []);
+  const callGetApi = () => {
+    setGetResponse([
+      {
+        id: 1,
+        time: "Today",
+        description: "(BY 5PM) + $20",
+      },
+      {
+        id: 2,
+        time: "Tomorrow",
+        description: " (Before 5PM)",
+      }, {
+        id: 3,
+        time: "Within the Next Weak",
+        description: "",
+      },
+    ]);
+    console.log(getResponse);
+  };
 
   const onSelectedBorderColorChange = (data) => {
     setSelectedItemsIdFromList(data.id);
@@ -37,13 +63,14 @@ const TimeAndDateScreen = (props) => {
     }
   }
 
-  const onSelectorListener = (selectedItem) => {
-
+  // For Change Bg
+  const changeBackground = (id) => {
+    setCardBg(id);
   };
 
   return (
 
-    <View>
+    <View style={{ flexDirection: "column" }}>
       {/* ---- Header ------*/}
       <NavigationBar title="Date & Time" url="date" />
 
@@ -54,58 +81,44 @@ const TimeAndDateScreen = (props) => {
         <Text style={style.cardHeaderTextStyle}> Pick Your Date & Time</Text>
       </View>
 
+      <View style={{ flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
+        {
+          getResponse.map((res) => {
+            return (
+              <TouchableOpacity onPress={function() {
+                changeBackground(res.id);
+                setSelectedDate(res.time);
 
-      <View style={{ flexDirection: "row", marginBottom: 10 }}>
-        <TouchableOpacity onPress={function() {
-          // onSelectedBorderColorChange(data);
-          setSelectedDate("Today");
-        }}>
-          <View style={style.cardStyle}>
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}> Today</Text>
-            <Text style={{ color: colors.assColor }}> (BY 5PM) + $20</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={function() {
-          // onSelectedBorderColorChange(data);
-          setSelectedDate("Tomorrow");
-        }}>
-          <View style={style.cardStyle}>
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}> Tomorrow</Text>
-            <Text style={{ color: colors.assColor }}> (Before 5PM)</Text>
-          </View>
-        </TouchableOpacity>
+              }}>
+                <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
+                  <Text style={{ fontSize: 17, fontWeight: "bold", textAlign: "center" }}>{res.time}</Text>
+                  <Text style={{ color: colors.assColor }}>{res.description}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })
+        }
+
       </View>
-
-      <View style={{ flexDirection: "row", marginBottom: 10 }}>
-        <TouchableOpacity onPress={function() {
-          // onSelectedBorderColorChange(data);
-          setSelectedDate("Within the Next Weak");
-
-
-        }}>
-          <View style={style.cardStyle}>
-            <Text style={{ fontSize: 20 }}> Within the</Text>
-            <Text style={{ fontSize: 20 }}> Next Weak</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={{ paddingStart: 65, margin: 10 }}>
-        <Button style={style.getStartBut} onPress={function() {
-          gotoNextScreen();
-        }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
-        </Button>
-        <Button style={style.createCustomDateBut} onPress={function() {
-          showDatePicker();
-        }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: colors.white }}>Create Custom Date</Text>
-        </Button>
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />
+      <View>
+        <View style={{ paddingStart: 65, margin: 10 }}>
+          <Button style={style.getStartBut} onPress={function() {
+            gotoNextScreen();
+          }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
+          </Button>
+          <Button style={style.createCustomDateBut} onPress={function() {
+            showDatePicker();
+          }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: colors.white }}>Create Custom Date</Text>
+          </Button>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
+        </View>
       </View>
     </View>
 
@@ -136,28 +149,11 @@ const style = StyleSheet.create({
 
   },
   cardHeaderTextStyle: {
-    fontSize: 22,
+    fontSize: 17,
     fontWeight: "bold",
   },
   cardTextStyle: {
     fontSize: 18,
-  },
-  cardStyle: {
-    width: 168,
-    height: 80,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.buttonBgColor,
-    borderRadius: 15,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
   },
   selectedCardStyle: {
     width: 168,
@@ -197,25 +193,7 @@ const style = StyleSheet.create({
     margin: 10,
     borderColor: colors.cardNonSelectedBorderColor,
   },
-  selectedCardStyleForTypeSelection: {
-    width: 168,
-    height: 100,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderWidth: 2,
-    borderColor: "green",
-  },
+
   cardStyleForFrequency: {
     width: 168,
     height: 60,
@@ -265,6 +243,45 @@ const style = StyleSheet.create({
     fontSize: 11,
     color: colors.offRed,
     margin: 2,
+  },
+  // For Change Bg
+  cardStyle: {
+    width: 168,
+    height: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    borderWidth: 1,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    elevation: 8,
+    margin: 10,
+    borderColor: colors.cardNonSelectedBorderColor,
+  },
+  selectedCardStyleForTypeSelection: {
+    width: 168,
+    height: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    elevation: 8,
+    margin: 10,
+    borderWidth: 2,
+    borderColor: "green",
   },
 });
 export default TimeAndDateScreen;
