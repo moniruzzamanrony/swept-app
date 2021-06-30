@@ -24,16 +24,18 @@ const NavigationHeader = (props) => {
 };
 const style = StyleSheet.create({
   body: {
-    backgroundColor: colors.baseBackgroundColor,
-    padding: 30,
+    backgroundColor: colors.white,
+    padding: 8,
+    marginTop: 15,
+    borderRadius: 5,
     flexDirection: "row",
   },
   title: {
     fontSize: 20,
     color: colors.black,
+    flex: 1,
     textAlign: "center",
-    paddingLeft: 70,
-    marginTop: 15,
+    marginTop: 10,
     fontWeight: "bold",
   },
   roundButton: {
@@ -41,7 +43,7 @@ const style = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+
     borderRadius: 100,
     shadowColor: "rgba(0,0,0,0.62)",
     shadowOffset: {
@@ -52,7 +54,7 @@ const style = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
-    backgroundColor: colors.white,
+    backgroundColor: colors.buttonBgColor,
   },
 });
 export default NavigationHeader;

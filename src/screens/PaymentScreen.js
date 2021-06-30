@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Linking, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { Text } from "react-native-elements";
 import { colors } from "../theme/Colors";
-import NavigationHeader from "../navigation/NavigationHeader";
 import { Button, Root, Toast } from "native-base";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Api } from "../contants/Api";
 import axios from "axios";
 import { MediaType } from "../contants/MediaType";
+import NavigationBar from "../navigation/NavigationBar";
 
 const PaymentScreen = (props) => {
 
@@ -30,7 +30,7 @@ const PaymentScreen = (props) => {
 
   const gotoSignUpPage = () => {
     const body = props.route.params.body;
-    console.log(body);
+    console.log(props.route.params.body.total_price);
     console.log(api);
     console.log(requestType);
     if (name === "") {
@@ -40,16 +40,7 @@ const PaymentScreen = (props) => {
       setEmailErr(true);
     }
     if (phone === "") {
-      setExpErr(true);
-    }
-    if (cc === "") {
-      setCcErr(true);
-    }
-    if (exp === "") {
-      setExpErr(true);
-    }
-    if (code === "") {
-      setCodeErr(true);
+      setPhoneErr(true);
     } else {
       const body = props.route.params.body;
       // Show Loader
@@ -135,7 +126,7 @@ const PaymentScreen = (props) => {
         {/* Loading Screen End*/}
 
         {/*------Header-----*/}
-        <NavigationHeader title="Payment" url="AddressScreen" navigation={props} />
+        <NavigationBar title="Payment" url="AddressScreen" navigation={props} />
 
         <View style={{ flexDirection: "row", margin: 20 }}>
           <Text style={{ fontSize: 24 }}>Enter your contact and
@@ -155,39 +146,43 @@ const PaymentScreen = (props) => {
           {emailErr ? <Text style={style.errorMessage}>Email required !</Text> : null}
         </View>
 
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Phone No.</Text>
-          <TextInput style={style.inputField} onChangeText={phone => setPhone(phone)} />
-          {phoneErr ? <Text style={style.errorMessage}>Phone No. required !</Text> : null}
-        </View>
+          <View style={style.formDiv}>
+            <Text style={{ margin: 2 }}>Phone No.</Text>
+            <TextInput style={style.inputField} onChangeText={phone => setPhone(phone)} />
+            {phoneErr ? <Text style={style.errorMessage}>Phone No. required !</Text> : null}
+          </View>
+          <View style={style.formDiv}>
+            <Text style={{ fontWeight: "bold", padding: 10, color: colors.assColor }}>
+              Total Price: ${props.route.params.body.total_price}
+            </Text>
+          </View>
+          {/*<View style={style.formDiv}>*/}
+          {/*  <Text style={{ margin: 2 }}>CC#</Text>*/}
+          {/*  <TextInput style={style.inputField} onChangeText={address => setCc(address)} />*/}
+          {/*  {ccErr ? <Text style={style.errorMessage}>CC# required !</Text> : null}*/}
+          {/*</View>*/}
 
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>CC#</Text>
-          <TextInput style={style.inputField} onChangeText={address => setCc(address)} />
-          {ccErr ? <Text style={style.errorMessage}>CC# required !</Text> : null}
-        </View>
+          {/*<View style={style.formDiv}>*/}
+          {/*  <Text style={{ margin: 2 }}>Exp</Text>*/}
+          {/*  <TextInput style={style.inputField} onChangeText={password => setExp(password)}*/}
+          {/*  />*/}
+          {/*  {expErr ? <Text style={style.errorMessage}>Exp required !</Text> : null}*/}
+          {/*</View>*/}
 
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Exp</Text>
-          <TextInput style={style.inputField} onChangeText={password => setExp(password)}
-          />
-          {expErr ? <Text style={style.errorMessage}>Exp required !</Text> : null}
-        </View>
+          {/*<View style={style.formDiv}>*/}
+          {/*  <Text style={{ margin: 2 }}>Code</Text>*/}
+          {/*  <TextInput style={style.inputField} onChangeText={reTypePassword => setCode(reTypePassword)}*/}
+          {/*             placeholder="3 digits" />*/}
+          {/*  {codeErr ? <Text style={style.errorMessage}>Code required !</Text> : null}*/}
+          {/*</View>*/}
 
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Code</Text>
-          <TextInput style={style.inputField} onChangeText={reTypePassword => setCode(reTypePassword)}
-                     placeholder="3 digits" />
-          {codeErr ? <Text style={style.errorMessage}>Code required !</Text> : null}
-        </View>
-
-        <View style={style.buttomBut}>
-          <Button style={style.getStartBut} onPress={function() {
-            gotoSignUpPage();
-          }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Book Now</Text>
-          </Button>
-        </View>
+          <View style={style.buttomBut}>
+            <Button style={style.getStartBut} onPress={function() {
+              gotoSignUpPage();
+            }}>
+              <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Book Now</Text>
+            </Button>
+          </View>
         </ScrollView>
       </View>
     </Root>

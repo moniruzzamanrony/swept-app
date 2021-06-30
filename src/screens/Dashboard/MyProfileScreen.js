@@ -136,7 +136,7 @@ const MyProfileScreen = (props) => {
       />
       <View>
         {/* ---- Header ------*/}
-        <NavigationBar title="Profile" url="DashboardScreen" navigation={props} />
+        <NavigationBar title="Profile" url="HomeScreen" navigation={props} />
         <TouchableOpacity onPress={function() {
           uploadProfileImage();
         }}>

@@ -44,8 +44,11 @@ const PatCareScreen = (props) => {
 
   const [details, setDetails] = React.useState("");
   const [detailsErr, setDetailsErr] = React.useState("");
+
   const [optionList, setOptionList] = React.useState([]);
   const [isEmptyField, setIsEmptyField] = useState(false);
+
+  const [isChecked, setIsChecked] = React.useState(false);
 
 
   useEffect(() => {
@@ -231,9 +234,14 @@ const PatCareScreen = (props) => {
 
         <View style={style.formDivForTwoColumn}>
           <CheckBox
-            value={false}
+            checked={isChecked}
+            title="I’m a SWEPT Pet Member"
+            onPress={function() {
+              isChecked ? setIsChecked(false) :
+                setIsChecked(true);
+            }}
           />
-          <Text style={{ marginTop: 15, color: colors.assColor }}>I’m a SWEPT Pet Member</Text>
+
         </View>
         {/*--- Warning Field -----*/}
         {

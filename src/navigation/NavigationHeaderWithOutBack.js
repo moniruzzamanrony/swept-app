@@ -22,6 +22,7 @@ const style = StyleSheet.create({
     width: 320,
     fontSize: 20,
     color: colors.black,
+    flex: 1,
     textAlign: "center",
     margin: 5,
     fontWeight: "bold",

@@ -43,6 +43,10 @@ const ConciergeInformation = (props) => {
   const [priceErr, setPriceErr] = React.useState("");
 
   const [loading, setLoading] = useState(false);
+
+  const [isChargeCard, setIsChargeCard] = React.useState(false);
+  const [isPaidVendor, setIsPaidVendor] = React.useState(false);
+
   const onSubmit = async () => {
     const body = {
       "user_id": await LoggedUserInfo.getLoggedUserId(),
@@ -158,9 +162,14 @@ const ConciergeInformation = (props) => {
             }>
               <View style={style.formDivForTwoColumn}>
                 <CheckBox
-                  value={false}
+                  checked={isChargeCard}
+                  title="Charge My Card"
+                  onPress={function() {
+                    isChargeCard ? setIsChargeCard(false) :
+                      setIsChargeCard(true);
+                  }}
                 />
-                <Text style={{ marginTop: 15, color: colors.assColor }}>Charge My Card</Text>
+
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={function() {
@@ -169,9 +178,14 @@ const ConciergeInformation = (props) => {
             }>
               <View style={style.formDivForTwoColumn}>
                 <CheckBox
-                  value={false}
+                  checked={isPaidVendor}
+                  title="I already paid the vendor"
+                  onPress={function() {
+                    isPaidVendor ? setIsPaidVendor(false) :
+                      setIsPaidVendor(true);
+                  }}
                 />
-                <Text style={{ marginTop: 15, color: colors.assColor }}>I already paid the vendor</Text>
+
               </View>
             </TouchableOpacity>
             {/*--- Warning Field -----*/}

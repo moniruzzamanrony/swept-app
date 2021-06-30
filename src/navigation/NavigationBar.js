@@ -29,25 +29,25 @@ const NavigationBar = (props) => {
 const style = StyleSheet.create({
   body: {
     backgroundColor: colors.white,
-    padding: 15,
-    marginTop: 20,
+    padding: 8,
+    marginTop: 15,
     borderRadius: 5,
     flexDirection: "row",
   },
   title: {
     fontSize: 20,
     color: colors.black,
+    flex: 1,
     textAlign: "center",
-    paddingLeft: 70,
-    marginTop: 15,
+    marginTop: 10,
     fontWeight: "bold",
   },
   roundButton: {
-    width: 55,
-    height: 55,
+    width: 50,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+
     borderRadius: 100,
     shadowColor: "rgba(0,0,0,0.62)",
     shadowOffset: {
