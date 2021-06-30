@@ -39,8 +39,7 @@ const PatCareScreen = (props) => {
   const [serviceType, setServiceType] = React.useState("");
   const [serviceTypeErr, setServiceTypeErr] = React.useState("");
 
-  const [fileUri, setFileUri] = React.useState("Click Here to Upload Records (jpg or\n" +
-    "              pdf)");
+  const [fileUri, setFileUri] = React.useState("Click Here to Upload Records (jpg or pdf)");
   const [fileUriErr, setFileUriErr] = React.useState(true);
 
   const [details, setDetails] = React.useState("");
@@ -206,9 +205,18 @@ const PatCareScreen = (props) => {
           <Button style={style.uploadRecordBut} onPress={function() {
             uploadImage();
           }}>
-            <Text style={{ textAlign: "center", fontSize: 14, color: colors.white, marginLeft: 20 }}>
-              {fileUri.slice(fileUri.length - 120)}
-            </Text>
+            {
+              fileUri === undefined ?
+                <Text style={{ textAlign: "center", fontSize: 14, color: colors.white, marginLeft: 20 }}>
+                  Click Here to Upload Records (jpg or pdf)
+                </Text>
+                :
+                <Text style={{ textAlign: "center", fontSize: 14, color: colors.white, marginLeft: 20 }}>
+                  {
+                    fileUri.slice(fileUri.length - 120)}
+                </Text>
+            }
+
           </Button>
         </View>
 

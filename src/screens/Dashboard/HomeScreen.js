@@ -79,7 +79,6 @@ const HomeScreen = (props) => {
                 style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: "flex-end" }}
               />
           }
-
         </View>
       </View>
       {/*---- Main Card Body ------*/}
