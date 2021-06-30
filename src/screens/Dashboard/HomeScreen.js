@@ -7,7 +7,7 @@ import { Api } from "../../contants/Api";
 import { Toast } from "native-base";
 
 const HomeScreen = (props) => {
-
+  const [profilePicturePath, setProfilePicturePath] = React.useState(null);
   useEffect(() => {
     getProfileDetails();
   }, []);
@@ -22,7 +22,7 @@ const HomeScreen = (props) => {
         AsyncStorage.setItem("phone", response.data.user.phone);
         AsyncStorage.setItem("address", response.data.user.address);
         AsyncStorage.setItem("avatar", response.data.user.avatar);
-
+        setProfilePicturePath(response.data.user.avatar);
       })
       .catch(function(error) {
         Toast.show({
@@ -68,10 +68,18 @@ const HomeScreen = (props) => {
           <Text style={{ fontSize: 16, margin: 2 }}>How may we assist you? </Text>
         </View>
         <View style={style.headerAvatar}>
-          <Image
-            source={require("../../../assets/avatar/profile.png")}
-            style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: "flex-end" }}
-          />
+          {
+            profilePicturePath === null ?
+              <Image
+                source={require("../../../assets/avatar/profile.png")}
+                style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: "flex-end" }}
+              /> :
+              <Image
+                source={{ uri: Api.IMAGE_VIEW_BASE_URL + "avatar/" + profilePicturePath }}
+                style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: "flex-end" }}
+              />
+          }
+
         </View>
       </View>
       {/*---- Main Card Body ------*/}

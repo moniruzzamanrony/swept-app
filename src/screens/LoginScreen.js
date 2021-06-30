@@ -40,6 +40,10 @@ const LoginScreen = (props) => {
         //Navigate to Home Screen
         props.navigation.navigate("DashboardScreen");
 
+        //Save Login Info
+        AsyncStorage.setItem("email", email);
+        AsyncStorage.setItem("password", password);
+
         // Hide Loader
         setLoading(false);
       })
