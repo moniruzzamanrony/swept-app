@@ -105,7 +105,7 @@ const CustomTimeAndDateScreen = (props) => {
     <ScrollView>
       <View>
         {/* ---- Header ------*/}
-        <NavigationBar title="Custom Date & Time" url="date" />
+        <NavigationBar title="Custom Date & Time" url="TimeAndDateScreen" navigation={props} />
         <View style={{
           justifyContent: "center",
           alignItems: "center", margin: 10,
