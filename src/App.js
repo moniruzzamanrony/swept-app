@@ -25,6 +25,7 @@ import ConciergeInformation from "./screens/ConciergeInformation";
 import VirtualPerAssScreen from "./screens/VirtualPerAssScreen";
 import HomeSpaScreen from "./screens/HomeSpaScreen";
 import PersonalItemScreen from "./screens/PersonalItemScreen";
+import CustomTimeAndDateScreen from "./screens/CustomTimeAndDateScreen";
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -74,6 +75,8 @@ const App = () => {
         <Stack.Screen name="HomeSpaScreen" component={HomeSpaScreen}
                       options={{ headerShown: false }} />
         <Stack.Screen name="PersonalItemScreen" component={PersonalItemScreen}
+                      options={{ headerShown: false }} />
+        <Stack.Screen name="CustomTimeAndDateScreen" component={CustomTimeAndDateScreen}
                       options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>

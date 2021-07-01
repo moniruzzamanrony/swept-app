@@ -1,41 +1,72 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import NavigationBar from "../navigation/NavigationBar";
 import { colors } from "../theme/Colors";
-import { Button, Icon } from "native-base";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Button } from "native-base";
+import DatePicker from "react-native-date-picker";
 
-const TimeAndDateScreen = (props) => {
+const CustomTimeAndDateScreen = (props) => {
   const [getResponse, setGetResponse] = React.useState([]);
   const [selectedItemsIdFromList, setSelectedItemsIdFromList] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
   // For Change Bg
   const [cardBg, setCardBg] = React.useState();
+  const [date, setDate] = React.useState(new Date());
 
   useEffect(() => {
-    console.log("------");
-    console.log(props.route.params);
     callGetApi();
   }, []);
+
   const callGetApi = () => {
     setGetResponse([
       {
         id: 1,
-        time: "Today",
-        description: "(BY 5PM) + $20",
+        time: "08:00 AM",
+        description: "",
       },
       {
         id: 2,
-        time: "Tomorrow",
-        description: " (Before 5PM)",
+        time: "08:00 AM",
+        description: " ",
       }, {
         id: 3,
-        time: "Within the Next Weak",
+        time: "09:45 AM",
+        description: "",
+      }, {
+        id: 4,
+        time: "10:30 AM",
+        description: "",
+      }, {
+        id: 5,
+        time: "11:15 AM",
+        description: "",
+      }, {
+        id: 6,
+        time: "12:45 PM",
+        description: "",
+      }, {
+        id: 7,
+        time: "01:30 PM",
+        description: "",
+      }, {
+        id: 8,
+        time: "02:15 PM",
+        description: "",
+      }, {
+        id: 9,
+        time: "03:45 PM",
+        description: "",
+      }, {
+        id: 10,
+        time: "04:30 PM",
+        description: "",
+      }, {
+        id: 11,
+        time: "05:00 PM",
         description: "",
       },
     ]);
-    console.log(getResponse);
   };
 
   const onSelectedBorderColorChange = (data) => {
@@ -43,8 +74,7 @@ const TimeAndDateScreen = (props) => {
   };
 
   const showDatePicker = () => {
-    props.navigation.navigate("CustomTimeAndDateScreen", props.route.params);
-    // setDatePickerVisibility(true);
+    setDatePickerVisibility(true);
   };
 
   const hideDatePicker = () => {
@@ -72,59 +102,57 @@ const TimeAndDateScreen = (props) => {
   };
 
   return (
-
-    <View style={{ flexDirection: "column" }}>
-      {/* ---- Header ------*/}
-      <NavigationBar title="Date & Time" url="date" />
-
-
-      {/* ---- Date Time Picker Title ----- */}
-      <View style={{ flexDirection: "row", margin: 20 }}>
-        <Icon name="time" style={{ fontSize: 25, color: colors.buttonBgColor }} />
-        <Text style={style.cardHeaderTextStyle}> Pick Your Date & Time</Text>
-      </View>
-
-      <View style={{ flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
-        {
-          getResponse.map((res) => {
-            return (
-              <TouchableOpacity onPress={function() {
-                changeBackground(res.id);
-                setSelectedDate(res.time);
-
-              }}>
-                <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
-                  <Text style={{ fontSize: 17, fontWeight: "bold", textAlign: "center" }}>{res.time}</Text>
-                  <Text style={{ color: colors.assColor }}>{res.description}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })
-        }
-
-      </View>
+    <ScrollView>
       <View>
-        <View style={{ paddingStart: 65, margin: 10 }}>
-          <Button style={style.getStartBut} onPress={function() {
-            gotoNextScreen();
-          }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
-          </Button>
-          <Button style={style.createCustomDateBut} onPress={function() {
-            showDatePicker();
-          }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold", color: colors.white }}>Create Custom Date</Text>
-          </Button>
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
+        {/* ---- Header ------*/}
+        <NavigationBar title="Custom Date & Time" url="date" />
+        <View style={{
+          justifyContent: "center",
+          alignItems: "center", margin: 10,
+        }}>
+          <DatePicker
+            date={date}
+            onDateChange={setDate}
             mode="date"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
           />
         </View>
-      </View>
-    </View>
 
+
+        {/* ---- Date Time Picker Title ----- */}
+        <View style={{ flexDirection: "row", marginLeft: 20 }}>
+          <Text style={style.cardHeaderTextStyle}> Free Slots</Text>
+        </View>
+
+        <View style={{ flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
+          {
+            getResponse.map((res) => {
+              return (
+                <TouchableOpacity onPress={function() {
+                  changeBackground(res.id);
+                  setSelectedDate(date.toISOString().split("T")[0] + " " + res.time);
+
+                }}>
+                  <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
+                    <Text style={{ fontSize: 17, fontWeight: "bold", textAlign: "center" }}>{res.time}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })
+          }
+
+        </View>
+
+        <View>
+          <View style={{ paddingStart: 65, margin: 10 }}>
+            <Button style={style.getStartBut} onPress={function() {
+              gotoNextScreen();
+            }}>
+              <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
+            </Button>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 const style = StyleSheet.create({
@@ -250,11 +278,11 @@ const style = StyleSheet.create({
   // For Change Bg
   cardStyle: {
     width: 168,
-    height: 80,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.white,
-    borderRadius: 15,
+    borderRadius: 5,
     borderWidth: 1,
     shadowColor: "#ccc",
     shadowOffset: {
@@ -264,16 +292,16 @@ const style = StyleSheet.create({
     shadowOpacity: 0.30,
     shadowRadius: 4.65,
     elevation: 8,
-    margin: 10,
+    margin: 5,
     borderColor: colors.cardNonSelectedBorderColor,
   },
   selectedCardStyleForTypeSelection: {
     width: 168,
-    height: 100,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.white,
-    borderRadius: 15,
+    borderRadius: 5,
     shadowColor: "#ccc",
     shadowOffset: {
       width: 0,
@@ -282,9 +310,9 @@ const style = StyleSheet.create({
     shadowOpacity: 0.30,
     shadowRadius: 4.65,
     elevation: 8,
-    margin: 10,
+    margin: 5,
     borderWidth: 2,
     borderColor: "green",
   },
 });
-export default TimeAndDateScreen;
+export default CustomTimeAndDateScreen;
