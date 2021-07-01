@@ -49,6 +49,20 @@ const PatCareScreen = (props) => {
   const [isEmptyField, setIsEmptyField] = useState(false);
 
   const [isChecked, setIsChecked] = React.useState(false);
+  // For Change Bg
+  const [cardBg, setCardBg] = React.useState();
+  const [choseOneCardBg, setChoseOneCardBg] = React.useState();
+
+  const [instructionList, setInstructionList] = React.useState([
+    {
+      id: 1,
+      title: "Vaccination Date(Boarding & Grooming)",
+    },
+    {
+      id: 2,
+      title: "Special Instructions",
+    },
+  ]);
 
 
   useEffect(() => {
@@ -118,6 +132,15 @@ const PatCareScreen = (props) => {
       path: "images",
     },
   };
+
+  // For Change Bg
+  const changeBackgroundInstruction = (id) => {
+    setCardBg(id);
+  };
+
+  const changeBackgroundChoseOne = (id) => {
+    setChoseOneCardBg(id);
+  };
   return (
     <ScrollView>
       <View>
@@ -158,50 +181,49 @@ const PatCareScreen = (props) => {
             {ageErr ? <Text style={style.errorMessage}>Age required !</Text> : null}
           </View>
         </View>
+        {/*------------ Instruction List -----------*/}
+        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
+          {
+            instructionList.map((res) => {
+              return (
+                <TouchableOpacity onPress={function() {
+                  changeBackgroundInstruction(res.id);
+                  setVaccinationDate(res.title);
 
-        <View style={style.formDivForTwoColumn}>
-          <View>
-            <TextInput style={style.inputFieldHalf}
-                       multiline={true}
-                       placeholder="Vaccination Date(Boarding & Grooming)"
-                       numberOfLines={4}
-                       onChangeText={vaccinationDate => setVaccinationDate(vaccinationDate)} />
-            {vaccinationDateErr ? <Text style={style.errorMessage}>Vaccination required !</Text> : null}
-          </View>
+                }}>
+                  <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
+                    <Text style={{ margin: 10, fontSize: 12, textAlign: "center" }}>{res.title}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })
+          }
 
-          <View>
-            <TextInput style={style.inputFieldHalf}
-                       multiline={true}
-                       placeholder="Special Instructions"
-                       numberOfLines={4}
-                       onChangeText={specialInstructions => setSpecialInstructions(specialInstructions)} />
-            {specialInstructionsErr ? <Text style={style.errorMessage}>Instructions required !</Text> : null}
-          </View>
         </View>
 
         {/* -----Card-----------*/}
         <View style={style.formDiv}>
           <Text style={{ margin: 2, fontWeight: "bold" }}>Choose One</Text>
-          <View style={{ flexDirection: "row", marginBottom: 10 }}>
-            <ScrollView horizontal={true}>
-              {
-                optionList.map((data) => {
-                  return (
-                    <TouchableOpacity onPress={function() {
-                      setPrice(data.price);
-                      setServiceType(data.name);
-                    }}>
-                      <View style={style.cardStyle}>
-                        <Text style={{ margin: 10, textAlign: "center", fontSize: 14 }}>{data.name} -
-                          ${data.price} </Text>
-                      </View>
-                    </TouchableOpacity>
-                  );
+          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+            {
+              optionList.map((res) => {
+                return (
+                  <TouchableOpacity onPress={function() {
+                    changeBackgroundChoseOne(res.id);
+                    setPrice(res.price);
+                    setServiceType(res.name);
+                  }}>
+                    <View style={choseOneCardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
+                      <Text style={{ margin: 10, fontSize: 12, textAlign: "center" }}>{res.name} -
+                        ${res.price}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })
+            }
 
-                })
-              }
-            </ScrollView>
           </View>
+
         </View>
 
         <View style={style.formDiv}>
@@ -285,25 +307,7 @@ const style = StyleSheet.create({
   checkboxContainer: {
     flexDirection: "row",
   },
-  cardStyle: {
-    width: 150,
-    height: 100,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    borderWidth: 1,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderColor: colors.cardNonSelectedBorderColor,
-  },
+
   inputFieldHalf: {
     backgroundColor: colors.white,
     width: 160,
@@ -360,6 +364,47 @@ const style = StyleSheet.create({
     marginBottom: 10,
     flexDirection: "row",
 
+  },
+  // For Change Bg
+  cardStyle: {
+    width: 150,
+    height: 120,
+    fontWeight: "bold",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    borderWidth: 1,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    elevation: 8,
+    margin: 10,
+    borderColor: colors.cardNonSelectedBorderColor,
+  },
+  selectedCardStyleForTypeSelection: {
+    width: 150,
+    height: 120,
+    fontWeight: "bold",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.buttonBgColor,
+    borderRadius: 15,
+    borderWidth: 1,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    elevation: 8,
+    margin: 10,
+    borderColor: colors.cardNonSelectedBorderColor,
   },
 });
 export default PatCareScreen;

@@ -152,9 +152,14 @@ const PaymentScreen = (props) => {
             {phoneErr ? <Text style={style.errorMessage}>Phone No. required !</Text> : null}
           </View>
           <View style={style.formDiv}>
-            <Text style={{ fontWeight: "bold", padding: 10, color: colors.assColor }}>
-              Total Price: ${props.route.params.body.total_price}
-            </Text>
+            {
+              requestType == MediaType.FORM_DATA ?
+                null :
+                <Text style={{ fontWeight: "bold", padding: 10, color: colors.assColor }}>
+                  Total Price: ${props.route.params.body.total_price}
+                </Text>
+            }
+
           </View>
           {/*<View style={style.formDiv}>*/}
           {/*  <Text style={{ margin: 2 }}>CC#</Text>*/}
