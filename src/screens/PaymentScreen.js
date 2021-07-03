@@ -185,7 +185,7 @@ const PaymentScreen = (props) => {
             <Button style={style.getStartBut} onPress={function() {
               gotoSignUpPage();
             }}>
-              <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Book Now</Text>
+              <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Pay & Book Now</Text>
             </Button>
           </View>
         </ScrollView>

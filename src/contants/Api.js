@@ -1,6 +1,6 @@
 export const Api = {
   TOKEN_TYPE: "bearer",
-  BASE_URL: "http://ecotrippers.net/swept-app/api/",
+  BASE_URL: "https://sweptconcierge.live/api/",
   LOGIN: "login",
   SIGN_UP: "register",
   REGISTRATION: "register",
@@ -23,7 +23,7 @@ export const Api = {
   GET_ORDER_LIST_BY_ID: "user/orders",
   POST_CONCIERGE: "service/order/concierge",
 
-  IMAGE_VIEW_BASE_URL: "https://ecotrippers.net/swept-app/storage/app/public/uploads/",
+  IMAGE_VIEW_BASE_URL: "https://sweptconcierge.live/storage/app/public/uploads/",
   BEAUTY_SPA_IMAGE: "BeautySpaImage/",
   HANDI_MEN_IMAGE: "HandymanServiceImage/",
 

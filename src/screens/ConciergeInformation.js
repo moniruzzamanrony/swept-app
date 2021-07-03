@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { Linking, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { colors } from "../theme/Colors";
 import NavigationBar from "../navigation/NavigationBar";
 import { CheckBox, Text } from "react-native-elements";
@@ -8,6 +8,7 @@ import axios from "axios";
 import { Api } from "../contants/Api";
 import Spinner from "react-native-loading-spinner-overlay";
 import * as LoggedUserInfo from "../utils/LoggedUserInfo";
+import DatePicker from "react-native-date-picker";
 
 const ConciergeInformation = (props) => {
   const [conciergeId, setConciergeId] = React.useState(props.route.params.conciergeId);
@@ -25,13 +26,13 @@ const ConciergeInformation = (props) => {
   const [pickUpAddress, setPickUpAddress] = React.useState("");
   const [pickUpAddressErr, setPickUpAddressErr] = React.useState("");
 
-  const [pickUpOffDateDate, setPickUpOffDateDate] = React.useState("");
+  const [pickUpOffDateDate, setPickUpOffDateDate] = React.useState(new Date());
   const [pickUpOffDateDateErr, setPickUpOffDateDateErr] = React.useState("");
 
   const [dropOffAddress, setDropOffAddress] = React.useState("");
   const [dropOffAddressErr, setDropOffAddressErr] = React.useState("");
 
-  const [dropOffDate, setDropOffDateDate] = React.useState("");
+  const [dropOffDate, setDropOffDateDate] = React.useState(new Date());
   const [dropOffDateErr, setDropOffDateErr] = React.useState("");
 
   const [specialInstructions, setSpecialInstructions] = React.useState("");
@@ -46,7 +47,7 @@ const ConciergeInformation = (props) => {
 
   const [isChargeCard, setIsChargeCard] = React.useState(false);
   const [isPaidVendor, setIsPaidVendor] = React.useState(false);
-
+  const [date, setDate] = React.useState(new Date());
   const onSubmit = async () => {
     const body = {
       "user_id": await LoggedUserInfo.getLoggedUserId(),
@@ -60,15 +61,15 @@ const ConciergeInformation = (props) => {
       "pickup_address": pickUpAddress,
       "notes": specialInstructions,
       "payment_method": paymentOption,
-      "total_price": "00",
+      "total_price": "120",
     };
     setLoading(true);
     axios.post(Api.BASE_URL + Api.POST_CONCIERGE, body)
       .then(function(response) {
         console.log(response);
         //Navigate to Home Screen
-        props.navigation.navigate("SuccessScreen");
-
+        // props.navigation.navigate("SuccessScreen");
+        loadInBrowser(response.data.Message);
         // Hide Loader
         setLoading(false);
       })
@@ -77,7 +78,7 @@ const ConciergeInformation = (props) => {
         console.log(error);
 
         Toast.show({
-          text: error.response.data.Error.email[0],
+          text: "Something Wrong or Empty Filed",
           buttonText: "Okay",
           type: "danger",
         });
@@ -86,7 +87,13 @@ const ConciergeInformation = (props) => {
         setLoading(false);
       });
   };
-
+  const loadInBrowser = (url) => {
+    Linking.openURL(url).catch(err => Toast.show({
+      text: err,
+      buttonText: "Okay",
+      type: "danger",
+    }));
+  };
   return (
     <Root>
       <View>
@@ -130,9 +137,15 @@ const ConciergeInformation = (props) => {
 
             <View style={style.formDiv}>
               <Text style={{ margin: 2 }}>Pick Up Date/Time</Text>
-              <TextInput style={style.inputField}
-                         onChangeText={pickUpOffDateDate => setPickUpOffDateDate(pickUpOffDateDate)} />
-              {pickUpOffDateDateErr ? <Text style={style.errorMessage}>Pick Up Date/Time required !</Text> : null}
+              <DatePicker
+                date={pickUpOffDateDate}
+                onDateChange={setPickUpOffDateDate}
+                mode="datetime"
+                style={{ width: 350 }}
+              />
+              {/*<TextInput style={style.inputField}*/}
+              {/*           onChangeText={pickUpOffDateDate => setPickUpOffDateDate(pickUpOffDateDate)} />*/}
+              {/*{pickUpOffDateDateErr ? <Text style={style.errorMessage}>Pick Up Date/Time required !</Text> : null}*/}
             </View>
 
             <View style={style.formDiv}>
@@ -143,8 +156,14 @@ const ConciergeInformation = (props) => {
 
             <View style={style.formDiv}>
               <Text style={{ margin: 2 }}>Drop Off Date/Time</Text>
-              <TextInput style={style.inputField} onChangeText={dropOffDate => setDropOffDateDate(dropOffDate)} />
-              {dropOffDateErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
+              <DatePicker
+                date={dropOffDate}
+                onDateChange={setDropOffDateDate}
+                mode="datetime"
+                style={{ width: 350 }}
+              />
+              {/*<TextInput style={style.inputField} onChangeText={dropOffDate => setDropOffDateDate(dropOffDate)} />*/}
+              {/*{dropOffDateErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}*/}
             </View>
 
             <View style={style.formDiv}>
@@ -189,13 +208,17 @@ const ConciergeInformation = (props) => {
               </View>
             </TouchableOpacity>
             {/*--- Warning Field -----*/}
-
+            <View style={style.formDiv}>
+              <Text style={{ fontWeight: "bold", padding: 10, color: colors.assColor }}>
+                Total Price: $120
+              </Text>
+            </View>
 
             <View style={{ paddingStart: 50, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
               <Button style={style.getStartBut} onPress={function() {
                 onSubmit();
               }}>
-                <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>Pay & Book Now</Text>
               </Button>
             </View>
 

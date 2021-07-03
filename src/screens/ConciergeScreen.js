@@ -21,8 +21,7 @@ const ConciergeScreen = (props) => {
     axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + Api.GET_CONCIERGE)
       .then(function(response) {
         setGetResponse(response.data.Result);
-        //console.log(response.data.Result);
-        console.log(getResponse);
+        console.log(response.data.Result);
       })
       .catch(function(error) {
         console.log(error);

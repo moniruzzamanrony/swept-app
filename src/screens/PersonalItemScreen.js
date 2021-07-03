@@ -13,24 +13,45 @@ const PersonalItemScreen = (props) => {
   const [data, setData] = React.useState([
     {
       id: 1,
-      image: "app.jpg",
+      image: "'toothbrush.jpg'",
       title: "Toothbrush",
       price: 2.99,
     },
     {
       id: 2,
-      image: "app.jpg",
+      image: "'toothbrush.jpg'",
       title: "Toothpaste",
       price: 2.99,
     }, {
       id: 3,
-      image: "app.jpg",
+      image: "'toothbrush.jpg'",
       title: "Bottled Water",
       price: 2.99,
     }, {
       id: 4,
-      image: "app.jpg",
+      image: "'toothbrush.jpg'",
       title: "Mask",
+      price: 2.99,
+    },
+    {
+      id: 5,
+      image: "'toothbrush.jpg'",
+      title: "Deodorant",
+      price: 2.99,
+    }, {
+      id: 6,
+      image: "'toothbrush.jpg'",
+      title: "Soap",
+      price: 2.99,
+    }, {
+      id: 7,
+      image: "'toothbrush.jpg'",
+      title: "Band-aid",
+      price: 2.99,
+    }, {
+      id: 8,
+      image: "'toothbrush.jpg'",
+      title: "Other Personal Care Item ",
       price: 2.99,
     },
   ]);
@@ -90,7 +111,7 @@ const PersonalItemScreen = (props) => {
                 }}>
                   <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
                     <Image
-                      source={require("../../assets/icons/toothbrush.jpg")}
+                      source={require("../../assets/icons/" + "cosmetics.png")}
                       style={{ height: 60, width: 60 }}
                     />
                     <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}>{res.title}</Text>
