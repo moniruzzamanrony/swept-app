@@ -64,7 +64,7 @@ const ConciergeScreen = (props) => {
               }}>
                 <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
                   <Image
-                    source={{ uri: Api.IMAGE_VIEW_BASE_URL + "HandymanServiceImage/" + res.image }}
+                    source={{ uri: Api.IMAGE_VIEW_BASE_URL + "conciergeServiceImage/" + res.image }}
                     style={{ height: 60, width: 60 }}
                   />
                   <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>{res.concierge_name}</Text>

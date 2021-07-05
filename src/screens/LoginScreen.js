@@ -97,7 +97,7 @@ const LoginScreen = (props) => {
           <TextInput style={style.inputField} onChangeText={email => setEmail(email)} />
           {emailErr ? <Text style={style.errorMessage}>Invalid Email</Text> : null}
           <Text style={{ margin: 5 }}>Password</Text>
-          <TextInput style={style.inputField} onChangeText={password => setPassword(password)} />
+          <TextInput secureTextEntry={true} style={style.inputField} onChangeText={password => setPassword(password)} />
           {passwordErr ? <Text style={style.errorMessage}>Password more then 6 Character</Text> : null}
           <Text style={{ margin: 5 }} onPress={function() {
             forgetPassword();

@@ -13,6 +13,8 @@ const TimeAndDateScreen = (props) => {
   // For Change Bg
   const [cardBg, setCardBg] = React.useState();
 
+  const [totalPriceWithOffer, setTotalPriceWithOffer] = React.useState();
+
   useEffect(() => {
     console.log("------");
     console.log(props.route.params);
@@ -24,15 +26,18 @@ const TimeAndDateScreen = (props) => {
         id: 1,
         time: "Today",
         description: "(BY 5PM) + $20",
+        offer: "20",
       },
       {
         id: 2,
         time: "Tomorrow",
         description: " (Before 5PM)",
+        offer: "00",
       }, {
         id: 3,
         time: "Within the Next Weak",
         description: "",
+        offer: "00",
       },
     ]);
     console.log(getResponse);
@@ -59,6 +64,7 @@ const TimeAndDateScreen = (props) => {
   function gotoNextScreen() {
     if (selectedDate != "") {
       props.route.params.body.date = selectedDate;
+      props.route.params.body.total_price = totalPriceWithOffer;
       console.log(props.route.params);
       props.navigation.navigate("AddressScreen", props.route.params);
     } else {
@@ -69,6 +75,13 @@ const TimeAndDateScreen = (props) => {
   // For Change Bg
   const changeBackground = (id) => {
     setCardBg(id);
+  };
+
+  const addOfferWithPrice = (id, offerPrice) => {
+
+    setTotalPriceWithOffer((+props.route.params.body.total_price) + (+offerPrice));
+
+
   };
 
   return (
@@ -91,7 +104,7 @@ const TimeAndDateScreen = (props) => {
               <TouchableOpacity onPress={function() {
                 changeBackground(res.id);
                 setSelectedDate(res.time);
-
+                addOfferWithPrice(res.id, res.offer);
               }}>
                 <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
                   <Text style={{ fontSize: 17, fontWeight: "bold", textAlign: "center" }}>{res.time}</Text>

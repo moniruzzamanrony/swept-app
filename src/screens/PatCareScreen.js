@@ -204,25 +204,30 @@ const PatCareScreen = (props) => {
         {/* -----Card-----------*/}
         <View style={style.formDiv}>
           <Text style={{ margin: 2, fontWeight: "bold" }}>Choose One</Text>
-          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
-            {
-              optionList.map((res) => {
-                return (
-                  <TouchableOpacity onPress={function() {
-                    changeBackgroundChoseOne(res.id);
-                    setPrice(res.price);
-                    setServiceType(res.name);
-                  }}>
-                    <View style={choseOneCardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
-                      <Text style={{ margin: 10, fontSize: 12, textAlign: "center" }}>{res.name} -
-                        ${res.price}</Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })
-            }
+          {
+            optionList.length === 0 ? <Text style={{ color: colors.offRed }}>Service Not Found</Text> :
+              <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+                {
+                  optionList.map((res) => {
+                    return (
+                      <TouchableOpacity onPress={function() {
+                        changeBackgroundChoseOne(res.id);
+                        setPrice(res.price);
+                        setServiceType(res.name);
+                      }}>
+                        <View
+                          style={choseOneCardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
+                          <Text style={{ margin: 10, fontSize: 12, textAlign: "center" }}>{res.name} -
+                            ${res.price}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })
+                }
 
-          </View>
+              </View>
+          }
+
 
         </View>
 

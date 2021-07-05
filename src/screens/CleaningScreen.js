@@ -32,6 +32,7 @@ const CleaningScreen = (props) => {
   const [cleanType, setCleanType] = React.useState("");
   const [totalAmount, setTotalAmount] = React.useState(0.0);
   const [amount, setAmount] = React.useState("0.0");
+  const [offer, setOffer] = React.useState("0.0");
 
   // UI SETUP
   const [loading, setLoading] = useState(false);
@@ -39,6 +40,19 @@ const CleaningScreen = (props) => {
   // Warning Message
   const [isEmptyField, setIsEmptyField] = useState(false);
 
+  //Type of Cleaning
+  const [typeOfCleaning, setTypeOfCleaning] = useState([
+    {
+      id: 1,
+      type: "Basic",
+      offer: null,
+    },
+    {
+      id: 2,
+      type: "Deep",
+      offer: "99",
+    },
+  ]);
 
   useEffect(() => {
     callApi(servicetype, servicearea);
@@ -178,19 +192,18 @@ const CleaningScreen = (props) => {
           {/* ---- Cleaning Type ----- */}
           <Text style={style.cardHeaderTextStyle}> {title} </Text>
           <View style={{ alignItems: "center" }}>
-            <View style={{ flexDirection: "row", marginBottom: 10 }}>
 
-              <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
-                {
-                  result.map((data) => {
-                    return (
-                      <TouchableOpacity onPress={function() {
-                        setRoomTypeCardStyle(data.id);
-                        setCleaningId(data.cleaning_id);
-                        setRoomId(data.id);
-                        setAmount(data.room_price);
-                      }}>
-                        <View
+            <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
+              {
+                result.map((data) => {
+                  return (
+                    <TouchableOpacity onPress={function() {
+                      setRoomTypeCardStyle(data.id);
+                      setCleaningId(data.cleaning_id);
+                      setRoomId(data.id);
+                      setAmount(data.room_price);
+                    }}>
+                      <View
                           style={roomTypeCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
                           <Text style={style.cardTextStyle}> {data.room_no} </Text>
                           <Text style={style.cardTextStyle}> ${data.room_price} </Text>
@@ -200,7 +213,6 @@ const CleaningScreen = (props) => {
 
                   })
                 }
-              </ScrollView>
 
             </View>
             <Text style={{ color: colors.assColor, marginBottom: 5 }}> Add $20 per additional bedroom </Text>
@@ -211,30 +223,33 @@ const CleaningScreen = (props) => {
 
         <Text style={style.cardHeaderTextStyle}> {cleanTypeTitle} </Text>
 
-        <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
+        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
           {
-            result.map((data) => {
+            typeOfCleaning.map((data) => {
               return (
                 <TouchableOpacity onPress={function() {
                   setCleanTypeCardStyle(data.id);
-                  setCleanType(data.cleaning.clean_type);
+                  setCleanType(data.type);
+                  setOffer(data.offer);
                 }}>
                   <View
                     style={cleanTypeCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
-                    <Text style={style.cardTextStyle}> {data.cleaning.clean_type} </Text>
+                    {data.offer == null ? <Text style={style.cardTextStyle}> {data.type} </Text> :
+                      <Text style={style.cardTextStyle}> {data.type} ($ {data.offer})</Text>}
+
                   </View>
                 </TouchableOpacity>
               );
 
             })
           }
-        </ScrollView>
+        </View>
 
         {/* ---- Frequency Type ----- */}
         <Text style={style.cardHeaderTextStyle}> Frequency </Text>
 
         {/*--- Frequency----*/}
-        <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
+        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
           {
             result.map((data) => {
               return (
@@ -251,11 +266,11 @@ const CleaningScreen = (props) => {
 
             })
           }
-        </ScrollView>
+        </View>
 
         {/*--- Price View -----*/}
         <View style={{ marginLeft: 25 }}>
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price : ${amount} </Text>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price : ${(+amount) + (+offer)} </Text>
         </View>
 
         {/*--- Warning Field -----*/}

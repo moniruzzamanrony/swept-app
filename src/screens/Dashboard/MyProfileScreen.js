@@ -82,6 +82,9 @@ const MyProfileScreen = (props) => {
     /* Multipart Data Send*/
     const bodyFormData = new FormData();
     bodyFormData.append("name", name);
+    bodyFormData.append("email", email);
+    bodyFormData.append("phone", phone);
+    bodyFormData.append("address", address);
     bodyFormData.append("avatar", { uri: profilePicturePath, name: "image.jpg", type: "image/jpeg" });
     // Show Loader
     setLoading(true);
@@ -152,12 +155,18 @@ const MyProfileScreen = (props) => {
                   borderColor: "#ff8b7e",
                 }}
               /> :
-              <Image
-                source={{ uri: Api.IMAGE_VIEW_BASE_URL + "avatar/" + profilePicturePath }}
-                style={{
-                  width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
-                  borderColor: "#ff8b7e",
-                }} />
+              profilePicturePath == null ? <Image
+                  source={require("../../../assets/avatar/profile.png")}
+                  style={{
+                    width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
+                    borderColor: "#ff8b7e",
+                  }} /> :
+                <Image
+                  source={{ uri: Api.IMAGE_VIEW_BASE_URL + "avatar/" + profilePicturePath }}
+                  style={{
+                    width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
+                    borderColor: "#ff8b7e",
+                  }} />
             }
 
           </View>
@@ -175,8 +184,9 @@ const MyProfileScreen = (props) => {
                      editable={emailDisable} value={email} />
         </View>
 
+
         <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Phone No.</Text>
+          <Text>Phone No.</Text>
           <TextInput style={style.inputField} onChangeText={phone => setPhone(phone)}
                      editable={phoneDisable} value={phone} />
         </View>

@@ -119,14 +119,15 @@ const SignUpScreen = (props) => {
 
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Password</Text>
-          <TextInput style={style.inputField} onChangeText={password => setPassword(password)}
+          <TextInput secureTextEntry={true} style={style.inputField} onChangeText={password => setPassword(password)}
                      placeholder="6-20 characters" />
           {passwordErr ? <Text style={style.errorMessage}>Password more then 6-20 characters</Text> : null}
         </View>
 
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Re-enter Password</Text>
-          <TextInput style={style.inputField} onChangeText={reTypePassword => setReTypePassword(reTypePassword)}
+          <TextInput secureTextEntry={true} style={style.inputField}
+                     onChangeText={reTypePassword => setReTypePassword(reTypePassword)}
                      placeholder="6-20 characters" />
           {reTypePasswordErr ? <Text style={style.errorMessage}>Password more then 6-20 characters</Text> : null}
         </View>

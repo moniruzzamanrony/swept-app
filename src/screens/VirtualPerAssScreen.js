@@ -27,64 +27,46 @@ const VirtualPerAssScreen = (props) => {
     setGetResponse([
       {
         id: 1,
-        title: "Help Filing Taxes",
-        price: "90",
+        title: "Massage Swedish(40 mins)",
+        price: "100",
       },
       {
         id: 2,
-        title: "Essay",
-        price: "90",
+        title: "Massage Swedish(90 mins)",
+        price: "140",
       }, {
         id: 3,
-        title: "Vacation Planning/\n" +
-          "Research",
-        price: "90",
+        title: "Massage deep(60 mins)",
+        price: "125",
       }, {
         id: 4,
-        title: "Create a PowerPoint\n" +
-          "Presentation\n",
-        price: "90",
+        title: "Massage deep(90 mins)",
+        price: "175",
       }, {
         id: 5,
-        title: "Internet research",
-        price: "90",
+        title: "Manicure, Regular Polish",
+        price: "30",
       }, {
         id: 6,
-        title: "Interior Design\n" +
-          "Selections\n",
-        price: "90",
+        title: "Manicure, Shellac Polish",
+        price: "40",
       }, {
         id: 7,
-        title: "Online shopping",
-        price: "90",
+        title: "Pedicure, Regular Polish",
+        price: "45",
       }, {
         id: 8,
-        title: "Virtual Stylist",
-        price: "90",
+        title: "Manicure, Shellac",
+        price: "60",
       },
       {
         id: 9,
-        title: "Build a website",
-        price: "90",
+        title: "European Facial",
+        price: "95",
       }, {
         id: 10,
-        title: "Sourcing Vendors",
-        price: "90",
-      },
-      {
-        id: 11,
-        title: "Make a Logo",
-        price: "90",
-      },
-      {
-        id: 12,
-        title: "Resume Editor",
-        price: "90",
-      }, {
-        id: 13,
-        title: "Schedule Mobile\n" +
-          "Beauty/Spa Service",
-        price: "90",
+        title: "Custom Facial",
+        price: "125",
       },
     ]);
     console.log(getResponse);
@@ -97,6 +79,7 @@ const VirtualPerAssScreen = (props) => {
       "api": Api.POST_VERTUAL_ASS,
       "body": {
         "user_id": await LoggedUserInfo.getLoggedUserId(),
+        "virtual_asistant_id": 1,
         "service_type": serviceType,
         "descriptions": description,
         "date": "date",
@@ -126,7 +109,7 @@ const VirtualPerAssScreen = (props) => {
           <Text style={{ marginTop: 10, fontWeight: "bold" }}>Select Your Service</Text>
         </View>
 
-        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
+        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 30 }}>
           {
             getResponse.map((res) => {
               return (
@@ -136,7 +119,8 @@ const VirtualPerAssScreen = (props) => {
                   setServiceType(res.title);
                 }}>
                   <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
-                    <Text style={{ margin: 10, fontSize: 12, textAlign: "center" }}>{res.title}</Text>
+                    <Text
+                      style={{ margin: 10, fontSize: 14, textAlign: "center", fontWeight: "bold" }}>{res.title}</Text>
                     <Text style={{ fontSize: 12, textAlign: "center" }}>${res.price}</Text>
                   </View>
                 </TouchableOpacity>

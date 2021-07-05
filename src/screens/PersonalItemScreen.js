@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, View } from "native-base";
+import React, { useEffect, useState } from "react";
+import { Button, Root, Toast, View } from "native-base";
 import NavigationBar from "../navigation/NavigationBar";
 import { Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { colors } from "../theme/Colors";
@@ -8,62 +8,28 @@ import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 import { MediaType } from "../contants/MediaType";
 import { Api } from "../contants/Api";
 import * as Validators from "../validator/Validators";
+import axios from "axios";
+import Spinner from "react-native-loading-spinner-overlay";
+import { CheckBox } from "react-native-elements";
 
 const PersonalItemScreen = (props) => {
-  const [data, setData] = React.useState([
-    {
-      id: 1,
-      image: "'toothbrush.jpg'",
-      title: "Toothbrush",
-      price: 2.99,
-    },
-    {
-      id: 2,
-      image: "'toothbrush.jpg'",
-      title: "Toothpaste",
-      price: 2.99,
-    }, {
-      id: 3,
-      image: "'toothbrush.jpg'",
-      title: "Bottled Water",
-      price: 2.99,
-    }, {
-      id: 4,
-      image: "'toothbrush.jpg'",
-      title: "Mask",
-      price: 2.99,
-    },
-    {
-      id: 5,
-      image: "'toothbrush.jpg'",
-      title: "Deodorant",
-      price: 2.99,
-    }, {
-      id: 6,
-      image: "'toothbrush.jpg'",
-      title: "Soap",
-      price: 2.99,
-    }, {
-      id: 7,
-      image: "'toothbrush.jpg'",
-      title: "Band-aid",
-      price: 2.99,
-    }, {
-      id: 8,
-      image: "'toothbrush.jpg'",
-      title: "Other Personal Care Item ",
-      price: 2.99,
-    },
-  ]);
+  const [data, setData] = React.useState([]);
   // For Change Bg
   const [cardBg, setCardBg] = React.useState();
   const [totalAmount, setTotalAmount] = React.useState();
   const [itemId, setItemId] = React.useState();
-
+  // UI SETUP
+  const [loading, setLoading] = useState(false);
+  const [isChargeCard, setIsChargeCard] = React.useState(false);
+  const [isPaidVendor, setIsPaidVendor] = React.useState(false);
   // For Change Bg
   const changeBackground = (id) => {
     setCardBg(id);
   };
+
+  useEffect(() => {
+    callApi();
+  }, []);
 
   const onSubmit = async () => {
     console.log(await LoggedUserInfo.getLoggedUserId());
@@ -87,57 +53,121 @@ const PersonalItemScreen = (props) => {
       alert("Empty Field Found");
     }
   };
+  const callApi = (servicetype, servicearea) => {
+    setLoading(true);
+    axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/personalitem")
+      .then(function(response) {
+        console.log(response);
+        setData(response.data.Result);
+        setLoading(false);
+      })
+      .catch(function(error) {
+        setLoading(false);
+        console.warn(error);
+        Toast.show({
+          text: "Something Wrong ",
+          buttonText: "Okay",
+          type: "danger",
+        });
 
+        // Hide Loader
+        // setLoading(false);
+      });
+  };
   return (
-    <ScrollView>
-      <View>
-        {/* ---- Header ------*/}
-        <NavigationBar title="Personal Items" url="ConciergeScreen" navigation={props} />
-        <View style={style.formDiv}>
-          <Text style={{ marginTop: 10, fontWeight: "bold" }}>
-            Pick from the list of convenience
-            items below:
-          </Text>
-        </View>
+    <Root>
+      {/* Loading Screen Start*/}
+      <Spinner
+        //visibility of Overlay Loading Spinner
+        visible={loading}
+        //Text with the Spinner
+        textContent={"Loading..."}
+        textStyle={{ color: colors.buttonBgColor }}
+      />
+      <ScrollView>
+        <View>
+          {/* ---- Header ------*/}
+          <NavigationBar title="Personal Items" url="ConciergeScreen" navigation={props} />
+          <View style={style.formDiv}>
+            <Text style={{ marginTop: 10, fontWeight: "bold" }}>
+              Pick from the list of convenience
+              items below:
+            </Text>
+          </View>
 
-        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
-          {
-            data.map((res) => {
-              return (
-                <TouchableOpacity onPress={function() {
-                  changeBackground(res.id);
-                  setTotalAmount(res.price + 3.50);
-                  setItemId(res.id);
-                }}>
-                  <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
-                    <Image
-                      source={require("../../assets/icons/" + "cosmetics.png")}
-                      style={{ height: 60, width: 60 }}
-                    />
-                    <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}>{res.title}</Text>
-                    <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}>${res.price}</Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })
-          }
+          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
+            {
+              data.map((res) => {
+                return (
+                  <TouchableOpacity onPress={function() {
+                    changeBackground(res.id);
+                    setTotalAmount((+res.price) + 3.50);
+                    setItemId(res.id);
+                  }}>
+                    <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
+                      <Image
+                        source={{ uri: Api.IMAGE_VIEW_BASE_URL + "PersonalItemImage/" + res.image }}
+                        style={{ height: 60, width: 60 }}
+                      />
+                      <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}>{res.name}</Text>
+                      <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}>${res.price}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })
+            }
+          </View>
+
+          <View style={style.formDiv}>
+            <Text style={{ padding: 10, fontWeight: "bold", fontSize: 15 }}>
+              Total Price: ${totalAmount} (With Delivery Fee $3.50)
+            </Text>
+          </View>
+          <View style={style.formDiv}>
+            <TouchableOpacity onPress={function() {
+
+            }
+            }>
+              <View style={style.formDivForTwoColumn}>
+                <CheckBox
+                  checked={isChargeCard}
+                  title="Charge My Card"
+                  onPress={function() {
+                    isChargeCard ? setIsChargeCard(false) :
+                      setIsChargeCard(true);
+                  }}
+                />
+
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={function() {
+
+            }
+            }>
+              <View style={style.formDivForTwoColumn}>
+                <CheckBox
+                  checked={isPaidVendor}
+                  title="I already paid the vendor"
+                  onPress={function() {
+                    isPaidVendor ? setIsPaidVendor(false) :
+                      setIsPaidVendor(true);
+                  }}
+                />
+
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{ paddingStart: 50, marginBottom: 10 }}>
+            <Button style={style.getStartBut} onPress={function() {
+              onSubmit();
+            }}>
+              <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
+            </Button>
+          </View>
 
         </View>
-        <View style={style.formDiv}>
-          <Text style={{ padding: 10, fontWeight: "bold", fontSize: 15 }}>
-            Total Price: ${totalAmount} (With Delivery Fee $3.50)
-          </Text>
-        </View>
-        <View style={{ paddingStart: 50, marginBottom: 10 }}>
-          <Button style={style.getStartBut} onPress={function() {
-            onSubmit();
-          }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
-          </Button>
-        </View>
-
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </Root>
   );
 };
 const style = StyleSheet.create({

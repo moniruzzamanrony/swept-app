@@ -22,7 +22,7 @@ const HandymanScreen = (props) => {
   const [frequencyCardStyle, setFrequencyCardStyle] = React.useState(style.cardStyleForTypeSelection);
   const [roomTypeCardStyle, setRoomTypeCardStyle] = React.useState(style.cardStyleForTypeSelection);
   const [cleanTypeCardStyle, setCleanTypeCardStyle] = React.useState(style.cardStyleForTypeSelection);
-  const [cleanTypeTitle, setCleanTypeTitle] = React.useState("Type of cleaning");
+  const [cleanTypeTitle, setCleanTypeTitle] = React.useState("Price");
 
   //Selected Data
   const [houseType, setHouseType] = React.useState("");
@@ -30,6 +30,9 @@ const HandymanScreen = (props) => {
   const [servicePriceId, setServicePriceId] = React.useState("");
   const [descriptions, setDescriptions] = React.useState("");
   const [totalAmount, setTotalAmount] = React.useState(0.0);
+  const [offAmount, setOffAmount] = React.useState(0.0);
+
+  const [priceListBySelection, setPriceListBySelection] = React.useState([]);
 
 
   // UI SETUP
@@ -44,7 +47,7 @@ const HandymanScreen = (props) => {
     setLoading(true);
     axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + servicetype + "/" + servicearea)
       .then(function(response) {
-        console.log(response);
+
         setResult(response.data.Result);
         setLoading(false);
       })
@@ -62,6 +65,7 @@ const HandymanScreen = (props) => {
       });
   };
   const gettingResultBySelectedOption = (servicetype, servicearea) => {
+    setPriceListBySelection([]);
     setServicearea(servicearea);
     setServicetype(servicetype);
     callApi(servicetype, servicearea);
@@ -78,7 +82,7 @@ const HandymanScreen = (props) => {
       setApartmentCardStyle(style.selectedCardStyle);
       setCondHouseCardStyle(style.cardStyle);
       setTitle("Apartment/Townhome Type");
-      setCleanTypeTitle("Type of cleaning");
+      setCleanTypeTitle("Price");
     } else {
       //Clean Variable
       setTotalAmount("");
@@ -92,7 +96,7 @@ const HandymanScreen = (props) => {
       setCondHouseCardStyle(style.selectedCardStyle);
       setApartmentCardStyle(style.cardStyle);
       setTitle("Room Type");
-      setCleanTypeTitle("Clean Type");
+      setCleanTypeTitle("Price");
     }
 
 
@@ -100,7 +104,7 @@ const HandymanScreen = (props) => {
 
 
   const gotoNextScreen = async () => {
-    console.log(await LoggedUserInfo.getLoggedUserId());
+
     const data = {
       "requestType": MediaType.JSON,
       "api": Api.ORDER_HANDIMEN,
@@ -112,18 +116,41 @@ const HandymanScreen = (props) => {
         "descriptions": descriptions,
         "date": "null",
         "address": "null",
-        "total_price": totalAmount,
+        "total_price": (+totalAmount) - (+offAmount),
       },
     };
 
     if (Validators.checkPropertiesForEmpty(data)) {
-      console.log(data);
+
       props.navigation.navigate("TimeAndDateScreen", data);
     } else {
+
       alert("Please Select Properly !");
     }
   };
+  const searchByServiceType = (serviceId) => {
+    console.log(serviceId);
+    setLoading(true);
+    axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + servicetype + "/" + servicearea + "/" + serviceId)
+      .then(function(response) {
+        console.log(response.data.Result[0].service_price);
+        setPriceListBySelection(response.data.Result[0].service_price);
+        setLoading(false);
+      })
+      .catch(function(error) {
+        setLoading(false);
+        console.warn(error);
+        Toast.show({
+          text: "Something Wrong ",
+          buttonText: "Okay",
+          type: "danger",
+        });
 
+        // Hide Loader
+        // setLoading(false);
+      });
+
+  };
   return (
     <Root>
       {/* Loading Screen Start*/}
@@ -158,11 +185,13 @@ const HandymanScreen = (props) => {
             {/*--- Handyman condohouse Card----*/}
             <TouchableOpacity onPress={function() {
               gettingResultBySelectedOption("handimen", "condohouse");
+
             }}>
               <View style={condHouseCardStyle}>
                 <Image
                   source={require("../../assets/icons/home_icon.png")}
                   style={{ height: 60, width: 60 }}
+
                 />
                 <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Condo/
                   House</Text>
@@ -175,62 +204,65 @@ const HandymanScreen = (props) => {
           {/* ---- Tell Us About Your Place ----- */}
           <Text style={style.cardHeaderTextStyle}> {title} </Text>
           <View style={{ alignItems: "center" }}>
+            <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
 
-            <View style={{ flexDirection: "row", marginBottom: 10 }}>
+              {
+                result.map((data) => {
+                  return (
+                    <TouchableOpacity onPress={function() {
+                      setRoomTypeCardStyle(data.id);
+                      setServiceName(data.handimen.service_name);
+                      searchByServiceType(data.id);
+                    }}>
+                      <View
+                        style={roomTypeCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
+                        <Image
+                          source={{ uri: Api.IMAGE_VIEW_BASE_URL + "HandymanServiceImage/" + data.handimen.image }}
+                          style={{ height: 60, width: 60 }}
+                        />
+                        <Text style={style.cardTextStyle}> {data.handimen.service_name} </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
 
-              <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
-                {
-                  result.map((data) => {
-                    return (
-                      <TouchableOpacity onPress={function() {
-                        setRoomTypeCardStyle(data.id);
-                        setServiceName(data.handimen.service_name);
-                        // setRoomId(data.id);
-                        // setAmount(data.room_price);
-                      }}>
-                        <View
-                          style={roomTypeCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
-                          <Image
-                            source={{ uri: Api.IMAGE_VIEW_BASE_URL + "HandymanServiceImage/" + data.handimen.image }}
-                            style={{ height: 60, width: 60 }}
-                          />
-                          <Text style={style.cardTextStyle}> {data.handimen.service_name} </Text>
-                        </View>
-                      </TouchableOpacity>
-                    );
-
-                  })
-                }
-              </ScrollView>
-
+                })
+              }
             </View>
           </View>
         </View>
 
         {/* ---- Price ----- */}
+        {
+          priceListBySelection.length == 0 ? null :
+            <Text style={style.cardHeaderTextStyle}> {cleanTypeTitle} </Text>
+        }
 
-        <Text style={style.cardHeaderTextStyle}> {cleanTypeTitle} </Text>
 
-        <ScrollView horizontal={true} style={{ marginLeft: 25 }}>
+        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
           {
-            result.map((data) => {
+            priceListBySelection.map((data) => {
               return (
                 <TouchableOpacity onPress={function() {
                   setCleanTypeCardStyle(data.id);
                   setServicePriceId(data.id);
                   setTotalAmount(data.price);
+                  setOffAmount(data.off);
                 }}>
                   <View
                     style={cleanTypeCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
                     <Text style={style.cardTextStyle}> {data.quantity} </Text>
-                    <Text style={style.cardTextStyle}> ${data.price} </Text>
+                    {
+                      data.off === null ? <Text style={style.cardTextStyle}> ${data.price}</Text> :
+                        <Text style={style.cardTextStyle}> ${data.price} (${data.off} off)</Text>
+                    }
+
                   </View>
                 </TouchableOpacity>
               );
 
             })
           }
-        </ScrollView>
+        </View>
 
         {/* ---- Enter Details ----- */}
         <Text style={style.cardHeaderTextStyle}> Enter Details </Text>
@@ -241,6 +273,10 @@ const HandymanScreen = (props) => {
                    onChangeText={descriptions => setDescriptions(descriptions)}
 
         />
+        {/*--- Price View -----*/}
+        <View style={{ marginLeft: 25 }}>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price : ${(+totalAmount) - (+offAmount)} </Text>
+        </View>
         <View style={{ paddingStart: 65, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
             gotoNextScreen();
