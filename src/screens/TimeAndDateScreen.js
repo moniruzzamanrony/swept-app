@@ -35,7 +35,7 @@ const TimeAndDateScreen = (props) => {
         offer: "00",
       }, {
         id: 3,
-        time: "Within the Next Weak",
+        time: "Within the Next Week",
         description: "",
         offer: "00",
       },
@@ -231,6 +231,7 @@ const style = StyleSheet.create({
   },
   inputField: {
     backgroundColor: colors.white,
+    color: colors.black,
     width: 350,
     height: 54,
     borderRadius: 8,

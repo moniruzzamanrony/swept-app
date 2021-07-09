@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Root, Toast, View } from "native-base";
+import { Button, Icon, Root, Toast, View } from "native-base";
 import NavigationBar from "../navigation/NavigationBar";
 import { Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { colors } from "../theme/Colors";
@@ -16,8 +16,10 @@ const PersonalItemScreen = (props) => {
   const [data, setData] = React.useState([]);
   // For Change Bg
   const [cardBg, setCardBg] = React.useState();
-  const [totalAmount, setTotalAmount] = React.useState();
-  const [itemId, setItemId] = React.useState();
+  const [totalAmount, setTotalAmount] = React.useState([]);
+  const [itemId, setItemId] = React.useState([]);
+  const [productNameList, setProductNameList] = React.useState([]);
+  const [conciergeId, setConciergeId] = React.useState([]);
   // UI SETUP
   const [loading, setLoading] = useState(false);
   const [isChargeCard, setIsChargeCard] = React.useState(false);
@@ -38,11 +40,11 @@ const PersonalItemScreen = (props) => {
       "api": Api.ORDER_PERSONAL_ITEM,
       "body": {
         "user_id": await LoggedUserInfo.getLoggedUserId(),
-        "concierge_id": 1,
+        "concierge_id": conciergeId,
         "item_id": itemId,
         "date": "date",
         "address": "ads",
-        "total_price": totalAmount,
+        "total_price": (+eval(totalAmount.join("+"))) + 3.50,
       },
 
     };
@@ -101,8 +103,10 @@ const PersonalItemScreen = (props) => {
                 return (
                   <TouchableOpacity onPress={function() {
                     changeBackground(res.id);
-                    setTotalAmount((+res.price) + 3.50);
-                    setItemId(res.id);
+                    setTotalAmount([...totalAmount, res.price]);
+                    setItemId([...itemId, res.id]);
+                    setConciergeId([...itemId, res.id]);
+                    setProductNameList([...productNameList, res.name]);
                   }}>
                     <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
                       <Image
@@ -117,10 +121,34 @@ const PersonalItemScreen = (props) => {
               })
             }
           </View>
-
+          {/*--- Product Card View -----*/}
+          <View style={style.formDiv}>
+            <Text style={{ padding: 10, fontWeight: "bold", fontSize: 15 }}> Selected Items</Text>
+            {
+              productNameList.map((res, i) => {
+                return (
+                  <View style={style.paymentCard}>
+                    <View style={{ flexDirection: "row" }}>
+                      <TouchableOpacity onPress={function() {
+                        setProductNameList(productNameList.filter((_, i2) => i2 !== i));
+                        conciergeId.splice(i, 1);
+                        itemId.splice(i, 1);
+                        totalAmount.splice(i, 1);
+                      }}>
+                        <Icon name="md-close-circle" style={{ color: colors.offRed, marginLeft: 5 }} />
+                      </TouchableOpacity>
+                      <Text style={{ marginLeft: 10, marginTop: 3, fontWeight: "bold" }}>{res}</Text>
+                      <Text style={{ marginLeft: 20, marginTop: 3, fontWeight: "bold" }}>${totalAmount[i]}</Text>
+                    </View>
+                  </View>
+                );
+              })
+            }
+          </View>
           <View style={style.formDiv}>
             <Text style={{ padding: 10, fontWeight: "bold", fontSize: 15 }}>
-              Total Price: ${totalAmount} (With Delivery Fee $3.50)
+              Total Price: ${totalAmount.length > 0 ? eval(totalAmount.join("+")).toFixed(2) :
+              0.0} (With Delivery Fee $3.50)
             </Text>
           </View>
           <View style={style.formDiv}>
@@ -176,6 +204,20 @@ const style = StyleSheet.create({
     flex: 3,
     backgroundColor: colors.baseBackgroundColor,
   },
+  paymentCard: {
+    backgroundColor: colors.white,
+    borderRadius: 5,
+    padding: 10,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    elevation: 8,
+    margin: 2,
+  },
   header: {
     backgroundColor: colors.white,
     height: 139,
@@ -202,6 +244,7 @@ const style = StyleSheet.create({
   },
   inputField: {
     backgroundColor: colors.white,
+    color: colors.black,
     width: 350,
     height: 54,
     borderRadius: 8,

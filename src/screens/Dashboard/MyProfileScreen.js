@@ -58,7 +58,7 @@ const MyProfileScreen = (props) => {
 
   const editProfile = () => {
     setNameDisable(true);
-    setEmailDisable(true);
+    setEmailDisable(false);
     setPhoneDisable(true);
     setAddressDisable(true);
     setEditButVisible(false);
@@ -177,12 +177,12 @@ const MyProfileScreen = (props) => {
           <TextInput style={style.inputField} onChangeText={name => setName(name)}
                      editable={nameDisable} value={name} />
         </View>
-
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Email</Text>
-          <TextInput style={style.inputField} onChangeText={phoneOrEmail => setEmail(phoneOrEmail)}
-                     editable={emailDisable} value={email} />
-        </View>
+        {isEditButVisible ?
+          <View style={style.formDiv}>
+            <Text style={{ margin: 2 }}>Email</Text>
+            <TextInput style={style.inputField} onChangeText={phoneOrEmail => setEmail(phoneOrEmail)}
+                       editable={emailDisable} value={email} />
+          </View> : null}
 
 
         <View style={style.formDiv}>
@@ -235,6 +235,7 @@ const style = StyleSheet.create({
   inputField: {
     backgroundColor: colors.white,
     width: 350,
+    color: colors.black,
     height: 54,
     borderRadius: 8,
     borderWidth: 2,

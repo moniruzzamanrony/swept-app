@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import axios from "axios";
 import { Api } from "../contants/Api";
-import { Button, Root, Toast } from "native-base";
+import { Button, Icon, Root, Toast } from "native-base";
 import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 import * as Validators from "../validator/Validators";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -26,10 +26,11 @@ const HandymanScreen = (props) => {
 
   //Selected Data
   const [houseType, setHouseType] = React.useState("");
-  const [serviceName, setServiceName] = React.useState("");
-  const [servicePriceId, setServicePriceId] = React.useState("");
+  const [serviceNameList, setServiceNameList] = React.useState([]);
+  const [serviceNameTemp, setServiceNameTemp] = React.useState("");
+  const [servicePriceId, setServicePriceId] = React.useState([]);
   const [descriptions, setDescriptions] = React.useState("");
-  const [totalAmount, setTotalAmount] = React.useState(0.0);
+  const [totalAmount, setTotalAmount] = React.useState([]);
   const [offAmount, setOffAmount] = React.useState(0.0);
 
   const [priceListBySelection, setPriceListBySelection] = React.useState([]);
@@ -71,10 +72,10 @@ const HandymanScreen = (props) => {
     callApi(servicetype, servicearea);
     if (servicearea === "apartmenttownhome") {
       //Clean Variable
-      setTotalAmount("");
+      setTotalAmount([]);
       setDescriptions("");
-      setServicePriceId("");
-      setServiceName("");
+      setServicePriceId([]);
+      setServiceNameList([]);
       setHouseType("");
 
       //Set Data
@@ -85,10 +86,10 @@ const HandymanScreen = (props) => {
       setCleanTypeTitle("Price");
     } else {
       //Clean Variable
-      setTotalAmount("");
+      setTotalAmount([]);
       setDescriptions("");
-      setServicePriceId("");
-      setServiceName("");
+      setServicePriceId([]);
+      setServiceNameList([]);
       setHouseType("");
 
       //Set Data
@@ -111,12 +112,12 @@ const HandymanScreen = (props) => {
       "body": {
         "user_id": await LoggedUserInfo.getLoggedUserId(),
         "house_type": houseType,
-        "service_name": serviceName,
+        "service_name": serviceNameList,
         "service_price_id": servicePriceId,
         "descriptions": descriptions,
         "date": "null",
         "address": "null",
-        "total_price": (+totalAmount) - (+offAmount),
+        "total_price": eval(totalAmount.join("+")),
       },
     };
 
@@ -211,7 +212,7 @@ const HandymanScreen = (props) => {
                   return (
                     <TouchableOpacity onPress={function() {
                       setRoomTypeCardStyle(data.id);
-                      setServiceName(data.handimen.service_name);
+                      setServiceNameTemp(data.handimen.service_name);
                       searchByServiceType(data.id);
                     }}>
                       <View
@@ -244,8 +245,12 @@ const HandymanScreen = (props) => {
               return (
                 <TouchableOpacity onPress={function() {
                   setCleanTypeCardStyle(data.id);
-                  setServicePriceId(data.id);
-                  setTotalAmount(data.price);
+                  setServicePriceId([...servicePriceId, data.id]);
+                  setServiceNameList([...serviceNameList, serviceNameTemp]);
+                  data.off === null ?
+                    setTotalAmount([...totalAmount, data.price]) :
+                    setTotalAmount([...totalAmount, (+data.price) - (+data.off)]);
+
                   setOffAmount(data.off);
                 }}>
                   <View
@@ -273,9 +278,35 @@ const HandymanScreen = (props) => {
                    onChangeText={descriptions => setDescriptions(descriptions)}
 
         />
-        {/*--- Price View -----*/}
+        {/*--- Product Card View -----*/}
+        <Text style={style.cardHeaderTextStyle}> Selected Items</Text>
+        {
+          serviceNameList.map((res, i) => {
+            return (
+              <View style={style.paymentCard}>
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity onPress={function() {
+                    setServiceNameList(serviceNameList.filter((_, i2) => i2 !== i));
+                    totalAmount.splice(i, 1);
+                    servicePriceId.splice(i, 1);
+                  }}>
+                    <Icon name="md-close-circle" style={{ color: colors.offRed, marginLeft: 5 }} />
+                  </TouchableOpacity>
+                  <Text style={{ marginLeft: 10, marginTop: 3, fontWeight: "bold" }}>{res}</Text>
+                  <Text style={{ marginLeft: 20, marginTop: 3, fontWeight: "bold" }}>${totalAmount[i]}</Text>
+                </View>
+              </View>
+            );
+          })
+        }
+
+
         <View style={{ marginLeft: 25 }}>
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price : ${(+totalAmount) - (+offAmount)} </Text>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+            Total Price: ${totalAmount.length > 0 ?
+            eval(totalAmount.join("+")).toFixed(2) :
+            0.0}
+          </Text>
         </View>
         <View style={{ paddingStart: 65, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
@@ -319,6 +350,22 @@ const style = StyleSheet.create({
   },
   cardTextStyle: {
     fontSize: 18,
+  },
+  paymentCard: {
+    marginLeft: 25,
+    marginRight: 25,
+    backgroundColor: colors.white,
+    borderRadius: 5,
+    padding: 10,
+    shadowColor: "#ccc",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    elevation: 8,
+    margin: 10,
   },
   cardStyle: {
     width: 168,
@@ -396,12 +443,14 @@ const style = StyleSheet.create({
   },
   inputField: {
     backgroundColor: colors.white,
+    color: colors.black,
     width: "85%",
     borderRadius: 8,
     padding: 10,
     marginTop: 10,
     marginLeft: 40,
     marginRight: 25,
+    marginBottom: 10,
     borderWidth: 2,
     borderColor: colors.offWhite,
   },

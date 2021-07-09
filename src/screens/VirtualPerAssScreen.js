@@ -166,6 +166,7 @@ const style = StyleSheet.create({
   },
   inputField: {
     backgroundColor: colors.white,
+    color: colors.black,
     width: 350,
     height: 54,
     borderRadius: 8,
@@ -183,6 +184,7 @@ const style = StyleSheet.create({
   },
   inputFieldHalf: {
     backgroundColor: colors.white,
+    color: colors.black,
     width: 160,
     marginRight: 20,
     borderRadius: 8,

@@ -82,7 +82,7 @@ const HomeScreen = (props) => {
         </View>
       </View>
       {/*---- Main Card Body ------*/}
-      <View style={{ margin: 20 }}>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
         {/*--- Row 1*/}
 
         <View style={{ flexDirection: "row", marginBottom: 10 }}>
@@ -222,6 +222,7 @@ const style = StyleSheet.create({
   },
   inputField: {
     backgroundColor: colors.white,
+    color: colors.black,
     width: 350,
     height: 54,
     borderRadius: 8,

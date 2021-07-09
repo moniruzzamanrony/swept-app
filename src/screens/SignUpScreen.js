@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { Text } from "react-native-elements";
 import { colors } from "../theme/Colors";
 import NavigationHeader from "../navigation/NavigationHeader";
@@ -76,19 +76,22 @@ const SignUpScreen = (props) => {
 
   };
 
-
+  const gotoLoginPage = () => {
+    props.navigation.navigate("LoginScreen");
+  };
   return (
-    <Root>
-      <View style={style.body}>
-        {/* Loading Screen Start*/}
-        <Spinner
-          //visibility of Overlay Loading Spinner
-          visible={loading}
-          //Text with the Spinner
-          textContent={"Loading..."}
-          textStyle={{ color: colors.buttonBgColor }}
-        />
-        {/* Loading Screen End*/}
+    <Root style={style.body}>
+      <ScrollView>
+        <View>
+          {/* Loading Screen Start*/}
+          <Spinner
+            //visibility of Overlay Loading Spinner
+            visible={loading}
+            //Text with the Spinner
+            textContent={"Loading..."}
+            textStyle={{ color: colors.buttonBgColor }}
+          />
+          {/* Loading Screen End*/}
 
         {/*------Header-----*/}
         <NavigationHeader title="Sign Up" url="LoginScreen" navigation={props} />
@@ -139,10 +142,11 @@ const SignUpScreen = (props) => {
             <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Sign Up</Text>
           </Button>
           <Text style={{ margin: 8 }} onPress={function() {
-
+            gotoLoginPage();
           }}>Already have an account? <Text style={{ fontWeight: "bold" }}> Login</Text></Text>
         </View>
-      </View>
+        </View>
+      </ScrollView>
     </Root>
   );
 };
@@ -153,6 +157,7 @@ const style = StyleSheet.create({
   },
   inputField: {
     backgroundColor: colors.white,
+    color: colors.black,
     width: 350,
     height: 54,
     borderRadius: 8,
