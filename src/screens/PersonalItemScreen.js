@@ -40,11 +40,11 @@ const PersonalItemScreen = (props) => {
       "api": Api.ORDER_PERSONAL_ITEM,
       "body": {
         "user_id": await LoggedUserInfo.getLoggedUserId(),
-        "concierge_id": conciergeId,
+        "concierge_id": [1, 2],
         "item_id": itemId,
         "date": "date",
         "address": "ads",
-        "total_price": (+eval(totalAmount.join("+"))) + 3.50,
+        "total_price": totalAmount,
       },
 
     };

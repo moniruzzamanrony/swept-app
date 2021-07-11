@@ -112,6 +112,16 @@ const PaymentScreen = (props) => {
     }));
   };
 
+  function getTotalPaymentAmount() {
+    if (typeof props.route.params.body.total_price === "object") {
+      console.log(props.route.params.body.total_price);
+      return eval(props.route.params.body.total_price.join("+")).toFixed(2);
+    } else {
+      return props.route.params.body.total_price;
+    }
+
+  }
+
   return (
     <Root>
       <View style={style.body}>
@@ -156,7 +166,7 @@ const PaymentScreen = (props) => {
               requestType == MediaType.FORM_DATA ?
                 null :
                 <Text style={{ fontWeight: "bold", padding: 10, color: colors.assColor }}>
-                  Total Price: ${props.route.params.body.total_price}
+                  Total Price: ${getTotalPaymentAmount()}
                 </Text>
             }
 

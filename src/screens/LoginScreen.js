@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AsyncStorage, Image, StyleSheet, TextInput, View } from "react-native";
+import { AsyncStorage, Dimensions, Image, StyleSheet, TextInput, View } from "react-native";
 import { colors } from "../theme/Colors";
 import { Button, Root, Toast } from "native-base";
 import { Text } from "react-native-elements";
@@ -14,7 +14,7 @@ const LoginScreen = (props) => {
   const [password, setPassword] = React.useState("");
   const [passwordErr, setPasswordErr] = React.useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
 
   const login = async () => {
 
@@ -66,12 +66,47 @@ const LoginScreen = (props) => {
 
 
   function gotoSignUpPage() {
+    console.log(width);
     props.navigation.navigate("SignUpScreen");
   }
 
   function forgetPassword() {
     props.navigation.navigate("ResetPasswordScreen");
   }
+
+  // Style
+  const style = StyleSheet.create({
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    inputField: {
+      width: width,
+      backgroundColor: colors.white,
+      color: colors.black,
+      height: 54,
+      borderRadius: 8,
+      padding: 10,
+      borderWidth: 2,
+      borderColor: colors.offWhite,
+    },
+    getStartBut: {
+      width: 292,
+      height: 60,
+      marginTop: 10,
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+      margin: 2,
+    },
+  });
 
   return (
     <Root>
@@ -108,7 +143,7 @@ const LoginScreen = (props) => {
             login();
             //Navigate to Home Screen
           }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Log in</Text>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Log in</Text>
           </Button>
           <Text style={{ margin: 8 }} onPress={function() {
             gotoSignUpPage();
@@ -119,36 +154,5 @@ const LoginScreen = (props) => {
   );
 };
 
-const style = StyleSheet.create({
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputField: {
-    backgroundColor: colors.white,
-    color: colors.black,
-    width: 350,
-    height: 54,
-    borderRadius: 8,
-    padding: 10,
-    borderWidth: 2,
-    borderColor: colors.offWhite,
-  },
-  getStartBut: {
-    width: 292,
-    height: 60,
-    marginTop: 30,
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-  },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-    margin: 2,
-  },
-});
+
 export default LoginScreen;

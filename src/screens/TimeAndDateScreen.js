@@ -14,6 +14,7 @@ const TimeAndDateScreen = (props) => {
   const [cardBg, setCardBg] = React.useState();
 
   const [totalPriceWithOffer, setTotalPriceWithOffer] = React.useState();
+  const [totalPriceWithOfferArray, setTotalPriceWithOfferArray] = React.useState([]);
 
   useEffect(() => {
     console.log("------");
@@ -63,10 +64,18 @@ const TimeAndDateScreen = (props) => {
 
   function gotoNextScreen() {
     if (selectedDate != "") {
-      props.route.params.body.date = selectedDate;
-      props.route.params.body.total_price = totalPriceWithOffer;
-      console.log(props.route.params);
-      props.navigation.navigate("AddressScreen", props.route.params);
+      if (typeof props.route.params.body.total_price === "object") {
+        props.route.params.body.date = selectedDate;
+        props.route.params.body.total_price = totalPriceWithOfferArray;
+        console.log(props.route.params);
+        props.navigation.navigate("AddressScreen", props.route.params);
+      } else {
+        props.route.params.body.date = selectedDate;
+        props.route.params.body.total_price = totalPriceWithOffer;
+        console.log(props.route.params);
+        props.navigation.navigate("AddressScreen", props.route.params);
+      }
+
     } else {
       alert("Please Select Properly! ");
     }
@@ -77,9 +86,31 @@ const TimeAndDateScreen = (props) => {
     setCardBg(id);
   };
 
-  const addOfferWithPrice = (id, offerPrice) => {
+  const addOfferWithPrice = async (id, offerPrice) => {
 
-    setTotalPriceWithOffer((+props.route.params.body.total_price) + (+offerPrice));
+    if (typeof props.route.params.body.total_price === "object") {
+      setTotalPriceWithOfferArray([]);
+      id === 1 ?
+        props.route.params.body.total_price.forEach(element => {
+          let sumOfValue = (+element) + (+offerPrice);
+
+          setTotalPriceWithOfferArray((currentItems) => {
+            return [sumOfValue, ...currentItems];
+          });
+        }) : props.route.params.body.total_price.forEach(element => {
+          setTotalPriceWithOfferArray((currentItems) => {
+            return [element, ...currentItems];
+          });
+        });
+
+
+    } else {
+      setTotalPriceWithOffer((+props.route.params.body.total_price) + (+offerPrice));
+    }
+
+
+    //setTotalPriceWithOffer((+props.route.params.body.total_price) + (+offerPrice));
+    //  setTotalPriceWithOffer((+props.route.params.body.total_price) + (+offerPrice));
 
 
   };

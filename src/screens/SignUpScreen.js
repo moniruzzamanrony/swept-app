@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { Text } from "react-native-elements";
 import { colors } from "../theme/Colors";
 import NavigationHeader from "../navigation/NavigationHeader";
@@ -22,6 +22,9 @@ const SignUpScreen = (props) => {
   const [reTypePassword, setReTypePassword] = React.useState("");
   const [reTypePasswordErr, setReTypePasswordErr] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) + 50);
+
   const gotoSignUpPage = () => {
     if (name === "") {
       setNameErr(true);
@@ -79,6 +82,47 @@ const SignUpScreen = (props) => {
   const gotoLoginPage = () => {
     props.navigation.navigate("LoginScreen");
   };
+
+  // Style
+  const style = StyleSheet.create({
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+    },
+    inputField: {
+      backgroundColor: colors.white,
+      color: colors.black,
+      width: width,
+      height: 54,
+      borderRadius: 8,
+      borderWidth: 2,
+      padding: 10,
+      borderColor: colors.offWhite,
+    },
+    getStartBut: {
+      width: widthHalf,
+      height: 60,
+      marginTop: 10,
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+    },
+    buttomBut: {
+      marginLeft: width / 4,
+
+    },
+    formDiv: {
+      marginLeft: 28,
+      marginRight: 28,
+      marginBottom: 10,
+
+    },
+  });
   return (
     <Root style={style.body}>
       <ScrollView>
@@ -150,43 +194,5 @@ const SignUpScreen = (props) => {
     </Root>
   );
 };
-const style = StyleSheet.create({
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-  },
-  inputField: {
-    backgroundColor: colors.white,
-    color: colors.black,
-    width: 350,
-    height: 54,
-    borderRadius: 8,
-    borderWidth: 2,
-    padding: 10,
-    borderColor: colors.offWhite,
-  },
-  getStartBut: {
-    width: 292,
-    height: 60,
-    marginTop: 30,
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-  },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-  },
-  buttomBut: {
-    marginLeft: 60,
 
-  },
-  formDiv: {
-    marginLeft: 28,
-    marginRight: 28,
-    marginBottom: 10,
-
-  },
-});
 export default SignUpScreen;

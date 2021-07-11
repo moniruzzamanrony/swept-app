@@ -117,7 +117,7 @@ const HandymanScreen = (props) => {
         "descriptions": descriptions,
         "date": "null",
         "address": "null",
-        "total_price": eval(totalAmount.join("+")),
+        "total_price": totalAmount,
       },
     };
 

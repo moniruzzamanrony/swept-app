@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { AsyncStorage, Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { AsyncStorage, Image, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import Text from "react-native-paper/src/components/Typography/Text";
 import { colors } from "../../theme/Colors";
 import axios from "axios";
@@ -82,17 +82,18 @@ const HomeScreen = (props) => {
         </View>
       </View>
       {/*---- Main Card Body ------*/}
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        {/*--- Row 1*/}
+      <ScrollView>
+        <View style={{ justifyContent: "center", alignItems: "center", margin: 10 }}>
+          {/*--- Row 1*/}
 
-        <View style={{ flexDirection: "row", marginBottom: 10 }}>
-          <TouchableOpacity onPress={function() {
-            gotoSelectedScreen("CleaningScreen");
-          }}>
-            {/*--- Cleaning Card----*/}
-            <View style={style.cardStyle}>
-              <Image
-                source={require("../../../assets/icons/cleaning_icon.png")}
+          <View style={{ flexDirection: "row", marginBottom: 10 }}>
+            <TouchableOpacity onPress={function() {
+              gotoSelectedScreen("CleaningScreen");
+            }}>
+              {/*--- Cleaning Card----*/}
+              <View style={style.cardStyle}>
+                <Image
+                  source={require("../../../assets/icons/cleaning_icon.png")}
                 style={{ height: 60, width: 60 }}
               />
               <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Cleaning</Text>
@@ -173,7 +174,8 @@ const HomeScreen = (props) => {
           </TouchableOpacity>
         </View>
 
-      </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -202,8 +204,8 @@ const style = StyleSheet.create({
 
   },
   cardStyle: {
-    width: 168,
-    height: 170,
+    width: 155,
+    height: 157,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.white,

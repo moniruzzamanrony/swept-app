@@ -33,7 +33,24 @@ const CleaningScreen = (props) => {
   const [totalAmount, setTotalAmount] = React.useState(0.0);
   const [amount, setAmount] = React.useState("0.0");
   const [offer, setOffer] = React.useState("0.0");
-
+  const [frequencyStatic, setFrequencyStatic] = React.useState([
+    {
+      id: 1,
+      freName: "Weekly",
+      offer: 15,
+    },
+    {
+      id: 2,
+      freName: "Bi-weekly",
+      offer: 8,
+    },
+    {
+      id: 3,
+      freName: "Monthly",
+      offer: 5,
+    },
+  ]);
+  const [frequencyOffer, setFrequencyOffer] = React.useState("");
   // UI SETUP
   const [loading, setLoading] = useState(false);
 
@@ -53,6 +70,7 @@ const CleaningScreen = (props) => {
       offer: "99",
     },
   ]);
+
 
   useEffect(() => {
     callApi(servicetype, servicearea);
@@ -128,7 +146,7 @@ const CleaningScreen = (props) => {
         "frequency": frequency,
         "date": "date",
         "address": "ads",
-        "total_price": amount,
+        "total_price": (+amount) + (+offer) + ((+amount) * (+frequencyOffer)) / 100,
       },
 
     };
@@ -251,15 +269,16 @@ const CleaningScreen = (props) => {
         {/*--- Frequency----*/}
         <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
           {
-            result.map((data) => {
+            frequencyStatic.map((data) => {
               return (
                 <TouchableOpacity onPress={function() {
                   setFrequencyCardStyle(data.id);
-                  setFrequency(data.cleaning.frequency);
+                  setFrequency(data.freName);
+                  setFrequencyOffer(data.offer);
                 }}>
                   <View
                     style={frequencyCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
-                    <Text style={style.cardTextStyle}> {data.cleaning.frequency} </Text>
+                    <Text style={style.cardTextStyle}> {data.freName} ( {data.offer}%)</Text>
                   </View>
                 </TouchableOpacity>
               );
@@ -270,7 +289,8 @@ const CleaningScreen = (props) => {
 
         {/*--- Price View -----*/}
         <View style={{ marginLeft: 25 }}>
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price : ${(+amount) + (+offer)} </Text>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price :
+            ${(+amount) + (+offer) + ((+amount) * (+frequencyOffer)) / 100} </Text>
         </View>
 
         {/*--- Warning Field -----*/}
