@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Linking, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { Dimensions, Linking, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { Text } from "react-native-elements";
 import { colors } from "../theme/Colors";
 import { Button, Root, Toast } from "native-base";
@@ -24,9 +24,10 @@ const PaymentScreen = (props) => {
   const [code, setCode] = React.useState("");
   const [codeErr, setCodeErr] = React.useState(false);
   const [loading, setLoading] = useState(false);
-
   const [api, setApi] = useState(props.route.params.api);
   const [requestType, setRequestType] = useState(props.route.params.requestType);
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) + 50);
 
   const gotoSignUpPage = () => {
     const body = props.route.params.body;
@@ -122,6 +123,46 @@ const PaymentScreen = (props) => {
 
   }
 
+  const style = StyleSheet.create({
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+    },
+    inputField: {
+      backgroundColor: colors.white,
+      color: colors.black,
+      width: width,
+      height: 54,
+      borderRadius: 8,
+      borderWidth: 2,
+      padding: 10,
+      borderColor: colors.offWhite,
+    },
+    getStartBut: {
+      width: 292,
+      height: 60,
+      marginTop: 10,
+      marginBottom: 10,
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+    },
+    buttomBut: {
+      marginLeft: 60,
+
+    },
+    formDiv: {
+      marginLeft: 28,
+      marginRight: 28,
+      marginBottom: 10,
+
+    },
+  });
   return (
     <Root>
       <View style={style.body}>
@@ -203,44 +244,5 @@ const PaymentScreen = (props) => {
     </Root>
   );
 };
-const style = StyleSheet.create({
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-  },
-  inputField: {
-    backgroundColor: colors.white,
-    color: colors.black,
-    width: 350,
-    height: 54,
-    borderRadius: 8,
-    borderWidth: 2,
-    padding: 10,
-    borderColor: colors.offWhite,
-  },
-  getStartBut: {
-    width: 292,
-    height: 60,
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-  },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-  },
-  buttomBut: {
-    marginLeft: 60,
 
-  },
-  formDiv: {
-    marginLeft: 28,
-    marginRight: 28,
-    marginBottom: 10,
-
-  },
-});
 export default PaymentScreen;

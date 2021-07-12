@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { AsyncStorageStatic as AsyncStorage, Image, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  AsyncStorageStatic as AsyncStorage,
+  Dimensions,
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import NavigationBar from "../../navigation/NavigationBar";
 import { Text } from "react-native-elements";
 import { colors } from "../../theme/Colors";
@@ -21,9 +29,10 @@ const MyProfileScreen = (props) => {
   const [addressDisable, setAddressDisable] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [isEditButVisible, setEditButVisible] = useState(true);
-
   const [profilePicturePath, setProfilePicturePath] = useState("");
   const [isProfilePicFound, setIsProfilePicFound] = useState(false);
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) + 50);
 
 
   useEffect(() => {
@@ -126,7 +135,47 @@ const MyProfileScreen = (props) => {
       setIsProfilePicFound(true);
     });
   };
+  const style = StyleSheet.create({
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+    },
+    inputField: {
+      backgroundColor: colors.white,
+      width: width,
+      color: colors.black,
+      height: 54,
+      borderRadius: 8,
+      borderWidth: 2,
+      padding: 10,
+      borderColor: colors.offWhite,
+    },
+    getStartBut: {
+      width: 150,
+      height: 50,
+      margin: 20,
+      marginTop: 30,
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+    },
+    buttomBut: {
+      marginLeft: 60,
 
+    },
+    formDiv: {
+      marginLeft: 28,
+      marginRight: 28,
+      marginBottom: 10,
+
+    },
+  });
   return (
     <Root>
       {/* Loading Screen Start*/}
@@ -227,45 +276,5 @@ const MyProfileScreen = (props) => {
     </Root>
   );
 };
-const style = StyleSheet.create({
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-  },
-  inputField: {
-    backgroundColor: colors.white,
-    width: 350,
-    color: colors.black,
-    height: 54,
-    borderRadius: 8,
-    borderWidth: 2,
-    padding: 10,
-    borderColor: colors.offWhite,
-  },
-  getStartBut: {
-    width: 150,
-    height: 50,
-    margin: 20,
-    marginTop: 30,
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-  },
-  buttomBut: {
-    marginLeft: 60,
 
-  },
-  formDiv: {
-    marginLeft: 28,
-    marginRight: 28,
-    marginBottom: 10,
-
-  },
-});
 export default MyProfileScreen;

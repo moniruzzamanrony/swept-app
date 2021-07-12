@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { colors } from "../theme/Colors";
 import Text from "react-native-paper/src/components/Typography/Text";
 import NavigationBar from "../navigation/NavigationBar";
@@ -12,6 +12,102 @@ import * as Validators from "../validator/Validators";
 
 const HomeSpaScreen = (props) => {
 
+  // Style
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) - 40);
+  const style = StyleSheet.create({
+      body: {
+        flex: 3,
+        backgroundColor: colors.baseBackgroundColor,
+      },
+      header: {
+        backgroundColor: colors.white,
+        height: 139,
+        borderBottomLeftRadius: 18,
+        borderBottomRightRadius: 18,
+        flexDirection: "row",
+      },
+      formDiv: {
+        marginLeft: 28,
+        marginRight: 28,
+        marginBottom: 10,
+
+      },
+      headerTitle: {
+        marginTop: 69,
+        marginLeft: 30,
+        marginBottom: 18,
+
+      },
+      headerAvatar: {
+        width: 150,
+        marginTop: 69,
+        marginBottom: 18,
+
+      },
+      inputField: {
+        backgroundColor: colors.white,
+        color: colors.black,
+        width: 350,
+        height: 54,
+        borderRadius: 8,
+        borderWidth: 2,
+        borderColor: colors.offWhite,
+      },
+      getStartBut: {
+        width: 292,
+        height: 60,
+        marginTop: 10,
+        backgroundColor: colors.buttonBgColor,
+        color: colors.black,
+        borderRadius: 9,
+        justifyContent: "center",
+      },
+      errorMessage: {
+        fontSize: 11,
+        color: colors.offRed,
+        margin: 2,
+      },  // For Change Bg
+      cardStyle: {
+        width: widthHalf - 10,
+        height: widthHalf - 10,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.white,
+        borderRadius: 15,
+        borderWidth: 1,
+        shadowColor: "#ccc",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+        margin: 10,
+        borderColor: colors.cardNonSelectedBorderColor,
+      },
+      selectedCardStyleForTypeSelection: {
+        width: widthHalf - 10,
+        height: widthHalf - 10,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.white,
+        borderRadius: 15,
+        shadowColor: "#ccc",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+        margin: 10,
+        borderWidth: 2,
+        borderColor: "green",
+      },
+    },
+  );
   const [getResponse, setGetResponse] = React.useState([]);
   const [spaId, setSpaId] = React.useState();
   const [totalPrice, setTotalPrice] = React.useState(0);
@@ -70,7 +166,7 @@ const HomeSpaScreen = (props) => {
       <View>
         <NavigationBar title="Beauty & Spa" url="DashboardScreen" navigation={props} />
         <View style={style.formDiv}>
-          <Text style={{ marginTop: 10, fontWeight: "bold" }}>Select Your Service</Text>
+          <Text style={{ marginTop: 10, fontWeight: "bold", fontSize: 17 }}>Select Your Service</Text>
         </View>
         <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
           {getResponse.map((res, index) => {
@@ -113,97 +209,5 @@ const HomeSpaScreen = (props) => {
   );
 };
 
-const style = StyleSheet.create({
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-  },
-  header: {
-    backgroundColor: colors.white,
-    height: 139,
-    borderBottomLeftRadius: 18,
-    borderBottomRightRadius: 18,
-    flexDirection: "row",
-  },
-  formDiv: {
-    marginLeft: 28,
-    marginRight: 28,
-    marginBottom: 10,
 
-  },
-  headerTitle: {
-    marginTop: 69,
-    marginLeft: 30,
-    marginBottom: 18,
-
-  },
-  headerAvatar: {
-    width: 150,
-    marginTop: 69,
-    marginBottom: 18,
-
-  },
-  inputField: {
-    backgroundColor: colors.white,
-    color: colors.black,
-    width: 350,
-    height: 54,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: colors.offWhite,
-  },
-  getStartBut: {
-    width: 292,
-    height: 60,
-    marginTop: 10,
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-  },
-    errorMessage: {
-      fontSize: 11,
-      color: colors.offRed,
-      margin: 2,
-    },  // For Change Bg
-    cardStyle: {
-      width: 168,
-      height: 170,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: colors.white,
-      borderRadius: 15,
-      borderWidth: 1,
-      shadowColor: "#ccc",
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 0.30,
-      shadowRadius: 4.65,
-      elevation: 8,
-      margin: 10,
-      borderColor: colors.cardNonSelectedBorderColor,
-    },
-    selectedCardStyleForTypeSelection: {
-      width: 168,
-      height: 170,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: colors.white,
-      borderRadius: 15,
-      shadowColor: "#ccc",
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 0.30,
-      shadowRadius: 4.65,
-      elevation: 8,
-      margin: 10,
-      borderWidth: 2,
-      borderColor: "green",
-    },
-  }
-);
 export default HomeSpaScreen;

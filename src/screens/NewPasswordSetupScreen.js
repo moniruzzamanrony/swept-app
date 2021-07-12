@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
 import NavigationHeader from "../navigation/NavigationHeader";
 import { colors } from "../theme/Colors";
 import { Button, Root, Toast } from "native-base";
@@ -14,6 +14,8 @@ const NewPasswordSetupScreen = (props) => {
   const [reTypePassword, setReTypePassword] = React.useState("");
   const [reTypePasswordErr, setReTypePasswordErr] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) + 50);
 
   const resetPassword = () => {
     if (password === "") {
@@ -50,7 +52,46 @@ const NewPasswordSetupScreen = (props) => {
         });
     }
   };
+  const style = StyleSheet.create({
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+    },
+    inputField: {
+      backgroundColor: colors.white,
+      color: colors.black,
+      width: width,
+      padding: 10,
+      height: 54,
+      borderRadius: 8,
+      borderWidth: 2,
+      borderColor: colors.offWhite,
+    },
+    getStartBut: {
+      width: 292,
+      height: 60,
+      marginTop: 30,
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+    },
+    buttomBut: {
+      marginLeft: 60,
 
+    },
+    formDiv: {
+      marginLeft: 28,
+      marginRight: 28,
+      marginBottom: 10,
+
+    },
+
+  });
   return (
     <Root>
       {/* Loading Screen Start*/}
@@ -72,7 +113,7 @@ const NewPasswordSetupScreen = (props) => {
         </View>
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Re-enter Password</Text>
-          <TextInput style={style.inputField} placeholder="6-20 characters"
+          <TextInput style={style.inputField} placeholder="8-20 characters"
                      onChangeText={reTypePassword => setReTypePassword(reTypePassword)} />
           {reTypePasswordErr ? <Text style={style.errorMessage}>Password more then 6-20 characters</Text> : null}
         </View>
@@ -87,44 +128,5 @@ const NewPasswordSetupScreen = (props) => {
     </Root>
   );
 };
-const style = StyleSheet.create({
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-  },
-  inputField: {
-    backgroundColor: colors.white,
-    color: colors.black,
-    width: 350,
-    padding: 10,
-    height: 54,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: colors.offWhite,
-  },
-  getStartBut: {
-    width: 292,
-    height: 60,
-    marginTop: 30,
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-  },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-  },
-  buttomBut: {
-    marginLeft: 60,
 
-  },
-  formDiv: {
-    marginLeft: 28,
-    marginRight: 28,
-    marginBottom: 10,
-
-  },
-
-});
 export default NewPasswordSetupScreen;

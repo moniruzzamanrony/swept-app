@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import NavigationBar from "../navigation/NavigationBar";
 import { colors } from "../theme/Colors";
 import { Button, Root, Toast } from "native-base";
@@ -11,6 +11,161 @@ import * as Validators from "../validator/Validators";
 import { MediaType } from "../contants/MediaType";
 
 const CleaningScreen = (props) => {
+  // Style
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) - 40);
+  const style = StyleSheet.create({
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+    },
+    header: {
+      backgroundColor: colors.white,
+      height: 139,
+      borderBottomLeftRadius: 18,
+      borderBottomRightRadius: 18,
+      flexDirection: "row",
+    },
+    headerTitle: {
+      marginTop: 69,
+      marginLeft: 30,
+      marginBottom: 18,
+
+    },
+    headerAvatar: {
+      width: 150,
+      marginTop: 69,
+      marginBottom: 18,
+
+    },
+    cardHeaderTextStyle: {
+      fontSize: 18,
+      marginLeft: 25,
+      fontWeight: "bold",
+    },
+    cardTextStyle: {
+      fontSize: 18,
+    },
+    paymentCard: {
+      marginLeft: 25,
+      marginRight: 25,
+      backgroundColor: colors.white,
+      borderRadius: 5,
+      padding: 10,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+    },
+    cardStyle: {
+      width: widthHalf - 10,
+      height: widthHalf - 10,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+    },
+    selectedCardStyle: {
+      width: widthHalf - 10,
+      height: widthHalf - 10,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderWidth: 2,
+      borderColor: "green",
+    },
+    cardStyleForTypeSelection: {
+      width: widthHalf - 10,
+      height: widthHalf - 40,
+      padding: 5,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      borderWidth: 1,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderColor: colors.cardNonSelectedBorderColor,
+    },
+    selectedCardStyleForTypeSelection: {
+      width: widthHalf - 10,
+      height: widthHalf - 40,
+      padding: 5,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderWidth: 2,
+      borderColor: "green",
+    },
+    inputField: {
+      backgroundColor: colors.white,
+      color: colors.black,
+      width: width,
+      borderRadius: 8,
+      padding: 10,
+      marginTop: 10,
+      marginLeft: 40,
+      marginRight: 25,
+      marginBottom: 10,
+      borderWidth: 2,
+      borderColor: colors.offWhite,
+    },
+    getStartBut: {
+      width: 292,
+      height: 60,
+      marginTop: 30,
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+      margin: 2,
+    },
+  });
 
   const [result, setResult] = React.useState([]);
   const [title, setTitle] = React.useState("Apartment/Townhome Type");
@@ -35,6 +190,10 @@ const CleaningScreen = (props) => {
   const [offer, setOffer] = React.useState("0.0");
   const [frequencyStatic, setFrequencyStatic] = React.useState([
     {
+      id: 0,
+      freName: "One Time",
+      offer: 0,
+    }, {
       id: 1,
       freName: "Weekly",
       offer: 15,
@@ -70,7 +229,6 @@ const CleaningScreen = (props) => {
       offer: "99",
     },
   ]);
-
 
   useEffect(() => {
     callApi(servicetype, servicearea);
@@ -313,153 +471,153 @@ const CleaningScreen = (props) => {
     </Root>
   );
 };
-const style = StyleSheet.create({
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-  },
-  header: {
-    backgroundColor: colors.white,
-    height: 139,
-    borderBottomLeftRadius: 18,
-    borderBottomRightRadius: 18,
-    flexDirection: "row",
-  },
-  headerTitle: {
-    marginTop: 69,
-    marginLeft: 30,
-    marginBottom: 18,
-
-  },
-  headerAvatar: {
-    width: 150,
-    marginTop: 69,
-    marginBottom: 18,
-
-  },
-  cardHeaderTextStyle: {
-    fontSize: 18,
-    marginLeft: 25,
-    fontWeight: "bold",
-  },
-  cardTextStyle: {
-    fontSize: 18,
-  },
-  cardStyle: {
-    width: 168,
-    height: 170,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-  },
-  selectedCardStyle: {
-    width: 168,
-    height: 170,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderWidth: 2,
-    borderColor: "green",
-  },
-  cardStyleForTypeSelection: {
-    width: 168,
-    height: 100,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    borderWidth: 1,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderColor: colors.cardNonSelectedBorderColor,
-  },
-  selectedCardStyleForTypeSelection: {
-    width: 168,
-    height: 100,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderWidth: 2,
-    borderColor: "green",
-  },
-  cardStyleForFrequency: {
-    width: 168,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    borderWidth: 1,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderColor: colors.cardNonSelectedBorderColor,
-  },
-  inputField: {
-    backgroundColor: colors.white,
-    width: 350,
-    color: colors.black,
-    height: 54,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: colors.offWhite,
-  },
-  getStartBut: {
-    width: 292,
-    height: 60,
-    marginTop: 30,
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-  },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-    margin: 2,
-  },
-});
+// const style = StyleSheet.create({
+//   body: {
+//     flex: 3,
+//     backgroundColor: colors.baseBackgroundColor,
+//   },
+//   header: {
+//     backgroundColor: colors.white,
+//     height: 139,
+//     borderBottomLeftRadius: 18,
+//     borderBottomRightRadius: 18,
+//     flexDirection: "row",
+//   },
+//   headerTitle: {
+//     marginTop: 69,
+//     marginLeft: 30,
+//     marginBottom: 18,
+//
+//   },
+//   headerAvatar: {
+//     width: 150,
+//     marginTop: 69,
+//     marginBottom: 18,
+//
+//   },
+//   cardHeaderTextStyle: {
+//     fontSize: 18,
+//     marginLeft: 25,
+//     fontWeight: "bold",
+//   },
+//   cardTextStyle: {
+//     fontSize: 18,
+//   },
+//   cardStyle: {
+//     width: 168,
+//     height: 170,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     backgroundColor: colors.white,
+//     borderRadius: 15,
+//     shadowColor: "#ccc",
+//     shadowOffset: {
+//       width: 0,
+//       height: 4,
+//     },
+//     shadowOpacity: 0.30,
+//     shadowRadius: 4.65,
+//     elevation: 8,
+//     margin: 10,
+//   },
+//   selectedCardStyle: {
+//     width: 168,
+//     height: 170,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     backgroundColor: colors.white,
+//     borderRadius: 15,
+//     shadowColor: "#ccc",
+//     shadowOffset: {
+//       width: 0,
+//       height: 4,
+//     },
+//     shadowOpacity: 0.30,
+//     shadowRadius: 4.65,
+//     elevation: 8,
+//     margin: 10,
+//     borderWidth: 2,
+//     borderColor: "green",
+//   },
+//   cardStyleForTypeSelection: {
+//     width: 168,
+//     height: 100,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     backgroundColor: colors.white,
+//     borderRadius: 15,
+//     borderWidth: 1,
+//     shadowColor: "#ccc",
+//     shadowOffset: {
+//       width: 0,
+//       height: 4,
+//     },
+//     shadowOpacity: 0.30,
+//     shadowRadius: 4.65,
+//     elevation: 8,
+//     margin: 10,
+//     borderColor: colors.cardNonSelectedBorderColor,
+//   },
+//   selectedCardStyleForTypeSelection: {
+//     width: 168,
+//     height: 100,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     backgroundColor: colors.white,
+//     borderRadius: 15,
+//     shadowColor: "#ccc",
+//     shadowOffset: {
+//       width: 0,
+//       height: 4,
+//     },
+//     shadowOpacity: 0.30,
+//     shadowRadius: 4.65,
+//     elevation: 8,
+//     margin: 10,
+//     borderWidth: 2,
+//     borderColor: "green",
+//   },
+//   cardStyleForFrequency: {
+//     width: 168,
+//     height: 60,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     backgroundColor: colors.white,
+//     borderRadius: 15,
+//     borderWidth: 1,
+//     shadowColor: "#ccc",
+//     shadowOffset: {
+//       width: 0,
+//       height: 4,
+//     },
+//     shadowOpacity: 0.30,
+//     shadowRadius: 4.65,
+//     elevation: 8,
+//     margin: 10,
+//     borderColor: colors.cardNonSelectedBorderColor,
+//   },
+//   inputField: {
+//     backgroundColor: colors.white,
+//     width: 350,
+//     color: colors.black,
+//     height: 54,
+//     borderRadius: 8,
+//     borderWidth: 2,
+//     borderColor: colors.offWhite,
+//   },
+//   getStartBut: {
+//     width: 292,
+//     height: 60,
+//     marginTop: 30,
+//     backgroundColor: colors.buttonBgColor,
+//     color: colors.black,
+//     borderRadius: 9,
+//     justifyContent: "center",
+//   },
+//   errorMessage: {
+//     fontSize: 11,
+//     color: colors.offRed,
+//     margin: 2,
+//   },
+// });
 export default CleaningScreen;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Linking, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { Dimensions, Linking, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { colors } from "../theme/Colors";
 import NavigationBar from "../navigation/NavigationBar";
 import { CheckBox, Text } from "react-native-elements";
@@ -11,6 +11,110 @@ import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 import DatePicker from "react-native-date-picker";
 
 const ConciergeInformation = (props) => {
+  // Style
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) - 40);
+  const style = StyleSheet.create({
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+    },
+    inputField: {
+      backgroundColor: colors.white,
+      width: width,
+      color: colors.black,
+      height: 54,
+      borderRadius: 8,
+      borderWidth: 2,
+      padding: 10,
+      borderColor: colors.offWhite,
+    },
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    checkboxContainer: {
+      flexDirection: "row",
+    },
+    cardStyle: {
+      width: widthHalf - 10,
+      height: widthHalf - 10,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      borderWidth: 1,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderColor: colors.cardNonSelectedBorderColor,
+    },
+    inputFieldHalf: {
+      backgroundColor: colors.white,
+      width: widthHalf,
+      color: colors.black,
+      marginRight: 20,
+      borderRadius: 8,
+      borderWidth: 2,
+      padding: 10,
+      borderColor: colors.offWhite,
+    },
+    textArea: {
+      backgroundColor: colors.white,
+      marginRight: 20,
+      color: colors.black,
+      borderRadius: 8,
+      borderWidth: 2,
+      padding: 10,
+      borderColor: colors.offWhite,
+    },
+    uploadRecordBut: {
+      width: 330,
+      height: 60,
+      textAlign: "center",
+      backgroundColor: colors.black,
+      color: colors.white,
+      borderRadius: 9,
+      justifyContent: "center",
+
+    },
+    getStartBut: {
+      width: 292,
+      height: 60,
+      textAlign: "center",
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+    },
+    buttomBut: {
+      marginLeft: 60,
+
+    },
+    formDiv: {
+      marginLeft: 28,
+      marginRight: 28,
+      marginBottom: 10,
+
+    },
+    formDivForTwoColumn: {
+      marginLeft: 28,
+      marginRight: 28,
+      flexDirection: "row",
+
+    },
+  });
   const [conciergeId, setConciergeId] = React.useState(props.route.params.conciergeId);
 
   const [fName, setFName] = React.useState("");
@@ -141,7 +245,7 @@ const ConciergeInformation = (props) => {
                 date={pickUpOffDateDate}
                 onDateChange={setPickUpOffDateDate}
                 mode="datetime"
-                style={{ width: 350 }}
+                style={{ width: width }}
               />
               {/*<TextInput style={style.inputField}*/}
               {/*           onChangeText={pickUpOffDateDate => setPickUpOffDateDate(pickUpOffDateDate)} />*/}
@@ -160,7 +264,7 @@ const ConciergeInformation = (props) => {
                 date={dropOffDate}
                 onDateChange={setDropOffDateDate}
                 mode="datetime"
-                style={{ width: 350 }}
+                style={{ width: width }}
               />
               {/*<TextInput style={style.inputField} onChangeText={dropOffDate => setDropOffDateDate(dropOffDate)} />*/}
               {/*{dropOffDateErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}*/}
@@ -284,6 +388,7 @@ const style = StyleSheet.create({
   textArea: {
     backgroundColor: colors.white,
     marginRight: 20,
+    color: colors.black,
     borderRadius: 8,
     borderWidth: 2,
     padding: 10,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
 import NavigationHeader from "../navigation/NavigationHeader";
 import { colors } from "../theme/Colors";
 import { Button, Root, Toast } from "native-base";
@@ -11,6 +11,8 @@ const CodeVerificationScreen = (props) => {
   const [code, setCode] = React.useState("");
   const [codeErr, setCodeErr] = React.useState("");
   const [loading, setLoading] = useState(false);
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) + 50);
 
   const newPasswordSetup = () => {
 
@@ -46,10 +48,45 @@ const CodeVerificationScreen = (props) => {
       });
 
 
-
   };
 
+  const style = StyleSheet.create({
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+    }, inputField: {
+      backgroundColor: colors.white,
+      width: width,
+      height: 54,
+      borderRadius: 8,
+      borderWidth: 2,
+      borderColor: colors.offWhite,
+    },
+    getStartBut: {
+      width: 292,
+      height: 60,
+      marginTop: 30,
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+    },
+    buttomBut: {
+      marginLeft: 60,
 
+    },
+    formDiv: {
+      marginLeft: 28,
+      marginRight: 28,
+      marginBottom: 10,
+
+    },
+
+  });
   return (
     <Root>
       {/* Loading Screen Start*/}
@@ -80,41 +117,5 @@ const CodeVerificationScreen = (props) => {
     </Root>
   );
 };
-const style = StyleSheet.create({
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-  }, inputField: {
-    backgroundColor: colors.white,
-    width: 350,
-    height: 54,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: colors.offWhite,
-  },
-  getStartBut: {
-    width: 292,
-    height: 60,
-    marginTop: 30,
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-  },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-  },
-  buttomBut: {
-    marginLeft: 60,
 
-  },
-  formDiv: {
-    marginLeft: 28,
-    marginRight: 28,
-    marginBottom: 10,
-
-  },
-
-});
 export default CodeVerificationScreen;

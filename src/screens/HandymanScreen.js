@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import axios from "axios";
 import { Api } from "../contants/Api";
 import { Button, Icon, Root, Toast } from "native-base";
@@ -11,6 +11,160 @@ import NavigationBar from "../navigation/NavigationBar";
 import { MediaType } from "../contants/MediaType";
 
 const HandymanScreen = (props) => {
+  //Style
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) - 40);
+  const style = StyleSheet.create({
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+    },
+    header: {
+      backgroundColor: colors.white,
+      height: 139,
+      borderBottomLeftRadius: 18,
+      borderBottomRightRadius: 18,
+      flexDirection: "row",
+    },
+    headerTitle: {
+      marginTop: 69,
+      marginLeft: 30,
+      marginBottom: 18,
+
+    },
+    headerAvatar: {
+      width: 150,
+      marginTop: 69,
+      marginBottom: 18,
+
+    },
+    cardHeaderTextStyle: {
+      fontSize: 18,
+      marginLeft: 25,
+      fontWeight: "bold",
+    },
+    cardTextStyle: {
+      fontSize: 18,
+    },
+    paymentCard: {
+      marginLeft: 25,
+      marginRight: 25,
+      backgroundColor: colors.white,
+      borderRadius: 5,
+      padding: 10,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+    },
+    cardStyle: {
+      width: widthHalf - 10,
+      height: widthHalf - 10,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+    },
+    selectedCardStyle: {
+      width: widthHalf - 10,
+      height: widthHalf - 10,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderWidth: 2,
+      borderColor: "green",
+    },
+    cardStyleForTypeSelection: {
+      width: widthHalf - 10,
+      padding: 5,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      borderWidth: 1,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderColor: colors.cardNonSelectedBorderColor,
+    },
+    selectedCardStyleForTypeSelection: {
+      width: widthHalf - 10,
+      padding: 5,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderWidth: 2,
+      borderColor: "green",
+    },
+    inputField: {
+      backgroundColor: colors.white,
+      color: colors.black,
+      width: width,
+      borderRadius: 8,
+      padding: 10,
+      marginTop: 10,
+      marginLeft: 40,
+      marginRight: 25,
+      marginBottom: 10,
+      borderWidth: 2,
+      borderColor: colors.offWhite,
+    },
+    getStartBut: {
+      width: 292,
+      height: 60,
+      marginTop: 30,
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+      margin: 2,
+    },
+  });
+
   const [result, setResult] = React.useState([]);
   const [title, setTitle] = React.useState("Tell Us About Your Service");
 
@@ -96,7 +250,7 @@ const HandymanScreen = (props) => {
       setHouseType(servicearea);
       setCondHouseCardStyle(style.selectedCardStyle);
       setApartmentCardStyle(style.cardStyle);
-      setTitle("Room Type");
+      setTitle("Job Type");
       setCleanTypeTitle("Price");
     }
 
@@ -152,6 +306,8 @@ const HandymanScreen = (props) => {
       });
 
   };
+
+
   return (
     <Root>
       {/* Loading Screen Start*/}
@@ -212,16 +368,16 @@ const HandymanScreen = (props) => {
                   return (
                     <TouchableOpacity onPress={function() {
                       setRoomTypeCardStyle(data.id);
-                      setServiceNameTemp(data.handimen.service_name);
+                      setServiceNameTemp(data.service_name);
                       searchByServiceType(data.id);
                     }}>
                       <View
                         style={roomTypeCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
                         <Image
-                          source={{ uri: Api.IMAGE_VIEW_BASE_URL + "HandymanServiceImage/" + data.handimen.image }}
+                          source={{ uri: Api.IMAGE_VIEW_BASE_URL + "HandymanServiceImage/" + data.image }}
                           style={{ height: 60, width: 60 }}
                         />
-                        <Text style={style.cardTextStyle}> {data.handimen.service_name} </Text>
+                        <Text style={style.cardTextStyle}> {data.service_name} </Text>
                       </View>
                     </TouchableOpacity>
                   );
@@ -319,154 +475,5 @@ const HandymanScreen = (props) => {
     </Root>
   );
 };
-const style = StyleSheet.create({
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-  },
-  header: {
-    backgroundColor: colors.white,
-    height: 139,
-    borderBottomLeftRadius: 18,
-    borderBottomRightRadius: 18,
-    flexDirection: "row",
-  },
-  headerTitle: {
-    marginTop: 69,
-    marginLeft: 30,
-    marginBottom: 18,
 
-  },
-  headerAvatar: {
-    width: 150,
-    marginTop: 69,
-    marginBottom: 18,
-
-  },
-  cardHeaderTextStyle: {
-    fontSize: 18,
-    marginLeft: 25,
-    fontWeight: "bold",
-  },
-  cardTextStyle: {
-    fontSize: 18,
-  },
-  paymentCard: {
-    marginLeft: 25,
-    marginRight: 25,
-    backgroundColor: colors.white,
-    borderRadius: 5,
-    padding: 10,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-  },
-  cardStyle: {
-    width: 168,
-    height: 170,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-  },
-  selectedCardStyle: {
-    width: 168,
-    height: 170,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderWidth: 2,
-    borderColor: "green",
-  },
-  cardStyleForTypeSelection: {
-    width: 168,
-    padding: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    borderWidth: 1,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderColor: colors.cardNonSelectedBorderColor,
-  },
-  selectedCardStyleForTypeSelection: {
-    width: 168,
-    padding: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderWidth: 2,
-    borderColor: "green",
-  },
-  inputField: {
-    backgroundColor: colors.white,
-    color: colors.black,
-    width: "85%",
-    borderRadius: 8,
-    padding: 10,
-    marginTop: 10,
-    marginLeft: 40,
-    marginRight: 25,
-    marginBottom: 10,
-    borderWidth: 2,
-    borderColor: colors.offWhite,
-  },
-  getStartBut: {
-    width: 292,
-    height: 60,
-    marginTop: 30,
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-  },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-    margin: 2,
-  },
-});
 export default HandymanScreen;

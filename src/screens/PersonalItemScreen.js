@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Icon, Root, Toast, View } from "native-base";
 import NavigationBar from "../navigation/NavigationBar";
-import { Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { colors } from "../theme/Colors";
 import Text from "react-native-paper/src/components/Typography/Text";
 import * as LoggedUserInfo from "../utils/LoggedUserInfo";
@@ -13,6 +13,120 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { CheckBox } from "react-native-elements";
 
 const PersonalItemScreen = (props) => {
+
+  // Style
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) - 40);
+
+  const style = StyleSheet.create({
+
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+    },
+    paymentCard: {
+      backgroundColor: colors.white,
+      borderRadius: 5,
+      padding: 10,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 2,
+    },
+    header: {
+      backgroundColor: colors.white,
+      height: 139,
+      borderBottomLeftRadius: 18,
+      borderBottomRightRadius: 18,
+      flexDirection: "row",
+    },
+    headerTitle: {
+      marginTop: 69,
+      marginLeft: 30,
+      marginBottom: 18,
+
+    },
+    headerAvatar: {
+      width: 150,
+      marginTop: 69,
+      marginBottom: 18,
+
+    },
+    formDiv: {
+      marginLeft: 28,
+      marginRight: 28,
+      marginBottom: 10,
+    },
+    inputField: {
+      backgroundColor: colors.white,
+      color: colors.black,
+      width: 350,
+      height: 54,
+      borderRadius: 8,
+      borderWidth: 2,
+      borderColor: colors.offWhite,
+    },
+    getStartBut: {
+      width: 292,
+      height: 60,
+      marginTop: 30,
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+      margin: 2,
+    },
+
+    // For Change Bg
+    cardStyle: {
+      width: widthHalf - 10,
+      height: widthHalf - 10,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      borderWidth: 1,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderColor: colors.cardNonSelectedBorderColor,
+    },
+    selectedCardStyleForTypeSelection: {
+      width: widthHalf - 10,
+      height: widthHalf - 10,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderWidth: 2,
+      borderColor: "green",
+    },
+  });
+
   const [data, setData] = React.useState([]);
   // For Change Bg
   const [cardBg, setCardBg] = React.useState();
@@ -198,112 +312,4 @@ const PersonalItemScreen = (props) => {
     </Root>
   );
 };
-const style = StyleSheet.create({
-
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-  },
-  paymentCard: {
-    backgroundColor: colors.white,
-    borderRadius: 5,
-    padding: 10,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 2,
-  },
-  header: {
-    backgroundColor: colors.white,
-    height: 139,
-    borderBottomLeftRadius: 18,
-    borderBottomRightRadius: 18,
-    flexDirection: "row",
-  },
-  headerTitle: {
-    marginTop: 69,
-    marginLeft: 30,
-    marginBottom: 18,
-
-  },
-  headerAvatar: {
-    width: 150,
-    marginTop: 69,
-    marginBottom: 18,
-
-  },
-  formDiv: {
-    marginLeft: 28,
-    marginRight: 28,
-    marginBottom: 10,
-  },
-  inputField: {
-    backgroundColor: colors.white,
-    color: colors.black,
-    width: 350,
-    height: 54,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: colors.offWhite,
-  },
-  getStartBut: {
-    width: 292,
-    height: 60,
-    marginTop: 30,
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-  },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-    margin: 2,
-  },
-
-  // For Change Bg
-  cardStyle: {
-    width: 168,
-    height: 170,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    borderWidth: 1,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderColor: colors.cardNonSelectedBorderColor,
-  },
-  selectedCardStyleForTypeSelection: {
-    width: 168,
-    height: 170,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderWidth: 2,
-    borderColor: "green",
-  },
-});
 export default PersonalItemScreen;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import NavigationBar from "../navigation/NavigationBar";
 import { CheckBox, Text } from "react-native-elements";
 import { colors } from "../theme/Colors";
@@ -52,6 +52,8 @@ const PatCareScreen = (props) => {
   // For Change Bg
   const [cardBg, setCardBg] = React.useState();
   const [choseOneCardBg, setChoseOneCardBg] = React.useState();
+  const [width, setWidth] = useState(Dimensions.get("window").width - 50);
+  const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) - 40);
 
   const [instructionList, setInstructionList] = React.useState([
     {
@@ -103,7 +105,7 @@ const PatCareScreen = (props) => {
     bodyFormData.append("breed", breed);
     bodyFormData.append("last_name", lastName);
     bodyFormData.append("pet_name", petName);
-    bodyFormData.append("petcare_id", "1");
+    bodyFormData.append("petcare_id", "2");
 
     const data = {
       "requestType": MediaType.FORM_DATA,
@@ -141,6 +143,132 @@ const PatCareScreen = (props) => {
   const changeBackgroundChoseOne = (id) => {
     setChoseOneCardBg(id);
   };
+
+  const style = StyleSheet.create({
+    body: {
+      flex: 3,
+      backgroundColor: colors.baseBackgroundColor,
+    },
+    inputField: {
+      backgroundColor: colors.white,
+      color: colors.black,
+      width: width,
+      height: 54,
+      borderRadius: 8,
+      borderWidth: 2,
+      padding: 10,
+      borderColor: colors.offWhite,
+    },
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    checkboxContainer: {
+      flexDirection: "row",
+    },
+
+    inputFieldHalf: {
+      backgroundColor: colors.white,
+      color: colors.black,
+      width: widthHalf,
+      marginRight: 20,
+      borderRadius: 8,
+      borderWidth: 2,
+      padding: 10,
+      borderColor: colors.offWhite,
+    },
+    textArea: {
+      backgroundColor: colors.white,
+      marginRight: 20,
+      color: colors.black,
+      borderRadius: 8,
+      borderWidth: 2,
+      padding: 10,
+      borderColor: colors.offWhite,
+    },
+    uploadRecordBut: {
+      width: width,
+      height: 60,
+      textAlign: "center",
+      backgroundColor: colors.black,
+      color: colors.white,
+      borderRadius: 9,
+      justifyContent: "center",
+
+    },
+    getStartBut: {
+      width: 292,
+      height: 60,
+      textAlign: "center",
+      backgroundColor: colors.buttonBgColor,
+      color: colors.black,
+      borderRadius: 9,
+      justifyContent: "center",
+    },
+    errorMessage: {
+      fontSize: 11,
+      color: colors.offRed,
+    },
+    buttomBut: {
+      marginLeft: 60,
+
+    },
+    formDiv: {
+      marginLeft: 28,
+      marginRight: 28,
+      marginBottom: 10,
+
+    },
+    formDivForTwoColumn: {
+      marginLeft: 28,
+      marginRight: 28,
+      marginBottom: 10,
+      flexDirection: "row",
+
+    },
+    // For Change Bg
+    cardStyle: {
+      width: widthHalf - 10,
+      height: widthHalf - 10,
+      fontWeight: "bold",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      borderWidth: 1,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderColor: colors.cardNonSelectedBorderColor,
+    },
+    selectedCardStyleForTypeSelection: {
+      width: widthHalf - 10,
+      height: widthHalf - 10,
+      fontWeight: "bold",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors.buttonBgColor,
+      borderRadius: 15,
+      borderWidth: 1,
+      shadowColor: "#ccc",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      elevation: 8,
+      margin: 10,
+      borderColor: colors.cardNonSelectedBorderColor,
+    },
+  });
   return (
     <ScrollView>
       <View>
@@ -290,128 +418,5 @@ const PatCareScreen = (props) => {
     </ScrollView>
   );
 };
-const style = StyleSheet.create({
-  body: {
-    flex: 3,
-    backgroundColor: colors.baseBackgroundColor,
-  },
-  inputField: {
-    backgroundColor: colors.white,
-    color: colors.black,
-    width: 350,
-    height: 54,
-    borderRadius: 8,
-    borderWidth: 2,
-    padding: 10,
-    borderColor: colors.offWhite,
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-  },
 
-  inputFieldHalf: {
-    backgroundColor: colors.white,
-    color: colors.black,
-    width: 160,
-    marginRight: 20,
-    borderRadius: 8,
-    borderWidth: 2,
-    padding: 10,
-    borderColor: colors.offWhite,
-  },
-  textArea: {
-    backgroundColor: colors.white,
-    marginRight: 20,
-    borderRadius: 8,
-    borderWidth: 2,
-    padding: 10,
-    borderColor: colors.offWhite,
-  },
-  uploadRecordBut: {
-    width: 330,
-    height: 60,
-    textAlign: "center",
-    backgroundColor: colors.black,
-    color: colors.white,
-    borderRadius: 9,
-    justifyContent: "center",
-
-  },
-  getStartBut: {
-    width: 292,
-    height: 60,
-    textAlign: "center",
-    backgroundColor: colors.buttonBgColor,
-    color: colors.black,
-    borderRadius: 9,
-    justifyContent: "center",
-  },
-  errorMessage: {
-    fontSize: 11,
-    color: colors.offRed,
-  },
-  buttomBut: {
-    marginLeft: 60,
-
-  },
-  formDiv: {
-    marginLeft: 28,
-    marginRight: 28,
-    marginBottom: 10,
-
-  },
-  formDivForTwoColumn: {
-    marginLeft: 28,
-    marginRight: 28,
-    marginBottom: 10,
-    flexDirection: "row",
-
-  },
-  // For Change Bg
-  cardStyle: {
-    width: 150,
-    height: 120,
-    fontWeight: "bold",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    borderWidth: 1,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderColor: colors.cardNonSelectedBorderColor,
-  },
-  selectedCardStyleForTypeSelection: {
-    width: 150,
-    height: 120,
-    fontWeight: "bold",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.buttonBgColor,
-    borderRadius: 15,
-    borderWidth: 1,
-    shadowColor: "#ccc",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    margin: 10,
-    borderColor: colors.cardNonSelectedBorderColor,
-  },
-});
 export default PatCareScreen;
