@@ -9,6 +9,7 @@ import { Api } from "../contants/Api";
 import Spinner from "react-native-loading-spinner-overlay";
 import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 import DatePicker from "react-native-date-picker";
+import * as Validators from "../validator/Validators";
 
 const ConciergeInformation = (props) => {
   // Style
@@ -131,21 +132,21 @@ const ConciergeInformation = (props) => {
   const [pickUpAddressErr, setPickUpAddressErr] = React.useState("");
 
   const [pickUpOffDateDate, setPickUpOffDateDate] = React.useState(new Date());
-  const [pickUpOffDateDateErr, setPickUpOffDateDateErr] = React.useState("");
+  const [pickUpOffDateDateErr, setPickUpOffDateDateErr] = React.useState(false);
 
   const [dropOffAddress, setDropOffAddress] = React.useState("");
-  const [dropOffAddressErr, setDropOffAddressErr] = React.useState("");
+  const [dropOffAddressErr, setDropOffAddressErr] = React.useState(false);
 
   const [dropOffDate, setDropOffDateDate] = React.useState(new Date());
-  const [dropOffDateErr, setDropOffDateErr] = React.useState("");
+  const [dropOffDateErr, setDropOffDateErr] = React.useState(false);
 
   const [specialInstructions, setSpecialInstructions] = React.useState("");
-  const [specialInstructionsErr, setSpecialInstructionsErr] = React.useState("");
+  const [specialInstructionsErr, setSpecialInstructionsErr] = React.useState(false);
 
   const [paymentOption, setPaymentOption] = React.useState("");
 
   const [price, setPrice] = React.useState("");
-  const [priceErr, setPriceErr] = React.useState("");
+  const [priceErr, setPriceErr] = React.useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -255,7 +256,7 @@ const ConciergeInformation = (props) => {
             <View style={style.formDiv}>
               <Text style={{ margin: 2 }}>Drop Off Address</Text>
               <TextInput style={style.inputField} onChangeText={dropOffAddress => setDropOffAddress(dropOffAddress)} />
-              {dropOffAddressErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}
+              {dropOffAddressErr ? <Text style={style.errorMessage}>Drop Off Address required !</Text> : null}
             </View>
 
             <View style={style.formDiv}>
@@ -318,9 +319,35 @@ const ConciergeInformation = (props) => {
               </Text>
             </View>
 
-            <View style={{ paddingStart: 50, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
+            <View style={{ paddingStart: (widthHalf + 40) / 4, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
               <Button style={style.getStartBut} onPress={function() {
-                onSubmit();
+                setFNameErr(false);
+                setLastNameErr(false);
+                setPickUpLocationErr(false);
+                setPickUpAddressErr(false);
+                setPickUpOffDateDateErr(false);
+                setDropOffAddressErr(false);
+                if (!Validators.isEmpty(fName)) {
+                  setFNameErr(true);
+                }
+                if (!Validators.isEmpty(lastName)) {
+                  setLastNameErr(true);
+                }
+                if (!Validators.isEmpty(pickUpLocation)) {
+                  setPickUpLocationErr(true);
+                }
+                if (!Validators.isEmpty(pickUpAddress)) {
+                  setPickUpAddressErr(true);
+                }
+                if (!Validators.isEmpty(pickUpOffDateDate)) {
+                  setPickUpOffDateDateErr(true);
+                }
+                if (!Validators.isEmpty(dropOffAddress)) {
+                  setDropOffAddressErr(true);
+                } else {
+                  onSubmit();
+                }
+
               }}>
                 <Text style={{ fontSize: 18, fontWeight: "bold" }}>Pay & Book Now</Text>
               </Button>

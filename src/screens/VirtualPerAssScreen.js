@@ -273,9 +273,14 @@ const VirtualPerAssScreen = (props) => {
           </Text>
         </View>
 
-        <View style={{ paddingStart: 50, marginBottom: 10 }}>
+        <View style={{ paddingStart: (widthHalf + 40) / 4, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
-            gotoNextScreen();
+            if (Validators.isEmpty(serviceType)) {
+              gotoNextScreen();
+            } else {
+              alert("Empty faild found.");
+            }
+
           }}>
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
           </Button>

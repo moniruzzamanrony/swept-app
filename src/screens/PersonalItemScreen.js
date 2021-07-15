@@ -7,7 +7,6 @@ import Text from "react-native-paper/src/components/Typography/Text";
 import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 import { MediaType } from "../contants/MediaType";
 import { Api } from "../contants/Api";
-import * as Validators from "../validator/Validators";
 import axios from "axios";
 import Spinner from "react-native-loading-spinner-overlay";
 import { CheckBox } from "react-native-elements";
@@ -84,6 +83,7 @@ const PersonalItemScreen = (props) => {
       fontSize: 11,
       color: colors.offRed,
       margin: 2,
+      textAlign: "center",
     },
 
     // For Change Bg
@@ -142,6 +142,7 @@ const PersonalItemScreen = (props) => {
   const changeBackground = (id) => {
     setCardBg(id);
   };
+  const [isServiceErr, setIsServiceErr] = React.useState(false);
 
   useEffect(() => {
     callApi();
@@ -154,7 +155,7 @@ const PersonalItemScreen = (props) => {
       "api": Api.ORDER_PERSONAL_ITEM,
       "body": {
         "user_id": await LoggedUserInfo.getLoggedUserId(),
-        "concierge_id": [1, 2],
+        "concierge_id": itemId,
         "item_id": itemId,
         "date": "date",
         "address": "ads",
@@ -163,10 +164,10 @@ const PersonalItemScreen = (props) => {
 
     };
 
-    if (Validators.checkPropertiesForEmpty(data)) {
+    if (totalAmount.length > 0) {
       props.navigation.navigate("TimeAndDateScreen", data);
     } else {
-      alert("Empty Field Found");
+      setIsServiceErr(true);
     }
   };
   const callApi = (servicetype, servicearea) => {
@@ -209,13 +210,16 @@ const PersonalItemScreen = (props) => {
               Pick from the list of convenience
               items below:
             </Text>
+
           </View>
 
           <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
+
             {
               data.map((res) => {
                 return (
                   <TouchableOpacity onPress={function() {
+                    setIsServiceErr(false);
                     changeBackground(res.id);
                     setTotalAmount([...totalAmount, res.price]);
                     setItemId([...itemId, res.id]);
@@ -227,14 +231,16 @@ const PersonalItemScreen = (props) => {
                         source={{ uri: Api.IMAGE_VIEW_BASE_URL + "PersonalItemImage/" + res.image }}
                         style={{ height: 60, width: 60 }}
                       />
-                      <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}>{res.name}</Text>
-                      <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}>${res.price}</Text>
+                      <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 13 }}>{res.name}</Text>
+                      <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 13 }}>${res.price}</Text>
                     </View>
                   </TouchableOpacity>
                 );
               })
             }
+
           </View>
+          {isServiceErr ? <Text style={style.errorMessage}>Select Item !</Text> : null}
           {/*--- Product Card View -----*/}
           <View style={style.formDiv}>
             <Text style={{ padding: 10, fontWeight: "bold", fontSize: 15 }}> Selected Items</Text>
@@ -244,6 +250,7 @@ const PersonalItemScreen = (props) => {
                   <View style={style.paymentCard}>
                     <View style={{ flexDirection: "row" }}>
                       <TouchableOpacity onPress={function() {
+
                         setProductNameList(productNameList.filter((_, i2) => i2 !== i));
                         conciergeId.splice(i, 1);
                         itemId.splice(i, 1);
@@ -299,7 +306,7 @@ const PersonalItemScreen = (props) => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingStart: 50, marginBottom: 10 }}>
+          <View style={{ paddingStart: (widthHalf + 40) / 4, marginBottom: 10 }}>
             <Button style={style.getStartBut} onPress={function() {
               onSubmit();
             }}>

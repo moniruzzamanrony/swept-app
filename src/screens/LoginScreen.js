@@ -24,7 +24,7 @@ const LoginScreen = (props) => {
     }
 
     const body = {
-      "email": email,
+      "email": email.toLowerCase(),
       "password": password,
     };
 

@@ -9,3 +9,7 @@ export const checkPropertiesForEmpty = (obj) => {
   return true;
 };
 
+export const isEmpty = (value) => {
+  return (value || value.length != 0);
+};
+

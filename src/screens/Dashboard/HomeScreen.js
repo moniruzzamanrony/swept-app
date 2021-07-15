@@ -18,20 +18,20 @@ const HomeScreen = (props) => {
     header: {
       backgroundColor: colors.white,
       height: 139,
-      borderBottomLeftRadius: 18,
-      borderBottomRightRadius: 18,
+      borderBottomLeftRadius: 15,
+      borderBottomRightRadius: 15,
       flexDirection: "row",
     },
     headerTitle: {
       marginTop: 69,
       marginLeft: 30,
-      marginBottom: 18,
+      marginBottom: 15,
 
     },
     headerAvatar: {
       width: 150,
       marginTop: 69,
-      marginBottom: 18,
+      marginBottom: 15,
 
     },
     cardStyle: {
@@ -117,7 +117,7 @@ const HomeScreen = (props) => {
       console.log("good morning");
       return "Good morning";
 
-    } else if (curHr < 18) {
+    } else if (curHr < 15) {
       console.log("good afternoon");
       return "Good afternoon";
 
@@ -164,9 +164,9 @@ const HomeScreen = (props) => {
               <View style={style.cardStyle}>
                 <Image
                   source={require("../../../assets/icons/cleaning_icon.png")}
-                style={{ height: 60, width: 60 }}
-              />
-              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Cleaning</Text>
+                  style={{ height: 60, width: 60 }}
+                />
+                <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Cleaning</Text>
             </View>
           </TouchableOpacity>
 
@@ -179,7 +179,7 @@ const HomeScreen = (props) => {
                 source={require("../../../assets/icons/technician_logo.png")}
                 style={{ height: 60, width: 60 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Handyman</Text>
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Handyman</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -195,7 +195,7 @@ const HomeScreen = (props) => {
                 source={require("../../../assets/icons/pet_care_icon.png")}
                 style={{ height: 60, width: 60 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Pet Care</Text>
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Pet Care</Text>
             </View>
           </TouchableOpacity>
           {/*----- concierge -----*/}
@@ -207,7 +207,7 @@ const HomeScreen = (props) => {
                 source={require("../../../assets/icons/concierge_icon.png")}
                 style={{ height: 60, width: 60 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Concierge</Text>
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Concierge</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -223,7 +223,7 @@ const HomeScreen = (props) => {
                 source={require("../../../assets/icons/vertual_p_a_icon.png")}
                 style={{ height: 60, width: 60 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 18 }}>Virtual
+              <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 15 }}>Virtual
                 Personal
                 Assistant</Text>
             </View>
@@ -238,7 +238,7 @@ const HomeScreen = (props) => {
                 source={require("../../../assets/icons/makeup_icon.png")}
                 style={{ height: 60, width: 60 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 18 }}>Home Spa/
+              <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 15 }}>Home Spa/
                 Beauty Service</Text>
             </View>
           </TouchableOpacity>

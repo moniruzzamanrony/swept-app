@@ -4,7 +4,6 @@ import axios from "axios";
 import { Api } from "../contants/Api";
 import { Button, Icon, Root, Toast } from "native-base";
 import * as LoggedUserInfo from "../utils/LoggedUserInfo";
-import * as Validators from "../validator/Validators";
 import Spinner from "react-native-loading-spinner-overlay";
 import { colors } from "../theme/Colors";
 import NavigationBar from "../navigation/NavigationBar";
@@ -179,13 +178,14 @@ const HandymanScreen = (props) => {
   const [cleanTypeTitle, setCleanTypeTitle] = React.useState("Price");
 
   //Selected Data
-  const [houseType, setHouseType] = React.useState("");
+  const [houseType, setHouseType] = React.useState("apartmenttownhome");
   const [serviceNameList, setServiceNameList] = React.useState([]);
   const [serviceNameTemp, setServiceNameTemp] = React.useState("");
   const [servicePriceId, setServicePriceId] = React.useState([]);
   const [descriptions, setDescriptions] = React.useState("");
   const [totalAmount, setTotalAmount] = React.useState([]);
   const [offAmount, setOffAmount] = React.useState(0.0);
+  const [isServiceErr, setIsServiceErr] = React.useState(false);
 
   const [priceListBySelection, setPriceListBySelection] = React.useState([]);
 
@@ -275,12 +275,10 @@ const HandymanScreen = (props) => {
       },
     };
 
-    if (Validators.checkPropertiesForEmpty(data)) {
-
+    if (totalAmount.length > 0) {
       props.navigation.navigate("TimeAndDateScreen", data);
     } else {
-
-      alert("Please Select Properly !");
+      setIsServiceErr(true);
     }
   };
   const searchByServiceType = (serviceId) => {
@@ -385,6 +383,7 @@ const HandymanScreen = (props) => {
                 })
               }
             </View>
+            {isServiceErr ? <Text style={style.errorMessage}>Select Service !</Text> : null}
           </View>
         </View>
 
@@ -400,6 +399,7 @@ const HandymanScreen = (props) => {
             priceListBySelection.map((data) => {
               return (
                 <TouchableOpacity onPress={function() {
+                  setIsServiceErr(false);
                   setCleanTypeCardStyle(data.id);
                   setServicePriceId([...servicePriceId, data.id]);
                   setServiceNameList([...serviceNameList, serviceNameTemp]);
@@ -464,7 +464,7 @@ const HandymanScreen = (props) => {
             0.0}
           </Text>
         </View>
-        <View style={{ paddingStart: 65, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
+        <View style={{ paddingStart: (widthHalf + 40) / 4, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
             gotoNextScreen();
           }}>

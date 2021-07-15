@@ -6,7 +6,6 @@ import { colors } from "../theme/Colors";
 import { Button } from "native-base";
 import axios from "axios";
 import { Api } from "../contants/Api";
-import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 import * as Validators from "../validator/Validators";
 import { launchImageLibrary } from "react-native-image-picker";
 import { MediaType } from "../contants/MediaType";
@@ -39,7 +38,7 @@ const PatCareScreen = (props) => {
   const [serviceType, setServiceType] = React.useState("");
   const [serviceTypeErr, setServiceTypeErr] = React.useState("");
 
-  const [fileUri, setFileUri] = React.useState("Click Here to Upload Records (jpg or pdf)");
+  const [fileUri, setFileUri] = React.useState();
   const [fileUriErr, setFileUriErr] = React.useState(true);
 
   const [details, setDetails] = React.useState("");
@@ -95,10 +94,9 @@ const PatCareScreen = (props) => {
 
   async function gotoNextStep(): void {
     const bodyFormData = new FormData();
-    bodyFormData.append("total_price", price);
-    bodyFormData.append("user_id", await LoggedUserInfo.getLoggedUserId());
     bodyFormData.append("descriptions", details);
-    bodyFormData.append("image", { uri: fileUri, name: "image.jpg", type: "image/jpeg" });
+    fileUri === undefined ? null :
+      bodyFormData.append("image", { uri: fileUri, name: "image.jpg", type: "image/jpeg" });
     bodyFormData.append("service_type", serviceType);
     bodyFormData.append("age", age);
     bodyFormData.append("weight", weight);
@@ -109,6 +107,7 @@ const PatCareScreen = (props) => {
 
     const data = {
       "requestType": MediaType.FORM_DATA,
+      "total_price": price,
       "api": Api.ORDER_PETCARE,
       "body": {
         "form_data": bodyFormData,
@@ -405,9 +404,14 @@ const PatCareScreen = (props) => {
               <Text style={{ textAlign: "center", color: "red" }}> Please Select Properly </Text>
             </View> : null
         }
-        <View style={{ paddingStart: 50, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
+        <View style={{ paddingStart: (widthHalf + 40) / 4, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
-            gotoNextStep();
+            if (Validators.isEmpty(age)) {
+              gotoNextStep();
+            } else {
+              alert("Empty faild found.");
+            }
+
           }}>
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
           </Button>

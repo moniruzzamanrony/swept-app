@@ -4,6 +4,7 @@ import NavigationBar from "../navigation/NavigationBar";
 import { colors } from "../theme/Colors";
 import { Button, Icon } from "native-base";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { MediaType } from "../contants/MediaType";
 
 const TimeAndDateScreen = (props) => {
   // Style
@@ -182,10 +183,11 @@ const TimeAndDateScreen = (props) => {
   const [totalPriceWithOfferArray, setTotalPriceWithOfferArray] = React.useState([]);
 
   useEffect(() => {
-    console.log("------");
     console.log(props.route.params);
     callGetApi();
   }, []);
+
+
   const callGetApi = () => {
     setGetResponse([
       {
@@ -228,21 +230,30 @@ const TimeAndDateScreen = (props) => {
   };
 
   function gotoNextScreen() {
-    if (selectedDate != "") {
-      if (typeof props.route.params.body.total_price === "object") {
-        props.route.params.body.date = selectedDate;
-        props.route.params.body.total_price = totalPriceWithOfferArray;
-        console.log(props.route.params);
-        props.navigation.navigate("AddressScreen", props.route.params);
-      } else {
-        props.route.params.body.date = selectedDate;
-        props.route.params.body.total_price = totalPriceWithOffer;
-        console.log(props.route.params);
-        props.navigation.navigate("AddressScreen", props.route.params);
-      }
-
+    console.log(props.route.params.body.form_data);
+    if (props.route.params.requestType === MediaType.FORM_DATA) {
+      const bodyFormData = props.route.params.body.form_data;
+      bodyFormData.append("total_price", totalPriceWithOffer);
+      props.route.params.body.date = selectedDate;
+      console.log(props.route.params);
+      props.navigation.navigate("AddressScreen", props.route.params);
     } else {
-      alert("Please Select Properly! ");
+      if (selectedDate != "") {
+        if (typeof props.route.params.body.total_price === "object") {
+          props.route.params.body.date = selectedDate;
+          props.route.params.body.total_price = totalPriceWithOfferArray;
+          console.log(props.route.params);
+          props.navigation.navigate("AddressScreen", props.route.params);
+        } else {
+          props.route.params.body.date = selectedDate;
+          props.route.params.body.total_price = totalPriceWithOffer;
+          console.log(props.route.params);
+          props.navigation.navigate("AddressScreen", props.route.params);
+        }
+
+      } else {
+        alert("Please Select Properly! ");
+      }
     }
   }
 
@@ -253,26 +264,38 @@ const TimeAndDateScreen = (props) => {
 
   const addOfferWithPrice = async (id, offerPrice) => {
 
-    if (typeof props.route.params.body.total_price === "object") {
-      setTotalPriceWithOfferArray([]);
-      id === 1 ?
-        props.route.params.body.total_price.forEach(element => {
-          let sumOfValue = (+element) + (+offerPrice);
 
-          setTotalPriceWithOfferArray((currentItems) => {
-            return [sumOfValue, ...currentItems];
-          });
-        }) : props.route.params.body.total_price.forEach(element => {
-          setTotalPriceWithOfferArray((currentItems) => {
-            return [element, ...currentItems];
-          });
-        });
+    if (props.route.params.requestType === MediaType.FORM_DATA) {
 
-
+      setTotalPriceWithOffer((+props.route.params.total_price) + (+offerPrice));
+      console.log("FormData");
+      console.log("Total Price:" + props.route.params.total_price);
+      console.log("Offer Price:" + offerPrice);
     } else {
-      setTotalPriceWithOffer((+props.route.params.body.total_price) + (+offerPrice));
-    }
+      if (typeof props.route.params.body.total_price === "object") {
+        console.log("Object Found");
+        setTotalPriceWithOfferArray([]);
+        id === 1 ?
+          props.route.params.body.total_price.forEach(element => {
+            let sumOfValue = (+element) + (+offerPrice);
 
+            setTotalPriceWithOfferArray((currentItems) => {
+              return [sumOfValue, ...currentItems];
+            });
+          }) : props.route.params.body.total_price.forEach(element => {
+            setTotalPriceWithOfferArray((currentItems) => {
+              return [element, ...currentItems];
+            });
+          });
+
+
+      } else {
+        console.log("Object Not Found");
+        setTotalPriceWithOffer((+props.route.params.body.total_price) + (+offerPrice));
+        console.log("Total Price:" + props.route.params.body.total_price);
+        console.log("Offer Price:" + offerPrice);
+      }
+    }
 
     //setTotalPriceWithOffer((+props.route.params.body.total_price) + (+offerPrice));
     //  setTotalPriceWithOffer((+props.route.params.body.total_price) + (+offerPrice));

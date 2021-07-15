@@ -139,7 +139,7 @@ const PaymentScreen = (props) => {
       borderColor: colors.offWhite,
     },
     getStartBut: {
-      width: 292,
+      width: widthHalf,
       height: 60,
       marginTop: 10,
       marginBottom: 10,
@@ -153,7 +153,7 @@ const PaymentScreen = (props) => {
       color: colors.offRed,
     },
     buttomBut: {
-      marginLeft: 60,
+      marginLeft: width / 4,
 
     },
     formDiv: {

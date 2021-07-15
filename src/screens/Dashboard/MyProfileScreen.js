@@ -3,6 +3,7 @@ import {
   AsyncStorageStatic as AsyncStorage,
   Dimensions,
   Image,
+  ScrollView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -151,7 +152,7 @@ const MyProfileScreen = (props) => {
       borderColor: colors.offWhite,
     },
     getStartBut: {
-      width: 150,
+      width: widthHalf / 2,
       height: 50,
       margin: 20,
       marginTop: 30,
@@ -164,10 +165,6 @@ const MyProfileScreen = (props) => {
     errorMessage: {
       fontSize: 11,
       color: colors.offRed,
-    },
-    buttomBut: {
-      marginLeft: 60,
-
     },
     formDiv: {
       marginLeft: 28,
@@ -186,93 +183,94 @@ const MyProfileScreen = (props) => {
         textContent={"Loading..."}
         textStyle={{ color: colors.buttonBgColor }}
       />
-      <View>
-        {/* ---- Header ------*/}
-        <NavigationBar title="Profile" url="HomeScreen" navigation={props} />
-        <TouchableOpacity onPress={function() {
-          uploadProfileImage();
-        }}>
-          <View style={{
-            justifyContent: "center",
-            alignItems: "center", margin: 10,
+      <ScrollView>
+        <View>
+          {/* ---- Header ------*/}
+          <NavigationBar title="Profile" url="HomeScreen" navigation={props} />
+          <TouchableOpacity onPress={function() {
+            uploadProfileImage();
           }}>
-            {isProfilePicFound ?
-              <Image
-                source={{ uri: profilePicturePath }}
-                style={{
-                  width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
-                  borderColor: "#ff8b7e",
-                }}
-              /> :
-              profilePicturePath == null ? <Image
-                  source={require("../../../assets/avatar/profile.png")}
-                  style={{
-                    width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
-                    borderColor: "#ff8b7e",
-                  }} /> :
+            <View style={{
+              justifyContent: "center",
+              alignItems: "center", margin: 10,
+            }}>
+              {isProfilePicFound ?
                 <Image
-                  source={{ uri: Api.IMAGE_VIEW_BASE_URL + "avatar/" + profilePicturePath }}
+                  source={{ uri: profilePicturePath }}
                   style={{
                     width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
                     borderColor: "#ff8b7e",
-                  }} />
+                  }}
+                /> :
+                profilePicturePath == null ? <Image
+                    source={require("../../../assets/avatar/profile.png")}
+                    style={{
+                      width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
+                      borderColor: "#ff8b7e",
+                    }} /> :
+                  <Image
+                    source={{ uri: Api.IMAGE_VIEW_BASE_URL + "avatar/" + profilePicturePath }}
+                    style={{
+                      width: 120, height: 120, borderRadius: 120 / 2, borderWidth: 3,
+                      borderColor: "#ff8b7e",
+                    }} />
+              }
+
+            </View>
+          </TouchableOpacity>
+          {/*Input Field*/}
+          <View style={style.formDiv}>
+            <Text style={{ margin: 2 }}>Name</Text>
+            <TextInput style={style.inputField} onChangeText={name => setName(name)}
+                       editable={nameDisable} value={name} />
+          </View>
+          {isEditButVisible ?
+            <View style={style.formDiv}>
+              <Text style={{ margin: 2 }}>Email</Text>
+              <TextInput style={style.inputField} onChangeText={phoneOrEmail => setEmail(phoneOrEmail)}
+                         editable={emailDisable} value={email} />
+            </View> : null}
+
+
+          <View style={style.formDiv}>
+            <Text>Phone No.</Text>
+            <TextInput style={style.inputField} onChangeText={phone => setPhone(phone)}
+                       editable={phoneDisable} value={phone} />
+          </View>
+
+          <View style={style.formDiv}>
+            <Text style={{ margin: 2 }}>Address</Text>
+            <TextInput style={style.inputField} onChangeText={address => setAddress(address)}
+                       editable={addressDisable} value={address} />
+          </View>
+
+          <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            {isEditButVisible ?
+              <Button style={style.getStartBut} onPress={function() {
+                editProfile();
+              }}>
+                <Icon name="md-create-outline" style={{ fontSize: 18, color: colors.black }} />
+                <Text style={{ fontSize: 18, fontWeight: "bold", marginRight: 20 }}>Edit</Text>
+              </Button>
+              :
+              <Button style={style.getStartBut} onPress={function() {
+                updateProfile();
+              }}>
+                <Icon name="md-create-outline" style={{ fontSize: 18, color: colors.black }} />
+                <Text style={{ fontSize: 18, fontWeight: "bold", marginRight: 20 }}>Update</Text>
+              </Button>
             }
 
+
+            <Button style={style.getStartBut} onPress={function() {
+              logout();
+            }}>
+              <Icon name="md-power" style={{ fontSize: 18, color: colors.black }} />
+              <Text style={{ fontSize: 18, fontWeight: "bold", marginRight: 20 }}>Logout</Text>
+            </Button>
           </View>
-        </TouchableOpacity>
-        {/*Input Field*/}
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Name</Text>
-          <TextInput style={style.inputField} onChangeText={name => setName(name)}
-                     editable={nameDisable} value={name} />
         </View>
-        {isEditButVisible ?
-          <View style={style.formDiv}>
-            <Text style={{ margin: 2 }}>Email</Text>
-            <TextInput style={style.inputField} onChangeText={phoneOrEmail => setEmail(phoneOrEmail)}
-                       editable={emailDisable} value={email} />
-          </View> : null}
-
-
-        <View style={style.formDiv}>
-          <Text>Phone No.</Text>
-          <TextInput style={style.inputField} onChangeText={phone => setPhone(phone)}
-                     editable={phoneDisable} value={phone} />
-        </View>
-
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Address</Text>
-          <TextInput style={style.inputField} onChangeText={address => setAddress(address)}
-                     editable={addressDisable} value={address} />
-        </View>
-
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          {isEditButVisible ?
-            <Button style={style.getStartBut} onPress={function() {
-              editProfile();
-            }}>
-              <Icon name="md-create-outline" style={{ fontSize: 18, color: colors.black }} />
-              <Text style={{ fontSize: 18, fontWeight: "bold", marginRight: 20 }}>Edit</Text>
-            </Button>
-            :
-            <Button style={style.getStartBut} onPress={function() {
-              updateProfile();
-            }}>
-              <Icon name="md-create-outline" style={{ fontSize: 18, color: colors.black }} />
-              <Text style={{ fontSize: 18, fontWeight: "bold", marginRight: 20 }}>Update</Text>
-            </Button>
-          }
-
-
-          <Button style={style.getStartBut} onPress={function() {
-            logout();
-          }}>
-            <Icon name="md-power" style={{ fontSize: 18, color: colors.black }} />
-            <Text style={{ fontSize: 18, fontWeight: "bold", marginRight: 20 }}>Logout</Text>
-          </Button>
-        </View>
-      </View>
-
+      </ScrollView>
     </Root>
   );
 };

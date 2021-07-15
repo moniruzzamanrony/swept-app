@@ -6,6 +6,7 @@ import NavigationBar from "../navigation/NavigationBar";
 import axios from "axios";
 import { Api } from "../contants/Api";
 import { Button } from "native-base";
+import * as Validators from "../validator/Validators";
 
 const ConciergeScreen = (props) => {
   // Style
@@ -105,7 +106,7 @@ const ConciergeScreen = (props) => {
     },
   });
   const [getResponse, setGetResponse] = React.useState([]);
-  const [conciergeId, setConciergeId] = React.useState();
+  const [conciergeId, setConciergeId] = React.useState("");
   // For Change Bg
   const [cardBg, setCardBg] = React.useState();
   useEffect(() => {
@@ -184,9 +185,14 @@ const ConciergeScreen = (props) => {
           Your Virtual Personal Assistant will contact you
           with your quote within 15 minutes
         </Text>
-        <View style={{ paddingStart: 50, marginBottom: 10 }}>
+        <View style={{ paddingStart: (widthHalf + 40) / 4, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
-            submit();
+            if (Validators.isEmpty(conciergeId)) {
+              submit();
+            } else {
+              alert("Empty faild found.");
+            }
+
           }}>
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
           </Button>

@@ -304,12 +304,12 @@ const CleaningScreen = (props) => {
         "frequency": frequency,
         "date": "date",
         "address": "ads",
-        "total_price": (+amount) + (+offer) + ((+amount) * (+frequencyOffer)) / 100,
+        "total_price": ((+amount) + (+offer)) - ((+amount) * (+frequencyOffer)) / 100,
       },
 
     };
 
-    if (Validators.checkPropertiesForEmpty(data)) {
+    if (Validators.isEmpty(cleanType)) {
       props.navigation.navigate("TimeAndDateScreen", data);
     } else {
       setIsEmptyField(true);
@@ -436,7 +436,11 @@ const CleaningScreen = (props) => {
                 }}>
                   <View
                     style={frequencyCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
-                    <Text style={style.cardTextStyle}> {data.freName} ( {data.offer}%)</Text>
+                    {
+                      data.offer === 0 ? <Text style={style.cardTextStyle}> {data.freName} </Text>
+                        : <Text style={style.cardTextStyle}> {data.freName} ( {data.offer}%)</Text>
+                    }
+
                   </View>
                 </TouchableOpacity>
               );
@@ -448,7 +452,7 @@ const CleaningScreen = (props) => {
         {/*--- Price View -----*/}
         <View style={{ marginLeft: 25 }}>
           <Text style={{ fontWeight: "bold", fontSize: 18 }}> Total Price :
-            ${(+amount) + (+offer) + ((+amount) * (+frequencyOffer)) / 100} </Text>
+            ${((+amount) + (+offer)) - ((+amount) * (+frequencyOffer)) / 100} </Text>
         </View>
 
         {/*--- Warning Field -----*/}
@@ -460,7 +464,7 @@ const CleaningScreen = (props) => {
         }
 
 
-        <View style={{ paddingStart: 65, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
+        <View style={{ paddingStart: (widthHalf + 40) / 4, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
             gotoNextScreen();
           }}>
@@ -471,153 +475,5 @@ const CleaningScreen = (props) => {
     </Root>
   );
 };
-// const style = StyleSheet.create({
-//   body: {
-//     flex: 3,
-//     backgroundColor: colors.baseBackgroundColor,
-//   },
-//   header: {
-//     backgroundColor: colors.white,
-//     height: 139,
-//     borderBottomLeftRadius: 18,
-//     borderBottomRightRadius: 18,
-//     flexDirection: "row",
-//   },
-//   headerTitle: {
-//     marginTop: 69,
-//     marginLeft: 30,
-//     marginBottom: 18,
-//
-//   },
-//   headerAvatar: {
-//     width: 150,
-//     marginTop: 69,
-//     marginBottom: 18,
-//
-//   },
-//   cardHeaderTextStyle: {
-//     fontSize: 18,
-//     marginLeft: 25,
-//     fontWeight: "bold",
-//   },
-//   cardTextStyle: {
-//     fontSize: 18,
-//   },
-//   cardStyle: {
-//     width: 168,
-//     height: 170,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: colors.white,
-//     borderRadius: 15,
-//     shadowColor: "#ccc",
-//     shadowOffset: {
-//       width: 0,
-//       height: 4,
-//     },
-//     shadowOpacity: 0.30,
-//     shadowRadius: 4.65,
-//     elevation: 8,
-//     margin: 10,
-//   },
-//   selectedCardStyle: {
-//     width: 168,
-//     height: 170,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: colors.white,
-//     borderRadius: 15,
-//     shadowColor: "#ccc",
-//     shadowOffset: {
-//       width: 0,
-//       height: 4,
-//     },
-//     shadowOpacity: 0.30,
-//     shadowRadius: 4.65,
-//     elevation: 8,
-//     margin: 10,
-//     borderWidth: 2,
-//     borderColor: "green",
-//   },
-//   cardStyleForTypeSelection: {
-//     width: 168,
-//     height: 100,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: colors.white,
-//     borderRadius: 15,
-//     borderWidth: 1,
-//     shadowColor: "#ccc",
-//     shadowOffset: {
-//       width: 0,
-//       height: 4,
-//     },
-//     shadowOpacity: 0.30,
-//     shadowRadius: 4.65,
-//     elevation: 8,
-//     margin: 10,
-//     borderColor: colors.cardNonSelectedBorderColor,
-//   },
-//   selectedCardStyleForTypeSelection: {
-//     width: 168,
-//     height: 100,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: colors.white,
-//     borderRadius: 15,
-//     shadowColor: "#ccc",
-//     shadowOffset: {
-//       width: 0,
-//       height: 4,
-//     },
-//     shadowOpacity: 0.30,
-//     shadowRadius: 4.65,
-//     elevation: 8,
-//     margin: 10,
-//     borderWidth: 2,
-//     borderColor: "green",
-//   },
-//   cardStyleForFrequency: {
-//     width: 168,
-//     height: 60,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: colors.white,
-//     borderRadius: 15,
-//     borderWidth: 1,
-//     shadowColor: "#ccc",
-//     shadowOffset: {
-//       width: 0,
-//       height: 4,
-//     },
-//     shadowOpacity: 0.30,
-//     shadowRadius: 4.65,
-//     elevation: 8,
-//     margin: 10,
-//     borderColor: colors.cardNonSelectedBorderColor,
-//   },
-//   inputField: {
-//     backgroundColor: colors.white,
-//     width: 350,
-//     color: colors.black,
-//     height: 54,
-//     borderRadius: 8,
-//     borderWidth: 2,
-//     borderColor: colors.offWhite,
-//   },
-//   getStartBut: {
-//     width: 292,
-//     height: 60,
-//     marginTop: 30,
-//     backgroundColor: colors.buttonBgColor,
-//     color: colors.black,
-//     borderRadius: 9,
-//     justifyContent: "center",
-//   },
-//   errorMessage: {
-//     fontSize: 11,
-//     color: colors.offRed,
-//     margin: 2,
-//   },
-// });
+
 export default CleaningScreen;

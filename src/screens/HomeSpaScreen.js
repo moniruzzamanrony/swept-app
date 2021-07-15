@@ -69,8 +69,8 @@ const HomeSpaScreen = (props) => {
         margin: 2,
       },  // For Change Bg
       cardStyle: {
-        width: widthHalf - 10,
-        height: widthHalf - 10,
+        width: widthHalf,
+        height: widthHalf,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: colors.white,
@@ -88,8 +88,8 @@ const HomeSpaScreen = (props) => {
         borderColor: colors.cardNonSelectedBorderColor,
       },
       selectedCardStyleForTypeSelection: {
-        width: widthHalf - 10,
-        height: widthHalf - 10,
+        width: widthHalf,
+        height: widthHalf,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: colors.white,
@@ -109,7 +109,7 @@ const HomeSpaScreen = (props) => {
     },
   );
   const [getResponse, setGetResponse] = React.useState([]);
-  const [spaId, setSpaId] = React.useState();
+  const [spaId, setSpaId] = React.useState("");
   const [totalPrice, setTotalPrice] = React.useState(0);
   // For Change Bg
   const [cardBg, setCardBg] = React.useState();
@@ -183,7 +183,7 @@ const HomeSpaScreen = (props) => {
                     source={{ uri: Api.IMAGE_VIEW_BASE_URL + Api.BEAUTY_SPA_IMAGE + res.image }}
                     style={{ height: 60, width: 60 }}
                   />
-                  <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>{res.name}</Text>
+                  <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 15 }}>{res.name}</Text>
                   <Text style={{ fontWeight: "bold", fontSize: 18 }}>$ {res.price}</Text>
                 </View>
               </TouchableOpacity>
@@ -196,9 +196,14 @@ const HomeSpaScreen = (props) => {
             Total Price: ${totalPrice}
           </Text>
         </View>
-        <View style={{ paddingStart: 50, marginBottom: 10 }}>
+        <View style={{ paddingStart: (widthHalf + 40) / 4, marginBottom: 10 }}>
           <Button style={style.getStartBut} onPress={function() {
-            gotoNextScreen();
+            if (Validators.isEmpty(spaId)) {
+              gotoNextScreen();
+            } else {
+              alert("Empty faild found.");
+            }
+
           }}>
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
           </Button>
