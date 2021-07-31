@@ -29,7 +29,7 @@ const HomeScreen = (props) => {
 
     },
     headerAvatar: {
-      width: 150,
+      width: widthHalf,
       marginTop: 69,
       marginBottom: 15,
 
