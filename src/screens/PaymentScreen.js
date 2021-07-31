@@ -180,8 +180,7 @@ const PaymentScreen = (props) => {
         <NavigationBar title="Payment" url="AddressScreen" navigation={props} />
 
         <View style={{ flexDirection: "row", margin: 20 }}>
-          <Text style={{ fontSize: 24 }}>Enter your contact and
-            Payment information</Text>
+          <Text style={{ fontSize: 24 }}>Enter Your Billing Information</Text>
         </View>
         <ScrollView>
         {/*Input Field*/}
@@ -236,7 +235,7 @@ const PaymentScreen = (props) => {
             <Button style={style.getStartBut} onPress={function() {
               gotoSignUpPage();
             }}>
-              <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Pay & Book Now</Text>
+              <Text style={{ fontSize: 18, fontWeight: "bold" }}>Book & Pay Now</Text>
             </Button>
           </View>
         </ScrollView>

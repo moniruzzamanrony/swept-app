@@ -9,7 +9,8 @@ import { Api } from "../contants/Api";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const SignUpScreen = (props) => {
-  const [name, setName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [firstName, setFirstName] = React.useState("");
   const [nameErr, setNameErr] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [emailErr, setEmailErr] = React.useState(false);
@@ -26,10 +27,10 @@ const SignUpScreen = (props) => {
   const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) + 50);
 
   const gotoSignUpPage = () => {
-    if (name === "") {
+    if (firstName === "") {
       setNameErr(true);
     }
-    if (email === "") {
+    if (email === "" || !email.includes('@')) {
       setEmailErr(true);
     }
     if (phone === "") {
@@ -45,7 +46,7 @@ const SignUpScreen = (props) => {
       setReTypePasswordErr(true);
     } else {
       const body = {
-        "name": name,
+        "name": firstName+ ' '+lastName,
         "email": email,
         "password": password,
         "phone": phone,
@@ -63,11 +64,9 @@ const SignUpScreen = (props) => {
           setLoading(false);
         })
         .catch(function(error) {
-          // Log show
-          console.log(error);
-
+          console.log(error)
           Toast.show({
-            text: error.response.data.Error.email[0],
+            text: 'Registration Unsuccessful',
             buttonText: "Okay",
             type: "danger",
           });
@@ -113,8 +112,7 @@ const SignUpScreen = (props) => {
       color: colors.offRed,
     },
     buttomBut: {
-      marginLeft: width / 4,
-
+      marginLeft: width / 4
     },
     formDiv: {
       marginLeft: 28,
@@ -141,15 +139,19 @@ const SignUpScreen = (props) => {
         <NavigationHeader title="Sign Up" url="LoginScreen" navigation={props} />
         {/*Input Field*/}
         <View style={style.formDiv}>
-          <Text style={{ margin: 2 }}>Name</Text>
-          <TextInput style={style.inputField} onChangeText={name => setName(name)} />
-          {nameErr ? <Text style={style.errorMessage}>Name required !</Text> : null}
+          <Text style={{ margin: 2 }}>First Name</Text>
+          <TextInput style={style.inputField} onChangeText={name => setFirstName(name)} />
+          {nameErr ? <Text style={style.errorMessage}>First Name required !</Text> : null}
         </View>
-
+          {/*Input Field*/}
+          <View style={style.formDiv}>
+            <Text style={{ margin: 2 }}>Last Name</Text>
+            <TextInput style={style.inputField} onChangeText={name => setLastName(name)} />
+          </View>
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Email</Text>
           <TextInput style={style.inputField} onChangeText={phoneOrEmail => setEmail(phoneOrEmail)} />
-          {emailErr ? <Text style={style.errorMessage}>Email required !</Text> : null}
+          {emailErr ? <Text style={style.errorMessage}>Valid Email required !</Text> : null}
         </View>
 
         <View style={style.formDiv}>
@@ -167,7 +169,7 @@ const SignUpScreen = (props) => {
         <View style={style.formDiv}>
           <Text style={{ margin: 2 }}>Password</Text>
           <TextInput secureTextEntry={true} style={style.inputField} onChangeText={password => setPassword(password)}
-                     placeholder="6-20 characters" />
+                     placeholder="8-20 characters" />
           {passwordErr ? <Text style={style.errorMessage}>Password more then 6-20 characters</Text> : null}
         </View>
 
@@ -175,7 +177,7 @@ const SignUpScreen = (props) => {
           <Text style={{ margin: 2 }}>Re-enter Password</Text>
           <TextInput secureTextEntry={true} style={style.inputField}
                      onChangeText={reTypePassword => setReTypePassword(reTypePassword)}
-                     placeholder="6-20 characters" />
+                     placeholder="8-20 characters" />
           {reTypePasswordErr ? <Text style={style.errorMessage}>Password more then 6-20 characters</Text> : null}
         </View>
 
@@ -183,9 +185,9 @@ const SignUpScreen = (props) => {
           <Button style={style.getStartBut} onPress={function() {
             gotoSignUpPage();
           }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold", marginLeft: 20 }}>Sign Up</Text>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Sign Up</Text>
           </Button>
-          <Text style={{ margin: 8 }} onPress={function() {
+          <Text style={{ margin: 8}} onPress={function() {
             gotoLoginPage();
           }}>Already have an account? <Text style={{ fontWeight: "bold" }}> Login</Text></Text>
         </View>

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, {useEffect} from "react";
+import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import NavigationBar from "../navigation/NavigationBar";
-import { colors } from "../theme/Colors";
-import { Button } from "native-base";
+import {colors} from "../theme/Colors";
+import {Button} from "native-base";
 import DatePicker from "react-native-date-picker";
 
 const CustomTimeAndDateScreen = (props) => {
@@ -96,63 +96,70 @@ const CustomTimeAndDateScreen = (props) => {
     }
   }
 
+
   // For Change Bg
   const changeBackground = (id) => {
     setCardBg(id);
   };
 
   return (
-    <ScrollView>
-      <View>
-        {/* ---- Header ------*/}
-        <NavigationBar title="Custom Date & Time" url="TimeAndDateScreen" navigation={props} />
-        <View style={{
-          justifyContent: "center",
-          alignItems: "center", margin: 10,
-        }}>
-          <DatePicker
-            date={date}
-            onDateChange={setDate}
-            mode="date"
-          />
-        </View>
-
-
-        {/* ---- Date Time Picker Title ----- */}
-        <View style={{ flexDirection: "row", marginLeft: 20 }}>
-          <Text style={style.cardHeaderTextStyle}> Free Slots</Text>
-        </View>
-
-        <View style={{ flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
-          {
-            getResponse.map((res) => {
-              return (
-                <TouchableOpacity onPress={function() {
-                  changeBackground(res.id);
-                  setSelectedDate(date.toISOString().split("T")[0] + " " + res.time);
-
-                }}>
-                  <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
-                    <Text style={{ fontSize: 17, fontWeight: "bold", textAlign: "center" }}>{res.time}</Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })
-          }
-
-        </View>
-
+      <ScrollView>
         <View>
-          <View style={{ paddingStart: 65, margin: 10 }}>
-            <Button style={style.getStartBut} onPress={function() {
-              gotoNextScreen();
-            }}>
-              <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
-            </Button>
+          {/* ---- Header ------*/}
+          <NavigationBar title="Custom Date & Time" url="TimeAndDateScreen" navigation={props}/>
+          <View style={{
+            justifyContent: "center",
+            alignItems: "center", margin: 10,
+          }}>
+            <DatePicker
+                minimumDate={new Date()}
+                date={date}
+                onDateChange={setDate}
+                mode="date"
+            />
+          </View>
+
+
+          {/* ---- Date Time Picker Title ----- */}
+          <View style={{flexDirection: "row", marginLeft: 20}}>
+            <Text style={style.cardHeaderTextStyle}> Free Slots</Text>
+          </View>
+
+          <View style={{flexDirection: "row", flexWrap: "wrap", marginLeft: 20}}>
+            {
+              getResponse.map((res) => {
+                return (
+                    <TouchableOpacity onPress={function () {
+                      changeBackground(res.id);
+                      setSelectedDate(date.toISOString().split("T")[0] + " " + res.time);
+
+                    }}>
+                      <View
+                          style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
+                        <Text style={{
+                          fontSize: 17,
+                          fontWeight: "bold",
+                          textAlign: "center"
+                        }}>{res.time}</Text>
+                      </View>
+                    </TouchableOpacity>
+                );
+              })
+            }
+
+          </View>
+
+          <View>
+            <View style={{paddingStart: 65, margin: 10}}>
+              <Button style={style.getStartBut} onPress={function () {
+                gotoNextScreen();
+              }}>
+                <Text style={{fontSize: 18, fontWeight: "bold"}}>Next</Text>
+              </Button>
+            </View>
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
   );
 };
 const style = StyleSheet.create({

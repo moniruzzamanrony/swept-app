@@ -45,6 +45,7 @@ const CleaningScreen = (props) => {
     },
     cardTextStyle: {
       fontSize: 18,
+      textAlign: "center"
     },
     paymentCard: {
       marginLeft: 25,
@@ -178,7 +179,7 @@ const CleaningScreen = (props) => {
   const [frequencyCardStyle, setFrequencyCardStyle] = React.useState(style.cardStyleForTypeSelection);
   const [roomTypeCardStyle, setRoomTypeCardStyle] = React.useState(style.cardStyleForTypeSelection);
   const [cleanTypeCardStyle, setCleanTypeCardStyle] = React.useState(style.cardStyleForTypeSelection);
-  const [cleanTypeTitle, setCleanTypeTitle] = React.useState("Type of cleaning");
+  const [cleanTypeTitle, setCleanTypeTitle] = React.useState("Type of Cleaning");
 
   //Selected Data
   const [cleaningId, setCleaningId] = React.useState("");
@@ -196,7 +197,7 @@ const CleaningScreen = (props) => {
     }, {
       id: 1,
       freName: "Weekly",
-      offer: 15,
+      offer: 10,
     },
     {
       id: 2,
@@ -227,6 +228,10 @@ const CleaningScreen = (props) => {
       id: 2,
       type: "Deep",
       offer: "99",
+    }, {
+      id: 3,
+      type: "Carpet Cleaning",
+      offer: "79",
     },
   ]);
 
@@ -271,7 +276,7 @@ const CleaningScreen = (props) => {
       setApartmentCardStyle(style.selectedCardStyle);
       setCondHouseCardStyle(style.cardStyle);
       setTitle("Apartment/Townhome Type");
-      setCleanTypeTitle("Type of cleaning");
+      setCleanTypeTitle("Type of Cleaning");
     } else {
       //Clean Variable
       setAmount("");
@@ -411,7 +416,7 @@ const CleaningScreen = (props) => {
                   <View
                     style={cleanTypeCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
                     {data.offer == null ? <Text style={style.cardTextStyle}> {data.type} </Text> :
-                      <Text style={style.cardTextStyle}> {data.type} ($ {data.offer})</Text>}
+                      <Text style={style.cardTextStyle}> {data.type} (+${data.offer})</Text>}
 
                   </View>
                 </TouchableOpacity>
@@ -438,7 +443,7 @@ const CleaningScreen = (props) => {
                     style={frequencyCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
                     {
                       data.offer === 0 ? <Text style={style.cardTextStyle}> {data.freName} </Text>
-                        : <Text style={style.cardTextStyle}> {data.freName} ( {data.offer}%)</Text>
+                        : <Text style={style.cardTextStyle}> {data.freName} ({data.offer}% off)</Text>
                     }
 
                   </View>

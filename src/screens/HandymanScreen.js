@@ -47,7 +47,6 @@ const HandymanScreen = (props) => {
     },
     paymentCard: {
       marginLeft: 25,
-      marginRight: 25,
       backgroundColor: colors.white,
       borderRadius: 5,
       padding: 10,
@@ -388,10 +387,6 @@ const HandymanScreen = (props) => {
         </View>
 
         {/* ---- Price ----- */}
-        {
-          priceListBySelection.length == 0 ? null :
-            <Text style={style.cardHeaderTextStyle}> {cleanTypeTitle} </Text>
-        }
 
 
         <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 20 }}>
@@ -413,7 +408,7 @@ const HandymanScreen = (props) => {
                     style={cleanTypeCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
                     <Text style={style.cardTextStyle}> {data.quantity} </Text>
                     {
-                      data.off === null ? <Text style={style.cardTextStyle}> ${data.price}</Text> :
+                      data.off === null ? null :
                         <Text style={style.cardTextStyle}> ${data.price} (${data.off} off)</Text>
                     }
 
@@ -435,7 +430,7 @@ const HandymanScreen = (props) => {
 
         />
         {/*--- Product Card View -----*/}
-        <Text style={style.cardHeaderTextStyle}> Selected Items</Text>
+
         {
           serviceNameList.map((res, i) => {
             return (

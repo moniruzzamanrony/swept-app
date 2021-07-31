@@ -297,7 +297,7 @@ const PatCareScreen = (props) => {
 
         <View style={style.formDivForTwoColumn}>
           <View>
-            <Text style={{ margin: 2 }}>Weight</Text>
+            <Text style={{ margin: 2 }}>Weight (lbs)</Text>
             <TextInput style={style.inputFieldHalf} onChangeText={weight => setWeight(weight)} />
             {weightErr ? <Text style={style.errorMessage}>Weight required !</Text> : null}
           </View>
@@ -364,11 +364,11 @@ const PatCareScreen = (props) => {
           }}>
             {
               fileUri === undefined ?
-                <Text style={{ textAlign: "center", fontSize: 14, color: colors.white, marginLeft: 20 }}>
-                  Click Here to Upload Records (jpg or pdf)
+                <Text style={{ textAlign: "center", fontSize: 14, color: colors.white }}>
+                  Click Here to Upload Pictures & Vaccine Records
                 </Text>
                 :
-                <Text style={{ textAlign: "center", fontSize: 14, color: colors.white, marginLeft: 20 }}>
+                <Text style={{ textAlign: "center", fontSize: 14, color: colors.white }}>
                   {
                     fileUri.slice(fileUri.length - 120)}
                 </Text>
@@ -378,7 +378,7 @@ const PatCareScreen = (props) => {
         </View>
 
         <View style={style.formDiv}>
-          <Text style={{ margin: 2, fontWeight: "bold" }}>Enter details</Text>
+          <Text style={{ margin: 2, fontWeight: "bold" }}>Special Instructions</Text>
           <TextInput style={style.textArea}
                      multiline={true}
                      numberOfLines={6}
@@ -389,7 +389,7 @@ const PatCareScreen = (props) => {
         <View style={style.formDivForTwoColumn}>
           <CheckBox
             checked={isChecked}
-            title="I’m a SWEPT Pet Member"
+            title="I’m a SWEPT VIP Member"
             onPress={function() {
               isChecked ? setIsChecked(false) :
                 setIsChecked(true);
@@ -422,5 +422,7 @@ const PatCareScreen = (props) => {
     </ScrollView>
   );
 };
+// Mandatory Field *
+// <Text style={{color: colors.offRed}}> *</Text>
 
 export default PatCareScreen;

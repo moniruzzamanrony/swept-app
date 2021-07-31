@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  AsyncStorageStatic as AsyncStorage,
+  AsyncStorage,
   Dimensions,
   Image,
   ScrollView,
@@ -77,6 +77,8 @@ const MyProfileScreen = (props) => {
   const removeToken = async (key) => {
     try {
       await AsyncStorage.removeItem(key);
+      await AsyncStorage.removeItem("email")
+      await AsyncStorage.removeItem("password")
     } catch (e) {
       console.log(e);
     }

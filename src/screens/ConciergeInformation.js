@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Dimensions, Linking, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
-import { colors } from "../theme/Colors";
+import React, {useState} from "react";
+import {Dimensions, Linking, ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
+import {colors} from "../theme/Colors";
 import NavigationBar from "../navigation/NavigationBar";
-import { CheckBox, Text } from "react-native-elements";
-import { Button, Root, Toast } from "native-base";
+import {CheckBox, Text} from "react-native-elements";
+import {Button, Root, Toast} from "native-base";
 import axios from "axios";
-import { Api } from "../contants/Api";
+import {Api} from "../contants/Api";
 import Spinner from "react-native-loading-spinner-overlay";
 import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 import DatePicker from "react-native-date-picker";
@@ -170,27 +170,27 @@ const ConciergeInformation = (props) => {
     };
     setLoading(true);
     axios.post(Api.BASE_URL + Api.POST_CONCIERGE, body)
-      .then(function(response) {
-        console.log(response);
-        //Navigate to Home Screen
-        // props.navigation.navigate("SuccessScreen");
-        loadInBrowser(response.data.Message);
-        // Hide Loader
-        setLoading(false);
-      })
-      .catch(function(error) {
-        // Log show
-        console.log(error);
+        .then(function (response) {
+          console.log(response);
+          //Navigate to Home Screen
+          // props.navigation.navigate("SuccessScreen");
+          loadInBrowser(response.data.Message);
+          // Hide Loader
+          setLoading(false);
+        })
+        .catch(function (error) {
+          // Log show
+          console.log(error);
 
-        Toast.show({
-          text: "Something Wrong or Empty Filed",
-          buttonText: "Okay",
-          type: "danger",
+          Toast.show({
+            text: "Something Wrong or Empty Filed",
+            buttonText: "Okay",
+            type: "danger",
+          });
+
+          // Hide Loader
+          setLoading(false);
         });
-
-        // Hide Loader
-        setLoading(false);
-      });
   };
   const loadInBrowser = (url) => {
     Linking.openURL(url).catch(err => Toast.show({
@@ -200,164 +200,178 @@ const ConciergeInformation = (props) => {
     }));
   };
   return (
-    <Root>
-      <View>
-        {/* Loading Screen Start*/}
-        <Spinner
-          //visibility of Overlay Loading Spinner
-          visible={loading}
-          //Text with the Spinner
-          textContent={"Loading..."}
-          textStyle={{ color: colors.buttonBgColor }}
-        />
-        <ScrollView>
-          <View>
-            {/* ---- Header ------*/}
-            <NavigationBar title="Information" url="ConciergeScreen" navigation={props} />
-            <View style={style.formDivForTwoColumn}>
-              <View>
-                <Text style={{ margin: 2 }}>First name</Text>
-                <TextInput style={style.inputFieldHalf} onChangeText={fName => setFName(fName)} />
-                {FNameErr ? <Text style={style.errorMessage}>First name required !</Text> : null}
-              </View>
-
-              <View>
-                <Text style={{ margin: 2 }}>Last name</Text>
-                <TextInput style={style.inputFieldHalf} onChangeText={lastName => setLastName(lastName)} />
-                {lastNameErr ? <Text style={style.errorMessage}>Last name required !</Text> : null}
-              </View>
-            </View>
-
-            <View style={style.formDiv}>
-              <Text style={{ margin: 2 }}>Name of Pick-Up Location</Text>
-              <TextInput style={style.inputField} onChangeText={pickUpLocation => setPickUpLocation(pickUpLocation)} />
-              {pickUpLocationErr ? <Text style={style.errorMessage}>Name of Pick-Up Location required !</Text> : null}
-            </View>
-
-            <View style={style.formDiv}>
-              <Text style={{ margin: 2 }}>Pick Up Address</Text>
-              <TextInput style={style.inputField} onChangeText={pickUpAddress => setPickUpAddress(pickUpAddress)} />
-              {pickUpAddressErr ? <Text style={style.errorMessage}>Pick Up Address required !</Text> : null}
-            </View>
-
-            <View style={style.formDiv}>
-              <Text style={{ margin: 2 }}>Pick Up Date/Time</Text>
-              <DatePicker
-                date={pickUpOffDateDate}
-                onDateChange={setPickUpOffDateDate}
-                mode="datetime"
-                style={{ width: width }}
-              />
-              {/*<TextInput style={style.inputField}*/}
-              {/*           onChangeText={pickUpOffDateDate => setPickUpOffDateDate(pickUpOffDateDate)} />*/}
-              {/*{pickUpOffDateDateErr ? <Text style={style.errorMessage}>Pick Up Date/Time required !</Text> : null}*/}
-            </View>
-
-            <View style={style.formDiv}>
-              <Text style={{ margin: 2 }}>Drop Off Address</Text>
-              <TextInput style={style.inputField} onChangeText={dropOffAddress => setDropOffAddress(dropOffAddress)} />
-              {dropOffAddressErr ? <Text style={style.errorMessage}>Drop Off Address required !</Text> : null}
-            </View>
-
-            <View style={style.formDiv}>
-              <Text style={{ margin: 2 }}>Drop Off Date/Time</Text>
-              <DatePicker
-                date={dropOffDate}
-                onDateChange={setDropOffDateDate}
-                mode="datetime"
-                style={{ width: width }}
-              />
-              {/*<TextInput style={style.inputField} onChangeText={dropOffDate => setDropOffDateDate(dropOffDate)} />*/}
-              {/*{dropOffDateErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}*/}
-            </View>
-
-            <View style={style.formDiv}>
-              <Text style={{ margin: 2 }}>Special Instructions</Text>
-              <TextInput style={style.inputField}
-                         onChangeText={specialInstructions => setSpecialInstructions(specialInstructions)} />
-              {specialInstructionsErr ? <Text style={style.errorMessage}>Special Instructions required !</Text> : null}
-
-            </View>
-
-            <Text style={{ marginLeft: 35, fontWeight: "bold" }}>Payment Method</Text>
-            <TouchableOpacity onPress={function() {
-              setPaymentOption("Paypal");
-            }
-            }>
+      <Root>
+        <View>
+          {/* Loading Screen Start*/}
+          <Spinner
+              //visibility of Overlay Loading Spinner
+              visible={loading}
+              //Text with the Spinner
+              textContent={"Loading..."}
+              textStyle={{color: colors.buttonBgColor}}
+          />
+          <ScrollView>
+            <View>
+              {/* ---- Header ------*/}
+              <NavigationBar title="Information" url="ConciergeScreen" navigation={props}/>
               <View style={style.formDivForTwoColumn}>
-                <CheckBox
-                  checked={isChargeCard}
-                  title="Charge My Card"
-                  onPress={function() {
-                    isChargeCard ? setIsChargeCard(false) :
-                      setIsChargeCard(true);
-                  }}
+                <View>
+                  <Text style={{margin: 2}}>First name</Text>
+                  <TextInput style={style.inputFieldHalf} onChangeText={fName => setFName(fName)}/>
+                  {FNameErr ? <Text style={style.errorMessage}>First name required !</Text> : null}
+                </View>
+
+                <View>
+                  <Text style={{margin: 2}}>Last name</Text>
+                  <TextInput style={style.inputFieldHalf}
+                             onChangeText={lastName => setLastName(lastName)}/>
+                  {lastNameErr ? <Text style={style.errorMessage}>Last name required !</Text> : null}
+                </View>
+              </View>
+
+              <View style={style.formDiv}>
+                <Text style={{margin: 2}}>Name of Pick-Up Location</Text>
+                <TextInput style={style.inputField}
+                           onChangeText={pickUpLocation => setPickUpLocation(pickUpLocation)}/>
+                {pickUpLocationErr ?
+                    <Text style={style.errorMessage}>Name of Pick-Up Location required !</Text> : null}
+              </View>
+
+              <View style={style.formDiv}>
+                <Text style={{margin: 2}}>Pick Up Address</Text>
+                <TextInput style={style.inputField}
+                           onChangeText={pickUpAddress => setPickUpAddress(pickUpAddress)}/>
+                {pickUpAddressErr ?
+                    <Text style={style.errorMessage}>Pick Up Address required !</Text> : null}
+              </View>
+
+              <View style={style.formDiv}>
+                <Text style={{margin: 2}}>Pick Up Date/Time</Text>
+                <DatePicker
+                    minimumDate={new Date()}
+                    date={pickUpOffDateDate}
+                    onDateChange={setPickUpOffDateDate}
+                    mode="datetime"
+                    style={{width: width}}
                 />
+                {/*<TextInput style={style.inputField}*/}
+                {/*           onChangeText={pickUpOffDateDate => setPickUpOffDateDate(pickUpOffDateDate)} />*/}
+                {/*{pickUpOffDateDateErr ? <Text style={style.errorMessage}>Pick Up Date/Time required !</Text> : null}*/}
+              </View>
+
+              <View style={style.formDiv}>
+                <Text style={{margin: 2}}>Drop Off Address</Text>
+                <TextInput style={style.inputField}
+                           onChangeText={dropOffAddress => setDropOffAddress(dropOffAddress)}/>
+                {dropOffAddressErr ?
+                    <Text style={style.errorMessage}>Drop Off Address required !</Text> : null}
+              </View>
+
+              <View style={style.formDiv}>
+                <Text style={{margin: 2}}>Drop Off Date/Time</Text>
+                <DatePicker
+                    date={dropOffDate}
+                    onDateChange={setDropOffDateDate}
+                    mode="datetime"
+                    style={{width: width}}
+                />
+                {/*<TextInput style={style.inputField} onChangeText={dropOffDate => setDropOffDateDate(dropOffDate)} />*/}
+                {/*{dropOffDateErr ? <Text style={style.errorMessage}>Breed/Type required !</Text> : null}*/}
+              </View>
+
+              <View style={style.formDiv}>
+                <Text style={{margin: 2}}>Special Instructions</Text>
+                <TextInput style={style.inputField}
+                           onChangeText={specialInstructions => setSpecialInstructions(specialInstructions)}/>
+                {specialInstructionsErr ?
+                    <Text style={style.errorMessage}>Special Instructions required !</Text> : null}
 
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={function() {
-              setPaymentOption("I already paid the vendor");
-            }
-            }>
-              <View style={style.formDivForTwoColumn}>
-                <CheckBox
-                  checked={isPaidVendor}
-                  title="I already paid the vendor"
-                  onPress={function() {
-                    isPaidVendor ? setIsPaidVendor(false) :
-                      setIsPaidVendor(true);
-                  }}
-                />
 
+              <Text style={{marginLeft: 35, fontWeight: "bold"}}>Payment Method</Text>
+              <TouchableOpacity onPress={function () {
+                setPaymentOption("Paypal");
+              }
+              }>
+                <View style={style.formDivForTwoColumn}>
+                  <CheckBox
+                      checked={isChargeCard}
+                      title="Charge My Card"
+                      onPress={function () {
+                        isChargeCard ? setIsChargeCard(false) :
+                            setIsChargeCard(true);
+                      }}
+                  />
+
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={function () {
+                setPaymentOption("I already paid the vendor");
+              }
+              }>
+                <View style={style.formDivForTwoColumn}>
+                  <CheckBox
+                      checked={isPaidVendor}
+                      title="I already paid the vendor"
+                      onPress={function () {
+                        isPaidVendor ? setIsPaidVendor(false) :
+                            setIsPaidVendor(true);
+                      }}
+                  />
+
+                </View>
+              </TouchableOpacity>
+              {/*--- Warning Field -----*/}
+              <View style={style.formDiv}>
+                <Text style={{fontWeight: "bold", padding: 10, color: colors.assColor}}>
+                  Total Price: $120
+                </Text>
               </View>
-            </TouchableOpacity>
-            {/*--- Warning Field -----*/}
-            <View style={style.formDiv}>
-              <Text style={{ fontWeight: "bold", padding: 10, color: colors.assColor }}>
-                Total Price: $120
-              </Text>
-            </View>
 
-            <View style={{ paddingStart: (widthHalf + 40) / 4, marginLeft: 10, marginRight: 10, marginBottom: 10 }}>
-              <Button style={style.getStartBut} onPress={function() {
-                setFNameErr(false);
-                setLastNameErr(false);
-                setPickUpLocationErr(false);
-                setPickUpAddressErr(false);
-                setPickUpOffDateDateErr(false);
-                setDropOffAddressErr(false);
-                if (!Validators.isEmpty(fName)) {
-                  setFNameErr(true);
-                }
-                if (!Validators.isEmpty(lastName)) {
-                  setLastNameErr(true);
-                }
-                if (!Validators.isEmpty(pickUpLocation)) {
-                  setPickUpLocationErr(true);
-                }
-                if (!Validators.isEmpty(pickUpAddress)) {
-                  setPickUpAddressErr(true);
-                }
-                if (!Validators.isEmpty(pickUpOffDateDate)) {
-                  setPickUpOffDateDateErr(true);
-                }
-                if (!Validators.isEmpty(dropOffAddress)) {
-                  setDropOffAddressErr(true);
-                } else {
-                  onSubmit();
-                }
-
+              <View style={{
+                paddingStart: (widthHalf + 40) / 4,
+                marginLeft: 10,
+                marginRight: 10,
+                marginBottom: 10
               }}>
-                <Text style={{ fontSize: 18, fontWeight: "bold" }}>Pay & Book Now</Text>
-              </Button>
+                <Button style={style.getStartBut} onPress={function () {
+                  setFNameErr(false);
+                  setLastNameErr(false);
+                  setPickUpLocationErr(false);
+                  setPickUpAddressErr(false);
+                  setPickUpOffDateDateErr(false);
+                  setDropOffAddressErr(false);
+                  if (!Validators.isEmpty(fName)) {
+                    setFNameErr(true);
+                  }
+                  if (!Validators.isEmpty(lastName)) {
+                    setLastNameErr(true);
+                  }
+                  if (!Validators.isEmpty(pickUpLocation)) {
+                    setPickUpLocationErr(true);
+                  }
+                  if (!Validators.isEmpty(pickUpAddress)) {
+                    setPickUpAddressErr(true);
+                  }
+                  if (!Validators.isEmpty(pickUpOffDateDate)) {
+                    setPickUpOffDateDateErr(true);
+                  }
+                  if (!Validators.isEmpty(dropOffAddress)) {
+                    setDropOffAddressErr(true);
+                  } else {
+                    onSubmit();
+                  }
+
+                }}>
+                  <Text style={{fontSize: 18, fontWeight: "bold"}}>Pay & Book Now</Text>
+                </Button>
+              </View>
+
+
             </View>
-
-
-          </View>
-        </ScrollView>
-      </View>
-    </Root>
+          </ScrollView>
+        </View>
+      </Root>
   );
 };
 const style = StyleSheet.create({

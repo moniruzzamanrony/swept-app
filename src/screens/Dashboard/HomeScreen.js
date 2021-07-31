@@ -137,19 +137,24 @@ const HomeScreen = (props) => {
           <Text style={{ fontSize: 16, fontWeight: "bold", margin: 5 }}>{getDayMomentStatus()} !</Text>
           <Text style={{ fontSize: 16, margin: 2 }}>How may we assist you? </Text>
         </View>
-        <View style={style.headerAvatar}>
-          {
-            profilePicturePath === null ?
-              <Image
-                source={require("../../../assets/avatar/profile.png")}
-                style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: "flex-end" }}
-              /> :
-              <Image
-                source={{ uri: Api.IMAGE_VIEW_BASE_URL + "avatar/" + profilePicturePath }}
-                style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: "flex-end" }}
-              />
-          }
-        </View>
+        <TouchableOpacity onPress={function() {
+          gotoSelectedScreen("MyProfileScreen");
+        }}>
+          <View style={style.headerAvatar}>
+            {
+              profilePicturePath === null ?
+                  <Image
+                      source={require("../../../assets/avatar/profile.png")}
+                      style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: "flex-end" }}
+                  /> :
+                  <Image
+                      source={{ uri: Api.IMAGE_VIEW_BASE_URL + "avatar/" + profilePicturePath }}
+                      style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: "flex-end" }}
+                  />
+            }
+          </View>
+        </TouchableOpacity>
+
       </View>
       {/*---- Main Card Body ------*/}
       <ScrollView>
