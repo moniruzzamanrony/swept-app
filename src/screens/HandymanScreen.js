@@ -331,7 +331,7 @@ const HandymanScreen = (props) => {
               <View style={apartmentCardStyle}>
                 <Image
                   source={require("../../assets/icons/building_icon.png")}
-                  style={{ height: 60, width: 60 }}
+                  style={{ height: widthHalf/2, width: widthHalf/2 }}
                 />
                 <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Apartment/ Townhome</Text>
               </View>
@@ -344,7 +344,7 @@ const HandymanScreen = (props) => {
               <View style={condHouseCardStyle}>
                 <Image
                   source={require("../../assets/icons/home_icon.png")}
-                  style={{ height: 60, width: 60 }}
+                  style={{ height: widthHalf/2, width: widthHalf/2 }}
 
                 />
                 <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Condo/
@@ -372,7 +372,7 @@ const HandymanScreen = (props) => {
                         style={roomTypeCardStyle === data.id ? style.selectedCardStyleForTypeSelection : style.cardStyleForTypeSelection}>
                         <Image
                           source={{ uri: Api.IMAGE_VIEW_BASE_URL + "HandymanServiceImage/" + data.image }}
-                          style={{ height: 60, width: 60 }}
+                          style={{ height: widthHalf/2, width: widthHalf/2 }}
                         />
                         <Text style={style.cardTextStyle}> {data.service_name} </Text>
                       </View>

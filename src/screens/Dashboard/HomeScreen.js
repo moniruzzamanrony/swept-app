@@ -169,7 +169,7 @@ const HomeScreen = (props) => {
               <View style={style.cardStyle}>
                 <Image
                   source={require("../../../assets/icons/cleaning_icon.png")}
-                  style={{ height: 60, width: 60 }}
+                  style={{ height: widthHalf/2, width: widthHalf/2 }}
                 />
                 <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Cleaning</Text>
             </View>
@@ -182,7 +182,7 @@ const HomeScreen = (props) => {
             <View style={style.cardStyle}>
               <Image
                 source={require("../../../assets/icons/technician_logo.png")}
-                style={{ height: 60, width: 60 }}
+                style={{ height: widthHalf/2, width: widthHalf/2 }}
               />
               <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Handyman</Text>
             </View>
@@ -198,7 +198,7 @@ const HomeScreen = (props) => {
             <View style={style.cardStyle}>
               <Image
                 source={require("../../../assets/icons/pet_care_icon.png")}
-                style={{ height: 60, width: 60 }}
+                style={{ height: widthHalf/2, width: widthHalf/2 }}
               />
               <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Pet Care</Text>
             </View>
@@ -210,7 +210,7 @@ const HomeScreen = (props) => {
             <View style={style.cardStyle}>
               <Image
                 source={require("../../../assets/icons/concierge_icon.png")}
-                style={{ height: 60, width: 60 }}
+                style={{ height: widthHalf/2, width: widthHalf/2 }}
               />
               <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Concierge</Text>
             </View>
@@ -226,7 +226,7 @@ const HomeScreen = (props) => {
             <View style={style.cardStyle}>
               <Image
                 source={require("../../../assets/icons/vertual_p_a_icon.png")}
-                style={{ height: 60, width: 60 }}
+                style={{ height: widthHalf/2, width: widthHalf/2 }}
               />
               <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 15 }}>Virtual
                 Personal
@@ -241,7 +241,7 @@ const HomeScreen = (props) => {
             <View style={style.cardStyle}>
               <Image
                 source={require("../../../assets/icons/makeup_icon.png")}
-                style={{ height: 60, width: 60 }}
+                style={{ height: widthHalf/2, width: widthHalf/2 }}
               />
               <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 15 }}>Home Spa/
                 Beauty Service</Text>

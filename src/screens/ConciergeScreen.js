@@ -67,8 +67,8 @@ const ConciergeScreen = (props) => {
     },
     // For Change Bg
     cardStyle: {
-      width: widthHalf - 10,
-      height: widthHalf - 10,
+      width: widthHalf ,
+      height: widthHalf ,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: colors.white,
@@ -86,8 +86,8 @@ const ConciergeScreen = (props) => {
       borderColor: colors.cardNonSelectedBorderColor,
     },
     selectedCardStyleForTypeSelection: {
-      width: widthHalf - 10,
-      height: widthHalf - 10,
+      width: widthHalf ,
+      height: widthHalf ,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: colors.white,
@@ -161,9 +161,9 @@ const ConciergeScreen = (props) => {
                 <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
                   <Image
                     source={{ uri: Api.IMAGE_VIEW_BASE_URL + "conciergeServiceImage/" + res.image }}
-                    style={{ height: 60, width: 60 }}
+                    style={{ height: widthHalf/2, width: widthHalf/2 }}
                   />
-                  <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>{res.concierge_name}</Text>
+                  <Text style={{  margin: 10, fontWeight: "bold", fontSize: 18 }}>{res.concierge_name}</Text>
                 </View>
               </TouchableOpacity>
 
@@ -174,7 +174,8 @@ const ConciergeScreen = (props) => {
             setConciergeId(34345);
           }}>
             <View style={cardBg === 34345 ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
-              <Image source={require("../../assets/icons/personal_item.png")} style={{ height: 60, width: 60 }} />
+              <Image source={require("../../assets/icons/personal_item.png")}
+                     style={{ height: widthHalf/2, width: widthHalf/2 }} />
 
               <Text style={{ margin: 10, fontWeight: "bold", fontSize: 18 }}>Personal
                 Item</Text>
