@@ -88,8 +88,7 @@ const PersonalItemScreen = (props) => {
 
     // For Change Bg
     cardStyle: {
-      width: widthHalf - 10,
-      height: widthHalf - 10,
+      width: widthHalf,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: colors.white,
@@ -107,8 +106,7 @@ const PersonalItemScreen = (props) => {
       borderColor: colors.cardNonSelectedBorderColor,
     },
     selectedCardStyleForTypeSelection: {
-      width: widthHalf - 10,
-      height: widthHalf - 10,
+      width: widthHalf,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: colors.white,
@@ -229,10 +227,10 @@ const PersonalItemScreen = (props) => {
                     <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
                       <Image
                         source={{ uri: Api.IMAGE_VIEW_BASE_URL + "PersonalItemImage/" + res.image }}
-                        style={{ height: widthHalf/2, width: widthHalf/2 }}
+                        style={{ margin:5,height: widthHalf/2, width: widthHalf/2 }}
                       />
-                      <Text style={{  marginTop: 10,marginLeft:10, marginRight:10, height: 37,textAlign: "center", fontWeight: "bold", fontSize: 15 }}>{res.name}</Text>
-                      <Text style={{ textAlign: "center", fontSize: 15 }}>${res.price}</Text>
+                      <Text style={{  marginTop: 5,marginLeft:10, marginRight:10,textAlign: "center", fontWeight: "bold", fontSize: 15 }}>{res.name}</Text>
+                      <Text style={{ margin:5,textAlign: "center", fontSize: 15 }}>${res.price}</Text>
                     </View>
                   </TouchableOpacity>
                 );

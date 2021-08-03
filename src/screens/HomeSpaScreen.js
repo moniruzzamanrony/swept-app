@@ -70,7 +70,6 @@ const HomeSpaScreen = (props) => {
       },  // For Change Bg
       cardStyle: {
         width: widthHalf,
-        height: widthHalf,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: colors.white,
@@ -89,7 +88,6 @@ const HomeSpaScreen = (props) => {
       },
       selectedCardStyleForTypeSelection: {
         width: widthHalf,
-        height: widthHalf,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: colors.white,
@@ -181,10 +179,11 @@ const HomeSpaScreen = (props) => {
                 <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
                   <Image
                     source={{ uri: Api.IMAGE_VIEW_BASE_URL + Api.BEAUTY_SPA_IMAGE + res.image }}
-                    style={{ height: widthHalf/2, width: widthHalf/2 }}
+                    style={{ height: widthHalf/2, width: widthHalf/2, margin:5 }}
                   />
-                  <Text style={{ marginTop: 10,marginLeft:10, marginRight:10, height: 37,alignItems:"center", fontWeight: "bold", textAlign: "center", fontSize: 15 }}>{res.name}</Text>
-                  <Text style={{  fontSize: 15 }}>${res.price}</Text>
+                  <Text style={{ marginTop: 5,marginLeft:10, marginRight:10, alignItems:"center",
+                    fontWeight: "bold", textAlign: "center", fontSize: 15 }}>{res.name}</Text>
+                  <Text style={{ margin:10, fontSize: 15 }}>${res.price}</Text>
                 </View>
               </TouchableOpacity>
 
