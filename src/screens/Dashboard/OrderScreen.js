@@ -85,7 +85,7 @@ const OrderScreen = () => {
       <ScrollView>
 
         {/*------Handimen Orders-------*/}
-        <Text style={style.headerbg}> Handimen Orders</Text>
+        <Text style={style.headerbg}> Handyman Orders</Text>
         <View style={style.container}>
           <FlatList
             data={handimenOrders}

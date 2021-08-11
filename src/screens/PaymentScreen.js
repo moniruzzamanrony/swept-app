@@ -29,7 +29,7 @@ const PaymentScreen = (props) => {
   const [width, setWidth] = useState(Dimensions.get("window").width - 50);
   const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) + 50);
 
-  const gotoSignUpPage = () => {
+  const bookAndPayNow = () => {
     const body = props.route.params.body;
     console.log(props.route.params.body.total_price);
     console.log(api);
@@ -105,6 +105,84 @@ const PaymentScreen = (props) => {
       }
     }
   };
+
+  const bookAndPayLater = () => {
+    const body = props.route.params.body;
+    console.log(props.route.params.body.total_price);
+    console.log(api);
+    console.log(requestType);
+    if (name === "") {
+      setNameErr(true);
+    }
+    if (email === "") {
+      setEmailErr(true);
+    }
+    if (phone === "") {
+      setPhoneErr(true);
+    } else {
+      const body = props.route.params.body;
+      // Show Loader
+      setLoading(true);
+      if (requestType == MediaType.JSON) {
+        axios.post(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + api, body)
+          .then(function(response) {
+            console.log(response.data.Message);
+
+            //Navigate to Success Screen
+            props.navigation.navigate("SuccessScreen");
+
+            // Hide Loader
+            setLoading(false);
+          })
+          .catch(function(error) {
+            console.log(error);
+            // TODO: Remove navigation from here
+            Toast.show({
+              text: "Please Try Again! ",
+              buttonText: "Okay",
+              type: "danger",
+            });
+            // Hide Loader
+            setLoading(false);
+          });
+      }
+      if (requestType == MediaType.FORM_DATA) {
+        const bodyFormData = body.form_data;
+        bodyFormData.append("address", body.address);
+        bodyFormData.append("date", body.date);
+        console.log(bodyFormData);
+        setLoading(true);
+        const config = {
+          method: "post",
+          url: Api.BASE_URL + Api.SERVICE_ENDPOINT + "/" + api,
+          data: bodyFormData,
+          headers: {
+            "Content-Type": `multipart/form-data;`,
+          },
+        };
+
+        axios(config)
+          .then(function(response) {
+            console.log(response);
+            loadInBrowser(response.data.Message);
+            //Navigate to Home Screen
+            //props.navigation.navigate("SuccessScreen");
+            // Hide Loader
+            setLoading(false);
+          })
+          .catch(function(error) {
+            console.log(error);
+            Toast.show({
+              text: "Please Try Again! ",
+              buttonText: "Okay",
+              type: "danger",
+            });
+            setLoading(false);
+          });
+      }
+    }
+  };
+
   const loadInBrowser = (url) => {
     Linking.openURL(url).catch(err => Toast.show({
       text: err,
@@ -233,7 +311,12 @@ const PaymentScreen = (props) => {
 
           <View style={style.buttomBut}>
             <Button style={style.getStartBut} onPress={function() {
-              gotoSignUpPage();
+              bookAndPayLater();
+            }}>
+              <Text style={{ fontSize: 18, fontWeight: "bold" }}>Book & Pay Later</Text>
+            </Button>
+            <Button style={style.getStartBut} onPress={function() {
+              bookAndPayNow();
             }}>
               <Text style={{ fontSize: 18, fontWeight: "bold" }}>Book & Pay Now</Text>
             </Button>

@@ -13,10 +13,10 @@ const HomeScreen = (props) => {
   const style = StyleSheet.create({
     body: {
       flex: 3,
-      backgroundColor: colors.baseBackgroundColor,
+      backgroundColor: colors.baseBackgroundInDarkColor,
     },
     header: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.baseBackgroundInLightDarkColor,
       height: 139,
       borderBottomLeftRadius: 15,
       borderBottomRightRadius: 15,
@@ -39,7 +39,7 @@ const HomeScreen = (props) => {
       height: widthHalf - 10,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: colors.white,
+      backgroundColor: colors.baseBackgroundInDarkColor,
       borderRadius: 15,
       borderWidth: 1,
       shadowColor: "#ccc",
@@ -76,6 +76,12 @@ const HomeScreen = (props) => {
       color: colors.offRed,
       margin: 2,
     },
+    subTitle:{
+      textAlign: "center",
+      margin: 10,
+      fontSize: 15,
+      color: colors.white
+    }
   });
   const [profilePicturePath, setProfilePicturePath] = React.useState(null);
   useEffect(() => {
@@ -134,8 +140,8 @@ const HomeScreen = (props) => {
       <View style={style.header}>
         {/*Must be use react-native grid for proper responsive*/}
         <View style={style.headerTitle}>
-          <Text style={{ fontSize: 16, fontWeight: "bold", margin: 5 }}>{getDayMomentStatus()} !</Text>
-          <Text style={{ fontSize: 16, margin: 2 }}>How may we assist you? </Text>
+          <Text style={{ fontSize: 16, fontWeight: "bold", margin: 5, color: colors.white }}>{getDayMomentStatus()} !</Text>
+          <Text style={{ fontSize: 16, margin: 2,color: colors.white }}>How may we assist you? </Text>
         </View>
         <TouchableOpacity onPress={function() {
           gotoSelectedScreen("MyProfileScreen");
@@ -156,6 +162,16 @@ const HomeScreen = (props) => {
         </TouchableOpacity>
 
       </View>
+      <View>
+        <Text style={{textAlign: "center",
+          marginTop: 10,
+          fontSize: 22,
+          color: colors.white}}>Welcome to <Text style={{color: colors.cardSelectedBorderColor,fontWeight:'bold'}}>SWEPT</Text>!</Text>
+        <Text style={{textAlign: "center",
+          fontSize: 20,
+          marginBottom:10,
+          color: colors.white}}>Please <Text style={{color: colors.marunColor}}>Choose</Text> from the options below</Text>
+      </View>
       {/*---- Main Card Body ------*/}
       <ScrollView>
         <View style={{ justifyContent: "center", alignItems: "center", margin: 10 }}>
@@ -171,7 +187,7 @@ const HomeScreen = (props) => {
                   source={require("../../../assets/icons/cleaning_icon.png")}
                   style={{ height: widthHalf/2, width: widthHalf/2 }}
                 />
-                <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Cleaning</Text>
+                <Text style={style.subTitle}>Cleaning</Text>
             </View>
           </TouchableOpacity>
 
@@ -184,7 +200,7 @@ const HomeScreen = (props) => {
                 source={require("../../../assets/icons/technician_logo.png")}
                 style={{ height: widthHalf/2, width: widthHalf/2 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Handyman</Text>
+              <Text style={style.subTitle}>Handyman</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -200,7 +216,7 @@ const HomeScreen = (props) => {
                 source={require("../../../assets/icons/pet_care_icon.png")}
                 style={{ height: widthHalf/2, width: widthHalf/2 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Pet Care</Text>
+              <Text style={style.subTitle}>Pet Care</Text>
             </View>
           </TouchableOpacity>
           {/*----- concierge -----*/}
@@ -212,7 +228,7 @@ const HomeScreen = (props) => {
                 source={require("../../../assets/icons/concierge_icon.png")}
                 style={{ height: widthHalf/2, width: widthHalf/2 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 15 }}>Concierge</Text>
+              <Text style={style.subTitle}>Concierge</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -228,7 +244,7 @@ const HomeScreen = (props) => {
                 source={require("../../../assets/icons/vertual_p_a_icon.png")}
                 style={{ height: widthHalf/2, width: widthHalf/2 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 15 }}>Virtual
+              <Text style={style.subTitle}>Virtual
                 Personal
                 Assistant</Text>
             </View>
@@ -243,7 +259,7 @@ const HomeScreen = (props) => {
                 source={require("../../../assets/icons/makeup_icon.png")}
                 style={{ height: widthHalf/2, width: widthHalf/2 }}
               />
-              <Text style={{ margin: 10, fontWeight: "bold", textAlign: "center", fontSize: 15 }}>Home Spa/
+              <Text style={style.subTitle}>Home Spa/
                 Beauty Service</Text>
             </View>
           </TouchableOpacity>

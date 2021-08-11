@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import {Dimensions, Image, ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
 import NavigationBar from "../navigation/NavigationBar";
 import Text from "react-native-paper/src/components/Typography/Text";
 import { colors } from "../theme/Colors";
-import { Button } from "native-base";
+import {Button, Root, Toast} from "native-base";
 import * as LoggedUserInfo from "../utils/LoggedUserInfo";
 import { MediaType } from "../contants/MediaType";
 import { Api } from "../contants/Api";
 import * as Validators from "../validator/Validators";
+import axios from "axios";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const VirtualPerAssScreen = (props) => {
   // Style
   const [width, setWidth] = useState(Dimensions.get("window").width - 50);
   const [widthHalf, setWidthHalf] = useState((Dimensions.get("window").width / 2) - 40);
+  const [loading, setLoading] = useState(false);
+
   const style = StyleSheet.create({
     body: {
       flex: 3,
@@ -150,52 +154,25 @@ const VirtualPerAssScreen = (props) => {
   }, []);
 
   const callGetApi = () => {
-    setGetResponse([
-      {
-        id: 1,
-        title: "Massage Swedish(40 mins)",
-        price: "100",
-      },
-      {
-        id: 2,
-        title: "Massage Swedish(90 mins)",
-        price: "140",
-      }, {
-        id: 3,
-        title: "Massage deep(60 mins)",
-        price: "125",
-      }, {
-        id: 4,
-        title: "Massage deep(90 mins)",
-        price: "175",
-      }, {
-        id: 5,
-        title: "Manicure, Regular Polish",
-        price: "30",
-      }, {
-        id: 6,
-        title: "Manicure, Shellac Polish",
-        price: "40",
-      }, {
-        id: 7,
-        title: "Pedicure, Regular Polish",
-        price: "45",
-      }, {
-        id: 8,
-        title: "Manicure, Shellac",
-        price: "60",
-      },
-      {
-        id: 9,
-        title: "European Facial",
-        price: "95",
-      }, {
-        id: 10,
-        title: "Custom Facial",
-        price: "125",
-      },
-    ]);
-    console.log(getResponse);
+    setLoading(true);
+    axios.get(Api.BASE_URL + Api.SERVICE_ENDPOINT + "/virtualasistant")
+        .then(function(response) {
+          console.log(response);
+          setGetResponse(response.data.Result);
+          setLoading(false);
+        })
+        .catch(function(error) {
+          setLoading(false);
+          console.warn(error);
+          Toast.show({
+            text: "Something Wrong ",
+            buttonText: "Okay",
+            type: "danger",
+          });
+
+          // Hide Loader
+          // setLoading(false);
+        });
   };
 
   const gotoNextScreen = async () => {
@@ -228,66 +205,81 @@ const VirtualPerAssScreen = (props) => {
   };
 
   return (
-    <ScrollView>
-      <View>
-        <NavigationBar title="Virtual Assistant" url="DashboardScreen" navigation={props} />
-        <View style={style.formDiv}>
-          <Text style={{ marginTop: 10, fontWeight: "bold" }}>Select Your Service</Text>
-        </View>
+      <Root>
+        {/* Loading Screen Start*/}
+        <Spinner
+            //visibility of Overlay Loading Spinner
+            visible={loading}
+            //Text with the Spinner
+            textContent={"Loading..."}
+            textStyle={{ color: colors.buttonBgColor }}
+        />
+        <ScrollView>
+          <View>
+            <NavigationBar service_name="Virtual Assistant" url="DashboardScreen" navigation={props} />
+            <View style={style.formDiv}>
+              <Text style={{ marginTop: 10, fontWeight: "bold" }}>Select Your Service</Text>
+            </View>
 
-        <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 30 }}>
-          {
-            getResponse.map((res) => {
-              return (
-                <TouchableOpacity onPress={function() {
-                  changeBackground(res.id);
-                  setTotalPrice(res.price);
-                  setServiceType(res.title);
-                }}>
-                  <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
-                    <Text
-                      style={{ margin: 10, fontSize: 14, textAlign: "center", fontWeight: "bold" }}>{res.title}</Text>
-                    <Text style={{ fontSize: 12, textAlign: "center" }}>${res.price}</Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })
-          }
+            <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", marginLeft: 30 }}>
+              {
+                getResponse.map((res) => {
+                  return (
+                      <TouchableOpacity onPress={function() {
+                        changeBackground(res.id);
+                        setTotalPrice(res.price);
+                        setServiceType(res.service_name);
+                      }}>
+                        <View style={cardBg === res.id ? style.selectedCardStyleForTypeSelection : style.cardStyle}>
+                          <Image
+                              source={{ uri: Api.IMAGE_VIEW_BASE_URL + "VirtualAssistentImage/" + res.image }}
+                              style={{ height: widthHalf/2, width: widthHalf/2 }}
+                          />
+                          <Text
+                              style={{ margin: 10, fontSize: 14, textAlign: "center", fontWeight: "bold" }}>{res.service_name}</Text>
+                          <Text style={{ fontSize: 12, textAlign: "center" }}>${res.price}</Text>
+                        </View>
+                      </TouchableOpacity>
+                  );
+                })
+              }
 
-        </View>
-        <View style={style.formDiv}>
-          <Text style={{ margin: 2, fontWeight: "bold" }}>Something Else?</Text>
-          <TextInput style={style.textArea}
-                     multiline={true}
-                     numberOfLines={6}
-                     onChangeText={details => setDescription(details)} />
-          {detailsErr ? <Text style={style.errorMessage}>Details required !</Text> : null}
-        </View>
-        <View style={style.formDiv}>
-          <Text style={{ padding: 10 }}>
-            Total Price: ${totalPrice}
-          </Text>
-          <Text style={{ textAlign: "center", padding: 10, color: colors.assColor }}>
-            You will Virtual Personal Assistant will send your
-            quote based on the description
-          </Text>
-        </View>
+            </View>
+            <View style={style.formDiv}>
+              <Text style={{ margin: 2, fontWeight: "bold" }}>Something Else?</Text>
+              <TextInput style={style.textArea}
+                         multiline={true}
+                         numberOfLines={6}
+                         onChangeText={details => setDescription(details)} />
+              {detailsErr ? <Text style={style.errorMessage}>Details required !</Text> : null}
+            </View>
+            <View style={style.formDiv}>
+              <Text style={{ padding: 10 }}>
+                Total Price: ${totalPrice}
+              </Text>
+              <Text style={{ textAlign: "center", padding: 10, color: colors.assColor }}>
+                You will Virtual Personal Assistant will send your
+                quote based on the description
+              </Text>
+            </View>
 
-        <View style={{ paddingStart: (widthHalf + 40) / 4, marginBottom: 10 }}>
-          <Button style={style.getStartBut} onPress={function() {
-            if (Validators.isEmpty(serviceType)) {
-              gotoNextScreen();
-            } else {
-              alert("Empty faild found.");
-            }
+            <View style={{ paddingStart: (widthHalf + 40) / 4, marginBottom: 10 }}>
+              <Button style={style.getStartBut} onPress={function() {
+                if (Validators.isEmpty(serviceType)) {
+                  gotoNextScreen();
+                } else {
+                  alert("Empty faild found.");
+                }
 
-          }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
-          </Button>
-        </View>
-      </View>
+              }}>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>Next</Text>
+              </Button>
+            </View>
+          </View>
 
-    </ScrollView>
+        </ScrollView>
+      </Root>
+
   );
 };
 
