@@ -102,7 +102,6 @@ const VirtualPerAssScreen = (props) => {
     // For Change Bg
     cardStyle: {
       width: widthHalf - 10,
-      height: widthHalf - 10,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: colors.white,
@@ -121,7 +120,6 @@ const VirtualPerAssScreen = (props) => {
     },
     selectedCardStyleForTypeSelection: {
       width: widthHalf - 10,
-      height: widthHalf - 10,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: colors.white,
@@ -237,7 +235,7 @@ const VirtualPerAssScreen = (props) => {
                           />
                           <Text
                               style={{ margin: 10, fontSize: 14, textAlign: "center", fontWeight: "bold" }}>{res.service_name}</Text>
-                          <Text style={{ fontSize: 12, textAlign: "center" }}>${res.price}</Text>
+                          <Text style={{ fontSize: 12, textAlign: "center",marginBottom:5 }}>${res.price}</Text>
                         </View>
                       </TouchableOpacity>
                   );
@@ -258,8 +256,7 @@ const VirtualPerAssScreen = (props) => {
                 Total Price: ${totalPrice}
               </Text>
               <Text style={{ textAlign: "center", padding: 10, color: colors.assColor }}>
-                You will Virtual Personal Assistant will send your
-                quote based on the description
+                Your Virtual Personal Assistant will be in touch shortly.
               </Text>
             </View>
 
