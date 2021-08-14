@@ -40,7 +40,6 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Poppins.ttf</string>
-		<string>serif.ttf</string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>

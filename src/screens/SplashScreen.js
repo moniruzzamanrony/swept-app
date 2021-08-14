@@ -90,7 +90,6 @@ const style = StyleSheet.create({
     alignItems: "center",
   },
   subTitle: {
-    fontFamily: "serif",
     fontSize: 18,
     fontWeight: "bold",
     padding: 0.04,
