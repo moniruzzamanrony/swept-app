@@ -5,6 +5,8 @@ import { colors } from "../../theme/Colors";
 import axios from "axios";
 import { Api } from "../../contants/Api";
 import { Toast } from "native-base";
+import moment from "moment-timezone";
+import * as RNLocalize from 'react-native-localize';
 
 const HomeScreen = (props) => {
   // Style
@@ -116,8 +118,11 @@ const HomeScreen = (props) => {
   };
 
   const getDayMomentStatus = () => {
-    const today = new Date();
-    const curHr = today.getHours();
+
+    const deviceTimeZone = RNLocalize.getTimeZone();
+    // Make moment of right now, using the device timezone
+    const today = moment().tz(deviceTimeZone);
+    const curHr = today.hour();
 
     if (curHr < 12) {
       console.log("good morning");
